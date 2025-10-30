@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/test-utils",
     "@nuxt/ui",
     "@nuxtjs/i18n",
+    "nuxt-svgo",
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
