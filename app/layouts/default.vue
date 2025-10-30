@@ -10,7 +10,12 @@
         </div>
       </template>
       <template #right>
-        <UColorModeButton />
+        <UUser
+          name="John Doe"
+          :avatar="{
+            icon: 'i-lucide-user',
+          }"
+        />
       </template>
     </UHeader>
 
