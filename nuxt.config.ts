@@ -4,6 +4,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
 
+  typescript: {
+    typeCheck: true,
+  },
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/image',
