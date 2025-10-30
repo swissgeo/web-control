@@ -42,4 +42,10 @@ export default defineNuxtConfig({
       redirectOn: "root", // recommended
     },
   },
+
+  app: {
+    head: {
+      title: "Swissgeo Control",
+    },
+  },
 });

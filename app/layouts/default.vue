@@ -1,10 +1,8 @@
-<script setup lang="ts">
-const title = computed(() => "SwissGeo Control");
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <UApp>
-    <UHeader :title="title">
+    <UHeader>
       <template #title>
         <div class="flex items-center gap-8">
           <Logo />

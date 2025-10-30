@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { setPageTitle } = useMeta();
+
+setPageTitle("Login");
+</script>
 
 <template>
   <div>
