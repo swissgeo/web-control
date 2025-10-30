@@ -20,6 +20,7 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.1.2"
   }
