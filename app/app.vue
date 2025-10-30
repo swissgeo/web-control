@@ -1,3 +1,5 @@
 <template>
-  <div>{{ $t("welcome") }}</div>
+  <UApp>
+    <NuxtPage />
+  </UApp>
 </template>
