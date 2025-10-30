@@ -19,7 +19,7 @@
         <slot />
       </UContainer>
     </UMain>
-    <UFooter>
+    <UFooter class="bg-green-pastel-200">
       <template #left />
 
       <template #right>Swissgeo</template>
