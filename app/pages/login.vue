@@ -3,7 +3,7 @@
 <template>
   <div>
     <UPageSection>
-      <UButton>Login</UButton>
+      <UButton icon="i-lucide-external-link">Login</UButton>
     </UPageSection>
   </div>
 </template>
