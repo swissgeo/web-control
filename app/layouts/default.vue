@@ -5,7 +5,7 @@
     <UHeader>
       <template #title>
         <div class="flex items-center gap-8">
-          <Logo />
+          <HeaderLogo />
           <h1 data-testid="global_title">Swissgeo Control</h1>
         </div>
       </template>
