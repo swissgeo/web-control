@@ -10,7 +10,12 @@
     "postinstall": "nuxt prepare",
     "start": "nuxt generate && serve .output/public -l 3042",
     "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "type-check": "vue-tsc",
+    "lint": "eslint --fix",
+    "lint:no-fix": "eslint",
+    "format": "prettier -w .",
+    "format:no-fix": "prettier -c ."
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
