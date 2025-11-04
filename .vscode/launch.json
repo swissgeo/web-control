@@ -1,0 +1,29 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "client: chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/app"
+    },
+    {
+      "type": "firefox",
+      "firefoxExecutable": "/usr/bin/firefox-devedition",
+      "request": "launch",
+      "reAttach": true,
+      "name": "client: firefox",
+      "url": "http://localhost:3000",
+      // "webRoot": "${workspaceFolder}/app",
+      "pathMappings": [
+        {
+          "url": "http://localhost:3000/_nuxt/components",
+          "path": "${workspaceFolder}/app/components"
+        }
+      ]
+    }
+  ]
+}
