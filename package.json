@@ -24,6 +24,7 @@
     "@nuxt/ui": "^4.1.0",
     "@nuxtjs/i18n": "^10.1.2",
     "@tailwindcss/vite": "^4.1.16",
+    "date-fns": "^4.1.0",
     "eslint": "^9.38.0",
     "nuxt": "^4.2.0",
     "nuxt-svgo": "^4.2.6",
