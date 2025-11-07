@@ -1,4 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
+import * as child from "child_process";
+
+const commit_hash = child.execSync("git rev-parse --short HEAD").toString();
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -20,6 +23,13 @@ export default defineNuxtConfig({
   },
 
   css: ["./app/assets/css/main.css"],
+
+  runtimeConfig: {
+    public: {
+      commit_hash,
+      build_time: new Date().toISOString(),
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
