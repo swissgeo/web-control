@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt generate",
+    "build": "nuxt build --prerender --log-level verbose",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",

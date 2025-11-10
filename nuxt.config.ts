@@ -16,7 +16,14 @@ export default defineNuxtConfig({
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  ssr: false,
+  ssr: true,
+
+  nitro: {
+    // this is important. Otherwise it'll use the preset 'aws-amplify' (https://nitro.build/deploy/providers/aws-amplify)
+    // which in this case doesn't make much sense. On the contrary, it somehow prevents the nitro crawler
+    // to properly discover and prerender all routes
+    preset: "static",
+  },
 
   typescript: {
     typeCheck: true,
