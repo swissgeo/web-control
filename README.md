@@ -12,6 +12,10 @@ pnpm run dev # local dev server
 pnpm build # build the project
 ```
 
+## Render mode
+
+The project is set to be prerendered as a static page. The crucial piece for this is setting the preset to static in the [nitro config](nuxt.config.ts#L12)
+
 ## Tech
 
 Following is a quick overview of the used technology:
