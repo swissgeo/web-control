@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "nuxt-svgo",
     "@nuxt/test-utils/module",
+    "@pinia/nuxt",
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -35,6 +36,9 @@ export default defineNuxtConfig({
     public: {
       commit_hash,
       build_time: new Date().toISOString(),
+      end_user_client_id: "",
+      m2m_user_client_id: "",
+      federated_login_url: "",
     },
   },
 
