@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  ssr: true,
+  ssr: false,
 
   typescript: {
     typeCheck: true,
@@ -38,7 +38,9 @@ export default defineNuxtConfig({
       build_time: new Date().toISOString(),
       end_user_client_id: "",
       m2m_user_client_id: "",
-      federated_login_url: "",
+      cognito_domain: "",
+      cognito_cf_proxy_domain: "",
+      cognito_user_pool_url: "",
     },
   },
 
