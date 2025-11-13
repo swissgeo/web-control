@@ -1,6 +1,6 @@
 import type { RouteLocationNormalizedGeneric } from "vue-router";
 
-const PUBLIC_ROUTES = ["login"];
+const PUBLIC_ROUTES = ["login", "auth-callback", "auth-logout"];
 
 export default defineNuxtRouteMiddleware(
   (

@@ -7,10 +7,21 @@ export const useAuthStore = defineStore("auth", () => {
   // const refreshToken: Ref<string | null> = useLocalStorage('refreshToken', null)
   // const username: Ref<string | null> = useLocalStorage('username', null)
 
+  // #region: state
   const accessToken = ref<string>();
   const refreshToken = ref<string>();
   const username = ref<string>();
+  // #endregion
 
+  // #region: getters
+  const isLoggedIn = computed(() => {
+    return true;
+    // return accessToken.value && refreshToken.value && username.value;
+  });
+
+  // #endregion
+
+  // #region: actions
   function setAccessToken(token: string) {
     accessToken.value = token;
     // setupAccessTokenRefresh()
@@ -24,6 +35,8 @@ export const useAuthStore = defineStore("auth", () => {
   function setUsername(_username: string) {
     username.value = _username;
   }
+
+  // #endregion
 
   // function setupAccessTokenRefresh() {
   //     if (!refreshInterval.value && refreshToken.value && accessToken.value) {
@@ -54,9 +67,13 @@ export const useAuthStore = defineStore("auth", () => {
   // }
 
   return {
+    // state
     accessToken,
     refreshToken,
     username,
+    // getters
+    isLoggedIn,
+    // actions
     setAccessToken,
     setRefreshToken,
     setUsername,

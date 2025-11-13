@@ -14,12 +14,7 @@ const runtimeConfig = useRuntimeConfig();
         </div>
       </template>
       <template #right>
-        <UUser
-          name="John Doe"
-          :avatar="{
-            icon: 'i-lucide-user',
-          }"
-        />
+        <UserAvatar />
       </template>
     </UHeader>
 

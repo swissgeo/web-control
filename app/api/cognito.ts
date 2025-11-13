@@ -17,15 +17,30 @@ export default function useCognitoApi() {
     [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
   };
 
+  /**
+   * Generate the callback URL by adding the callback path
+   * to the current origin
+   */
   function loginRedirectUrl(): string {
-    // const url = new URL(window.location.origin)
-    return "https://control.dev.sgdi.tech/auth/callback";
+    const origin = new URL(window.location.origin);
+
+    const callbackRoute = router
+      .getRoutes()
+      .find((route) => route.name == "auth-callback");
+
+    if (!callbackRoute) {
+      throw new Error("No callback route found");
+    }
+
+    origin.pathname = callbackRoute.path;
+
+    return origin.toString();
   }
 
-  const COGNITO_USER_POOL_URL =
-    "cognito-idp.eu-central-1.amazonaws.com/eu-central-1_vThzpBvP8/";
-  const COGNITO_URL = "https://auth.dev.sgdi.tech";
-  const COGNITO_CF_PROXY = "https://auth.dev.sgdi.tech";
+  const COGNITO_USER_POOL_URL = runtimeConfig.public.cognito_user_pool_url;
+
+  const COGNITO_URL = `https://${runtimeConfig.public.cognito_domain}`;
+  const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognito_cf_proxy_domain}`;
 
   console.log(CLIENT_IDS[LOGIN_MODE.END_USER]);
 
