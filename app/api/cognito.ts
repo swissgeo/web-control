@@ -17,32 +17,10 @@ export default function useCognitoApi() {
     [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
   };
 
-  /**
-   * Generate the callback URL by adding the callback path
-   * to the current origin
-   */
-  function loginRedirectUrl(): string {
-    const origin = new URL(window.location.origin);
-
-    const callbackRoute = router
-      .getRoutes()
-      .find((route) => route.name == "auth-callback");
-
-    if (!callbackRoute) {
-      throw new Error("No callback route found");
-    }
-
-    origin.pathname = callbackRoute.path;
-
-    return origin.toString();
-  }
-
   const COGNITO_USER_POOL_URL = runtimeConfig.public.cognito_user_pool_url;
 
   const COGNITO_URL = `https://${runtimeConfig.public.cognito_domain}`;
   const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognito_cf_proxy_domain}`;
-
-  console.log(CLIENT_IDS[LOGIN_MODE.END_USER]);
 
   const cognitoAuthConfig = {
     authority: COGNITO_URL,
@@ -63,9 +41,10 @@ export default function useCognitoApi() {
       token_endpoint: `${COGNITO_CF_PROXY}/oauth2/token`,
       userinfo_endpoint: `${COGNITO_CF_PROXY}/oauth2/userinfo`,
       revocation_endpoint: `${COGNITO_CF_PROXY}/oauth2/revoke`,
+      state: _getStateParam(),
     },
     client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
-    redirect_uri: loginRedirectUrl(),
+    redirect_uri: _loginRedirectUrl(),
     response_type: "code",
     scope: "email openid profile",
   };
@@ -74,6 +53,45 @@ export default function useCognitoApi() {
   const userManager = new UserManager({
     ...cognitoAuthConfig,
   });
+
+  /**
+   * Generate the callback URL by adding the callback path
+   * to the current origin
+   */
+  function _loginRedirectUrl(): string {
+    const origin = new URL(window.location.origin);
+
+    if (origin.hostname.startsWith("pr-")) {
+      // If we're on a preview branch, then the URL starts with pr-[number].control...
+      // Since we can't add wildcards to the list of cognito callbacks, we have to do a
+      // little trick here: we remove the pr-[number] part and use control... as callback URL.
+      // We then pass the pr-prefix to the state parameter, which will be passed to the
+      // auth callback. The Cloudfront function will pick this up and do the magic to
+      // get back to the correct PR
+      origin.hostname = origin.hostname.split(".").slice(1).join(".");
+    }
+
+    const callbackRoute = router
+      .getRoutes()
+      .find((route) => route.name == "auth-callback");
+
+    if (!callbackRoute) {
+      throw new Error("No callback route found");
+    }
+
+    origin.pathname = callbackRoute.path;
+
+    return origin.toString();
+  }
+
+  function _getStateParam(): string | null {
+    const origin = new URL(window.location.origin);
+
+    if (origin.hostname.startsWith("pr-")) {
+      return origin.hostname.split(".")[0] as string;
+    }
+    return null;
+  }
 
   async function goToLogin() {
     console.log("go to login");
