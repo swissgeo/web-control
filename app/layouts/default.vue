@@ -23,6 +23,7 @@ const runtimeConfig = useRuntimeConfig();
         <slot />
       </UContainer>
     </UMain>
+
     <UFooter class="bg-green-pastel-200">
       <template #left>
         <div class="flex flex-col">

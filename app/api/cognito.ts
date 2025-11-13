@@ -41,7 +41,6 @@ export default function useCognitoApi() {
       token_endpoint: `${COGNITO_CF_PROXY}/oauth2/token`,
       userinfo_endpoint: `${COGNITO_CF_PROXY}/oauth2/userinfo`,
       revocation_endpoint: `${COGNITO_CF_PROXY}/oauth2/revoke`,
-      state: _getStateParam(),
     },
     client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
     redirect_uri: _loginRedirectUrl(),
@@ -59,6 +58,9 @@ export default function useCognitoApi() {
    * to the current origin
    */
   function _loginRedirectUrl(): string {
+    if (!window?.location) {
+      return "";
+    }
     const origin = new URL(window.location.origin);
 
     if (origin.hostname.startsWith("pr-")) {
@@ -84,24 +86,39 @@ export default function useCognitoApi() {
     return origin.toString();
   }
 
-  function _getStateParam(): string | null {
+  /**
+   * If we're on a preview branch, the URL starts with pr-[number].control...
+   * We pass this subdomain to the state parameter of the oidc round-trip
+   * for the cloudfront function to extract and use it for proper routing
+   */
+  function _getStateParam(): string | undefined {
+    if (!window?.location) {
+      return undefined;
+    }
     const origin = new URL(window.location.origin);
 
     if (origin.hostname.startsWith("pr-")) {
       return origin.hostname.split(".")[0] as string;
     }
-    return null;
+    return undefined;
   }
 
+  /**
+   * Go to the login page
+   */
   async function goToLogin() {
-    console.log("go to login");
-    return await userManager.signinRedirect();
+    return await userManager.signinRedirect({
+      url_state: _getStateParam(),
+    });
   }
 
   function revokeTokens() {
     return userManager.revokeTokens(["refresh_token"]);
   }
 
+  /**
+   * Logout the user
+   */
   function logout(logoutUri: string) {
     return userManager.signoutRedirect({
       extraQueryParams: {
@@ -156,7 +173,7 @@ export default function useCognitoApi() {
     // const groups: string[] = (profile['cognito:groups'] as string[]) || []
     // authStore.setProviderName(auth.getProviderNameFromGroups(groups))
 
-    router.push("/");
+    return true;
   }
 
   return {

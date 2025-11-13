@@ -7,7 +7,9 @@ definePageMeta({
   name: "auth-callback",
 });
 
+const authStore = useAuthStore();
 const cognitoApi = useCognitoApi();
+const router = useRouter();
 
 const isThereAProblem = ref(false);
 
@@ -18,6 +20,8 @@ onMounted(() => {
 async function getAccessTokens() {
   try {
     await cognitoApi.exchangeCodeForAccessTokens();
+    console.log(authStore);
+    router.push("/");
   } catch (err: unknown) {
     console.error(err);
     isThereAProblem.value = true;

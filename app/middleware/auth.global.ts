@@ -7,7 +7,8 @@ export default defineNuxtRouteMiddleware(
     to: RouteLocationNormalizedGeneric /*,
     from: RouteLocationNormalizedGeneric,*/,
   ) => {
-    const isAuthenticated = () => false;
+    const authStore = useAuthStore();
+    const isAuthenticated = () => authStore.isLoggedIn;
 
     if (!to.name?.toString()) {
       return navigateTo("/login");

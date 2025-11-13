@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import useCognitoApi from "~/api/cognito";
 
+const authStore = useAuthStore();
+
 const { setPageTitle } = useMeta();
 
 const cognitoApi = useCognitoApi();
 
 setPageTitle("Login");
+
+onMounted(() => {
+  // authStore.$reset();
+});
 
 function goToLogin() {
   cognitoApi.goToLogin();

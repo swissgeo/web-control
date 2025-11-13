@@ -15,8 +15,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   // #region: getters
   const isLoggedIn = computed(() => {
-    return true;
-    // return accessToken.value && refreshToken.value && username.value;
+    return !!accessToken.value && !!refreshToken.value;
   });
 
   // #endregion
@@ -66,6 +65,12 @@ export const useAuthStore = defineStore("auth", () => {
   //     return payload.exp - payload.iat
   // }
 
+  function $reset() {
+    username.value = undefined;
+    accessToken.value = undefined;
+    refreshToken.value = undefined;
+  }
+
   return {
     // state
     accessToken,
@@ -77,5 +82,6 @@ export const useAuthStore = defineStore("auth", () => {
     setAccessToken,
     setRefreshToken,
     setUsername,
+    $reset,
   };
 });

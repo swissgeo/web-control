@@ -34,9 +34,8 @@ const items: DropdownMenuItem[] = [
 </script>
 
 <template>
-  <UDropdownMenu :items="items">
+  <UDropdownMenu v-if="authStore.isLoggedIn" :items="items">
     <UUser
-      v-if="authStore.isLoggedIn"
       class="cursor-pointer"
       :avatar="{
         icon: 'i-lucide-user',
