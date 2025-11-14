@@ -20,8 +20,7 @@ onMounted(() => {
 async function getAccessTokens() {
   try {
     await cognitoApi.exchangeCodeForAccessTokens();
-    console.log(authStore);
-    router.push("/");
+    router.push(authStore.loginUrl || "/");
   } catch (err: unknown) {
     console.error(err);
     isThereAProblem.value = true;

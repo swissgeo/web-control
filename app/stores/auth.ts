@@ -7,7 +7,7 @@ export const useAuthStore = defineStore("auth", () => {
   // #region: state
   const _userManager = ref<UserManager>();
   const _userCache = ref<User>();
-  const _userCacheLock = ref<boolean>(false);
+  const loginUrl = ref<string>();
   // #endregion
 
   // #region: helpers
@@ -44,6 +44,14 @@ export const useAuthStore = defineStore("auth", () => {
   const isLoggedIn = computed(() => {
     _getUserToCache();
     return !!_userCache.value;
+  });
+
+  /**
+   * Determine if logged in by getting the user.
+   * Synced method, this will return a promise
+   */
+  const isLoggedInSync = computed(async () => {
+    return !!(await userManager.value.getUser());
   });
 
   /**
@@ -98,6 +106,10 @@ export const useAuthStore = defineStore("auth", () => {
   //     return payload.exp - payload.iat
   // }
 
+  function setLoginUrl(url: string) {
+    loginUrl.value = url;
+  }
+
   function $reset() {
     _userManager.value = undefined;
   }
@@ -105,10 +117,16 @@ export const useAuthStore = defineStore("auth", () => {
   // #endregion
 
   return {
+    // state
+    loginUrl,
+    // computed
     userManager,
     accessData,
     isLoggedIn,
+    isLoggedInSync,
     profile,
+    // actions
+    setLoginUrl,
     $reset,
   };
 });

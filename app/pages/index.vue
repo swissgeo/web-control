@@ -8,9 +8,6 @@ const usersName = computed(() => {
 });
 
 setPageTitle($t("welcome"));
-onMounted(async () => {
-  console.log(authStore.isLoggedIn);
-});
 </script>
 
 <template>

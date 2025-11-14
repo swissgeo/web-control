@@ -16,14 +16,14 @@ export default function useCognitoApi() {
 
   Log.setLogger(console);
 
-  function initUserManager() {
-    const CLIENT_IDS: {
-      -readonly [key in LOGIN_MODE]: string;
-    } = {
-      [LOGIN_MODE.END_USER]: runtimeConfig.public.end_user_client_id,
-      [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
-    };
+  const CLIENT_IDS: {
+    -readonly [key in LOGIN_MODE]: string;
+  } = {
+    [LOGIN_MODE.END_USER]: runtimeConfig.public.end_user_client_id,
+    [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
+  };
 
+  function initUserManager() {
     const COGNITO_USER_POOL_URL = runtimeConfig.public.cognito_user_pool_url;
 
     const COGNITO_URL = `https://${runtimeConfig.public.cognito_domain}`;
@@ -145,12 +145,12 @@ export default function useCognitoApi() {
    * Logout the user
    */
   function logout(/*logoutUri: string*/) {
-    // return userManager.signoutRedirect({
-    //   extraQueryParams: {
-    //     // logout_uri: getLogoutUri(),
-    //     client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
-    //   },
-    // });
+    return authStore.userManager.signoutRedirect({
+      extraQueryParams: {
+        // logout_uri: getLogoutUri(),
+        client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+      },
+    });
   }
 
   // async function refreshToken() {
@@ -180,18 +180,8 @@ export default function useCognitoApi() {
       throw new Error("Data missing");
     }
 
-    const profile = res?.profile || {};
-    const userName: string | null =
-      (profile["preferred_username"] as string) ||
-      (profile["cognito:username"] as string) ||
-      null;
-    console.log({ userName });
-
     // authStore.setAccessToken(res?.access_token);
     // authStore.setRefreshToken(res?.refresh_token);
-    if (userName) {
-      // authStore.setUsername(userName);
-    }
 
     // Get the IDP provider name based on the group claim, when the login via an external IDP
     // cognito adds automatically the user to the group [user pool ID]_[IdP name], see
