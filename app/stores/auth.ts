@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("auth", () => {
    */
   const _getUserToCache = () => {
     if (!_userCache.value) {
-      _userManager.value?.getUser().then((user) => {
+      userManager.value?.getUser().then((user) => {
         if (user) {
           _userCache.value = user;
         }
