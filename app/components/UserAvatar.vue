@@ -16,14 +16,23 @@ const logoutRoute = computed(() => {
   return logoutRoute;
 });
 
+const name = computed(() => {
+  return authStore.profile.given_name + " " + authStore.profile.family_name;
+});
+
 const items: DropdownMenuItem[] = [
   [
     {
-      label: authStore.username,
+      label: name,
       type: "label",
     },
   ],
   [
+    {
+      label: $t("profile"),
+      icon: "i-lucide-user-round",
+      to: { name: "profile" },
+    },
     {
       label: $t("logout"),
       icon: "i-lucide-log-out",

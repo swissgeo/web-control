@@ -1,41 +1,74 @@
 // import { useLocalStorage } from '@vueuse/core'
 
+import type { User, UserManager } from "oidc-client-ts";
+import useCognitoApi from "~/api/cognito";
+
 export const useAuthStore = defineStore("auth", () => {
-  // const refreshInterval: Ref<null | ReturnType<typeof setTimeout>> = ref(null)
-
-  // const accessToken: Ref<string | null> = useLocalStorage('accessToken', null)
-  // const refreshToken: Ref<string | null> = useLocalStorage('refreshToken', null)
-  // const username: Ref<string | null> = useLocalStorage('username', null)
-
   // #region: state
-  const accessToken = ref<string>();
-  const refreshToken = ref<string>();
-  const username = ref<string>();
+  const _userManager = ref<UserManager>();
+  const _userCache = ref<User>();
+  const _userCacheLock = ref<boolean>(false);
+  // #endregion
+
+  // #region: helpers
+
+  /*
+   * getUser is a promise, so if we don't have the data yet
+   * we dispatch the call and in the meantime return empty values
+   * so that further down the chain we don't have to handle promises
+   */
+  const _getUserToCache = () => {
+    if (!_userCache.value) {
+      _userManager.value?.getUser().then((user) => {
+        if (user) {
+          _userCache.value = user;
+        }
+      });
+    }
+  };
   // #endregion
 
   // #region: getters
+  const userManager = computed(() => {
+    if (!_userManager.value) {
+      const cognitoApi = useCognitoApi();
+      _userManager.value = cognitoApi.initUserManager();
+    }
+
+    return _userManager.value;
+  });
+
+  /**
+   * Determine if logged in by getting the user
+   */
   const isLoggedIn = computed(() => {
-    return !!accessToken.value && !!refreshToken.value;
+    _getUserToCache();
+    return !!_userCache.value;
+  });
+
+  /**
+   * Get the user Profile
+   */
+  const profile = computed(() => {
+    _getUserToCache();
+    return (
+      _userCache.value?.profile || {
+        given_name: "",
+        family_name: "",
+      }
+    );
+  });
+
+  // used for debugging, I don't think we should really use this
+  // otherwise
+  const accessData = computed(() => {
+    _getUserToCache();
+    return _userCache.value;
   });
 
   // #endregion
 
   // #region: actions
-  function setAccessToken(token: string) {
-    accessToken.value = token;
-    // setupAccessTokenRefresh()
-  }
-
-  function setRefreshToken(token: string) {
-    refreshToken.value = token;
-    // setupAccessTokenRefresh()
-  }
-
-  function setUsername(_username: string) {
-    username.value = _username;
-  }
-
-  // #endregion
 
   // function setupAccessTokenRefresh() {
   //     if (!refreshInterval.value && refreshToken.value && accessToken.value) {
@@ -66,22 +99,16 @@ export const useAuthStore = defineStore("auth", () => {
   // }
 
   function $reset() {
-    username.value = undefined;
-    accessToken.value = undefined;
-    refreshToken.value = undefined;
+    _userManager.value = undefined;
   }
 
+  // #endregion
+
   return {
-    // state
-    accessToken,
-    refreshToken,
-    username,
-    // getters
+    userManager,
+    accessData,
     isLoggedIn,
-    // actions
-    setAccessToken,
-    setRefreshToken,
-    setUsername,
+    profile,
     $reset,
   };
 });

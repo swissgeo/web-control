@@ -183,3 +183,7 @@ html:root {
 .bg-secondary {
   --ui-text-inverted: var(--color-cyan-700);
 }
+
+h2 {
+  @apply text-2xl;
+}

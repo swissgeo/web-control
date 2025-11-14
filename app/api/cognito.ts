@@ -1,57 +1,67 @@
-import { UserManager } from "oidc-client-ts";
+import { UserManager, Log } from "oidc-client-ts";
 
 export enum LOGIN_MODE {
   END_USER = "end_user",
   M2M = "m2m",
 }
 
+/**
+ *
+ * @returns
+ */
 export default function useCognitoApi() {
   const runtimeConfig = useRuntimeConfig();
   const authStore = useAuthStore();
   const router = useRouter();
 
-  const CLIENT_IDS: {
-    -readonly [key in LOGIN_MODE]: string;
-  } = {
-    [LOGIN_MODE.END_USER]: runtimeConfig.public.end_user_client_id,
-    [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
-  };
+  Log.setLogger(console);
 
-  const COGNITO_USER_POOL_URL = runtimeConfig.public.cognito_user_pool_url;
+  function initUserManager() {
+    const CLIENT_IDS: {
+      -readonly [key in LOGIN_MODE]: string;
+    } = {
+      [LOGIN_MODE.END_USER]: runtimeConfig.public.end_user_client_id,
+      [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
+    };
 
-  const COGNITO_URL = `https://${runtimeConfig.public.cognito_domain}`;
-  const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognito_cf_proxy_domain}`;
+    const COGNITO_USER_POOL_URL = runtimeConfig.public.cognito_user_pool_url;
 
-  const cognitoAuthConfig = {
-    authority: COGNITO_URL,
-    // Here it is important to provide the full metadata in order to avoid
-    // oidc auto discovery which won't work with our CF proxy.
-    // Some endpoints needs to go through the proxy to add the secrets while other
-    // not. It is also important to have the cognito logout working to use the oauth2/authorize
-    // endpoint using the correct cognito endpoint without proxy because it will redirect to the
-    // Managed login and set a cognito session cookie locked domain that needs to be set to the
-    // logout endpoint at the same domain.
-    metadata: {
-      // Direct cognito endpoints
-      issuer: COGNITO_USER_POOL_URL,
-      authorization_endpoint: `${COGNITO_URL}/oauth2/authorize`,
-      end_session_endpoint: `${COGNITO_URL}/logout`,
-      jwks_uri: `https://${COGNITO_USER_POOL_URL}/.well-known/jwks.json`,
-      // CF proxy endpoints adding client secrets
-      token_endpoint: `${COGNITO_CF_PROXY}/oauth2/token`,
-      userinfo_endpoint: `${COGNITO_CF_PROXY}/oauth2/userinfo`,
-      revocation_endpoint: `${COGNITO_CF_PROXY}/oauth2/revoke`,
-    },
-    client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
-    redirect_uri: _loginRedirectUrl(),
-    response_type: "code",
-    scope: "email openid profile",
-  };
+    const COGNITO_URL = `https://${runtimeConfig.public.cognito_domain}`;
+    const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognito_cf_proxy_domain}`;
 
-  // create a UserManager instance
-  const userManager = new UserManager({
-    ...cognitoAuthConfig,
-  });
+    const cognitoAuthConfig = {
+      authority: COGNITO_URL,
+      // Here it is important to provide the full metadata in order to avoid
+      // oidc auto discovery which won't work with our CF proxy.
+      // Some endpoints needs to go through the proxy to add the secrets while other
+      // not. It is also important to have the cognito logout working to use the oauth2/authorize
+      // endpoint using the correct cognito endpoint without proxy because it will redirect to the
+      // Managed login and set a cognito session cookie locked domain that needs to be set to the
+      // logout endpoint at the same domain.
+      metadata: {
+        // Direct cognito endpoints
+        issuer: COGNITO_USER_POOL_URL,
+        authorization_endpoint: `${COGNITO_URL}/oauth2/authorize`,
+        end_session_endpoint: `${COGNITO_URL}/logout`,
+        jwks_uri: `https://${COGNITO_USER_POOL_URL}/.well-known/jwks.json`,
+        // CF proxy endpoints adding client secrets
+        token_endpoint: `${COGNITO_CF_PROXY}/oauth2/token`,
+        userinfo_endpoint: `${COGNITO_CF_PROXY}/oauth2/userinfo`,
+        revocation_endpoint: `${COGNITO_CF_PROXY}/oauth2/revoke`,
+      },
+      client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+      redirect_uri: _loginRedirectUrl(),
+      response_type: "code",
+      scope: "email openid profile",
+    };
+
+    // create a UserManager instance
+    const userManager = new UserManager({
+      ...cognitoAuthConfig,
+    });
+
+    return userManager;
+  }
 
   /**
    * Generate the callback URL by adding the callback path
@@ -107,25 +117,40 @@ export default function useCognitoApi() {
    * Go to the login page
    */
   async function goToLogin() {
-    return await userManager.signinRedirect({
+    return await authStore.userManager.signinRedirect({
       url_state: _getStateParam(),
     });
   }
 
   function revokeTokens() {
-    return userManager.revokeTokens(["refresh_token"]);
+    return authStore.userManager.revokeTokens(["refresh_token"]);
   }
+
+  // function getLogoutUri(): string {
+  //   let logoutUri: string = `${window.location.origin}/login`;
+  //   const eiamHost: string =
+  //     "eiam-simulation.auth.eu-central-1.amazoncognito.com";
+  //   const eiamClientId: string = "1acj684gajv0q09prbu7ut7ihh";
+
+  //   const query: URLSearchParams = new URLSearchParams({
+  //     client_id: eiamClientId,
+  //     logout_uri: logoutUri,
+  //   });
+  //   logoutUri = `https://${eiamHost}/logout?${query.toString()}`;
+
+  //   return logoutUri;
+  // }
 
   /**
    * Logout the user
    */
-  function logout(logoutUri: string) {
-    return userManager.signoutRedirect({
-      extraQueryParams: {
-        logout_uri: logoutUri,
-        client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
-      },
-    });
+  function logout(/*logoutUri: string*/) {
+    // return userManager.signoutRedirect({
+    //   extraQueryParams: {
+    //     // logout_uri: getLogoutUri(),
+    //     client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+    //   },
+    // });
   }
 
   // async function refreshToken() {
@@ -145,7 +170,7 @@ export default function useCognitoApi() {
   // }
 
   async function exchangeCodeForAccessTokens() {
-    const res = await userManager.signinCallback();
+    const res = await authStore.userManager.signinCallback();
 
     if (
       !res?.access_token ||
@@ -160,11 +185,12 @@ export default function useCognitoApi() {
       (profile["preferred_username"] as string) ||
       (profile["cognito:username"] as string) ||
       null;
+    console.log({ userName });
 
-    authStore.setAccessToken(res?.access_token);
-    authStore.setRefreshToken(res?.refresh_token);
+    // authStore.setAccessToken(res?.access_token);
+    // authStore.setRefreshToken(res?.refresh_token);
     if (userName) {
-      authStore.setUsername(userName);
+      // authStore.setUsername(userName);
     }
 
     // Get the IDP provider name based on the group claim, when the login via an external IDP
@@ -177,6 +203,7 @@ export default function useCognitoApi() {
   }
 
   return {
+    initUserManager,
     goToLogin,
     revokeTokens,
     // refreshToken,
