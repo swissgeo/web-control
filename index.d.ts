@@ -8,6 +8,7 @@ declare module "nuxt/schema" {
     cognito_domain: string;
     cognito_cf_proxy_domain: string;
     cognito_user_pool_url: string;
+    eiam_logout_url: string;
   }
 }
 // It is always important to ensure you import/export something when augmenting a type

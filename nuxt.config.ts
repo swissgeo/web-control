@@ -41,6 +41,7 @@ export default defineNuxtConfig({
       cognito_domain: "",
       cognito_cf_proxy_domain: "",
       cognito_user_pool_url: "",
+      eiam_logout_url: "",
     },
   },
 

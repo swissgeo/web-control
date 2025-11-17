@@ -9,9 +9,14 @@ const router = useRouter();
 const cognito = useCognitoApi();
 
 onMounted(async () => {
-  await cognito.logout();
-
-  router.push("/login");
+  try {
+    await cognito.logout();
+  } catch {
+    console.error("Logout failed");
+    cognito.removeUser();
+  } finally {
+    router.push("/login");
+  }
 });
 </script>
 

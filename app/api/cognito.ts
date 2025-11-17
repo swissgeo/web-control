@@ -63,6 +63,19 @@ export default function useCognitoApi() {
     return userManager;
   }
 
+  function _stripPrPrefix(origin: URL): string {
+    if (origin.hostname.startsWith("pr-")) {
+      // If we're on a preview branch, then the URL starts with pr-[number].control...
+      // Since we can't add wildcards to the list of cognito callbacks, we have to do a
+      // little trick here: we remove the pr-[number] part and use control... as callback URL.
+      // We then pass the pr-prefix to the state parameter, which will be passed to the
+      // auth callback. The Cloudfront function will pick this up and do the magic to
+      // get back to the correct PR
+      return origin.hostname.split(".").slice(1).join(".");
+    }
+    return origin.hostname;
+  }
+
   /**
    * Generate the callback URL by adding the callback path
    * to the current origin
@@ -72,16 +85,7 @@ export default function useCognitoApi() {
       return "";
     }
     const origin = new URL(window.location.origin);
-
-    if (origin.hostname.startsWith("pr-")) {
-      // If we're on a preview branch, then the URL starts with pr-[number].control...
-      // Since we can't add wildcards to the list of cognito callbacks, we have to do a
-      // little trick here: we remove the pr-[number] part and use control... as callback URL.
-      // We then pass the pr-prefix to the state parameter, which will be passed to the
-      // auth callback. The Cloudfront function will pick this up and do the magic to
-      // get back to the correct PR
-      origin.hostname = origin.hostname.split(".").slice(1).join(".");
-    }
+    origin.hostname = _stripPrPrefix(origin);
 
     const callbackRoute = router
       .getRoutes()
@@ -126,29 +130,29 @@ export default function useCognitoApi() {
     return authStore.userManager.revokeTokens(["refresh_token"]);
   }
 
-  // function getLogoutUri(): string {
-  //   let logoutUri: string = `${window.location.origin}/login`;
-  //   const eiamHost: string =
-  //     "eiam-simulation.auth.eu-central-1.amazoncognito.com";
-  //   const eiamClientId: string = "1acj684gajv0q09prbu7ut7ihh";
+  function getLogoutUri(): string {
+    const origin = new URL(window.location.origin);
+    origin.hostname = _stripPrPrefix(origin);
+    const redirectUrl = origin.toString();
 
-  //   const query: URLSearchParams = new URLSearchParams({
-  //     client_id: eiamClientId,
-  //     logout_uri: logoutUri,
-  //   });
-  //   logoutUri = `https://${eiamHost}/logout?${query.toString()}`;
+    const eiamUrl = runtimeConfig.public.eiam_logout_url;
 
-  //   return logoutUri;
-  // }
+    const query: URLSearchParams = new URLSearchParams({
+      post_logout_redirect_uri: redirectUrl,
+    });
+    const logoutUri = `${eiamUrl}?${query.toString()}`;
+
+    return logoutUri;
+  }
 
   /**
    * Logout the user
    */
-  function logout(/*logoutUri: string*/) {
+  function logout() {
     return authStore.userManager.signoutRedirect({
       extraQueryParams: {
-        // logout_uri: getLogoutUri(),
         client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+        logout_uri: getLogoutUri(),
       },
     });
   }
@@ -192,6 +196,16 @@ export default function useCognitoApi() {
     return true;
   }
 
+  /**
+   * Remove the user from the storage
+   *
+   * This is only used as a fallback for when the logout round trip fails.
+   * The logout procedure removes the user itself
+   */
+  function removeUser() {
+    authStore.userManager.removeUser();
+  }
+
   return {
     initUserManager,
     goToLogin,
@@ -199,5 +213,6 @@ export default function useCognitoApi() {
     // refreshToken,
     logout,
     exchangeCodeForAccessTokens,
+    removeUser,
   };
 }
