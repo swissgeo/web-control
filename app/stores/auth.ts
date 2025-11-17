@@ -5,8 +5,11 @@ import useCognitoApi from "~/api/cognito";
 
 export const useAuthStore = defineStore("auth", () => {
   // #region: state
+  // The cached user manager
   const _userManager = ref<UserManager>();
+  // The cached user, so we don't have to use a promise every time
   const _userCache = ref<User>();
+  // The URL to redirect to after login
   const loginUrl = ref<string>();
   // #endregion
 
@@ -29,6 +32,9 @@ export const useAuthStore = defineStore("auth", () => {
   // #endregion
 
   // #region: getters
+  /**
+   * Initialize and return the userManager if it doesn't exist yet
+   */
   const userManager = computed(() => {
     if (!_userManager.value) {
       const cognitoApi = useCognitoApi();
@@ -74,38 +80,17 @@ export const useAuthStore = defineStore("auth", () => {
     return _userCache.value;
   });
 
+  /**
+   * Return the access token. To be used for authorized calls
+   */
+  const accessToken = computed(() => {
+    _getUserToCache();
+    return _userCache.value?.access_token;
+  });
+
   // #endregion
 
   // #region: actions
-
-  // function setupAccessTokenRefresh() {
-  //     if (!refreshInterval.value && refreshToken.value && accessToken.value) {
-  //         const lifetime = getAccessTokenLifetime(accessToken.value)
-  //         if (lifetime > 0) {
-  //             refreshInterval.value = setInterval(
-  //                 () => auth.refreshToken(),
-  //                 // Refresh the access token every one minute before it expires
-  //                 (lifetime - 60) * 1000
-  //             )
-  //         } else {
-  //             // eslint-disable-next-line no-console
-  //             console.error('Access token lifetime is not valid, cannot set up refresh interval')
-  //         }
-  //     } else if (refreshInterval.value && !refreshToken.value) {
-  //         // refresh token has been cleared, so we clear the interval
-  //         clearInterval(refreshInterval.value)
-  //         refreshInterval.value = null
-  //     }
-  // }
-
-  // function getAccessTokenLifetime(token: string): number {
-  //     const payload = JSON.parse(atob(token.split('.')[1] || ''))
-  //     if (!payload || !payload.exp || !payload.iat) {
-  //         return -1
-  //     }
-  //     return payload.exp - payload.iat
-  // }
-
   function setLoginUrl(url: string) {
     loginUrl.value = url;
   }
@@ -125,6 +110,7 @@ export const useAuthStore = defineStore("auth", () => {
     isLoggedIn,
     isLoggedInSync,
     profile,
+    accessToken,
     // actions
     setLoginUrl,
     $reset,

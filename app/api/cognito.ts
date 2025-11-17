@@ -6,8 +6,7 @@ export enum LOGIN_MODE {
 }
 
 /**
- *
- * @returns
+ * API to the cognito endpoint using oidc client
  */
 export default function useCognitoApi() {
   const runtimeConfig = useRuntimeConfig();
@@ -63,6 +62,10 @@ export default function useCognitoApi() {
     return userManager;
   }
 
+  /**
+   * If the URL starts with pr-[number].control... then we strip away the first
+   * part of the domain
+   */
   function _stripPrPrefix(origin: URL): string {
     if (origin.hostname.startsWith("pr-")) {
       // If we're on a preview branch, then the URL starts with pr-[number].control...
@@ -126,11 +129,14 @@ export default function useCognitoApi() {
     });
   }
 
-  function revokeTokens() {
-    return authStore.userManager.revokeTokens(["refresh_token"]);
-  }
-
-  function getLogoutUri(): string {
+  /**
+   * The auth logout workflow works like this:
+   * call to COGNITO -> redirect to EIAM -> redirect to PORTAL
+   * This way, we're being logged out from COGNITO as well as EIAM
+   *
+   * So we provide the eIam logout url to cognito by assembling it here
+   */
+  function _getLogoutUri(): string {
     const origin = new URL(window.location.origin);
     origin.hostname = _stripPrPrefix(origin);
     const redirectUrl = origin.toString();
@@ -147,32 +153,21 @@ export default function useCognitoApi() {
 
   /**
    * Logout the user
+   *
+   * Pass in logout_uri of eIam. See _getLogoutUri
    */
   function logout() {
     return authStore.userManager.signoutRedirect({
       extraQueryParams: {
         client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
-        logout_uri: getLogoutUri(),
+        logout_uri: _getLogoutUri(),
       },
     });
   }
 
-  // async function refreshToken() {
-  //     if (!authStore.refreshToken || !authStore.loginMode) {
-  //         throw new Error(
-  //             "Cannot refresh token without username, refreshToken and loginMode. They're missing in the store"
-  //         )
-  //     }
-
-  //     const res = await cognito.refresh(authStore.refreshToken, authStore.loginMode)
-  //     if (res.status !== 200 || !res.data?.access_token) {
-  //         throw new Error("Refresh call didn't respond a access_token")
-  //     }
-  //     authStore.setAccessToken(res.data.access_token)
-
-  //     return true
-  // }
-
+  /**
+   * Exchanges the auth code for JWT tokens
+   */
   async function exchangeCodeForAccessTokens() {
     const res = await authStore.userManager.signinCallback();
 
@@ -183,15 +178,6 @@ export default function useCognitoApi() {
     ) {
       throw new Error("Data missing");
     }
-
-    // authStore.setAccessToken(res?.access_token);
-    // authStore.setRefreshToken(res?.refresh_token);
-
-    // Get the IDP provider name based on the group claim, when the login via an external IDP
-    // cognito adds automatically the user to the group [user pool ID]_[IdP name], see
-    // https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html
-    // const groups: string[] = (profile['cognito:groups'] as string[]) || []
-    // authStore.setProviderName(auth.getProviderNameFromGroups(groups))
 
     return true;
   }
@@ -209,8 +195,6 @@ export default function useCognitoApi() {
   return {
     initUserManager,
     goToLogin,
-    revokeTokens,
-    // refreshToken,
     logout,
     exchangeCodeForAccessTokens,
     removeUser,
