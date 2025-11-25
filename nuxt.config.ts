@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     "@nuxt/test-utils/module",
     "@pinia/nuxt",
+    "@nuxtjs/google-fonts",
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -72,6 +73,12 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "SWISSGEO Control",
+    },
+  },
+
+  googleFonts: {
+    families: {
+      Inter: true,
     },
   },
 });
