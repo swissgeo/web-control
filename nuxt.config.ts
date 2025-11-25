@@ -71,7 +71,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Swissgeo Control",
+      title: "SWISSGEO Control",
     },
   },
 });

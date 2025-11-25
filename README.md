@@ -1,6 +1,6 @@
-# Swissgeo control
+# SWISSGEO control
 
-This is the frontend ("business portal") for the Swissgeo control infrastructure.
+This is the frontend ("business portal") for the SWISSGEO control infrastructure.
 
 ## Quickstart
 

@@ -162,6 +162,7 @@ export default function useCognitoApi() {
         client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
         logout_uri: _getLogoutUri(),
       },
+      url_state: _getStateParam(),
     });
   }
 
