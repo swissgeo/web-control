@@ -18,15 +18,15 @@ export default function useCognitoApi() {
   const CLIENT_IDS: {
     -readonly [key in LOGIN_MODE]: string;
   } = {
-    [LOGIN_MODE.END_USER]: runtimeConfig.public.end_user_client_id,
-    [LOGIN_MODE.M2M]: runtimeConfig.public.m2m_user_client_id,
+    [LOGIN_MODE.END_USER]: runtimeConfig.public.endUserClientId,
+    [LOGIN_MODE.M2M]: runtimeConfig.public.m2mUserClientId,
   };
 
   function initUserManager() {
-    const COGNITO_USER_POOL_URL = runtimeConfig.public.cognito_user_pool_url;
+    const COGNITO_USER_POOL_URL = runtimeConfig.public.cognitoUserPoolUrl;
 
-    const COGNITO_URL = `https://${runtimeConfig.public.cognito_domain}`;
-    const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognito_cf_proxy_domain}`;
+    const COGNITO_URL = `https://${runtimeConfig.public.cognitoDomain}`;
+    const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognitoCfProxyDomain}`;
 
     const cognitoAuthConfig = {
       authority: COGNITO_URL,
@@ -141,7 +141,7 @@ export default function useCognitoApi() {
     origin.hostname = _stripPrPrefix(origin);
     const redirectUrl = origin.toString();
 
-    const eiamUrl = runtimeConfig.public.eiam_logout_url;
+    const eiamUrl = runtimeConfig.public.eiamLogoutUrl;
 
     const query: URLSearchParams = new URLSearchParams({
       post_logout_redirect_uri: redirectUrl,

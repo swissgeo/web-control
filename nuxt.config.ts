@@ -1,7 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import * as child from "child_process";
 
-const commit_hash = child.execSync("git rev-parse --short HEAD").toString();
+const commitHash = child.execSync("git rev-parse --short HEAD").toString();
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -35,14 +35,14 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      commit_hash,
-      build_time: new Date().toISOString(),
-      end_user_client_id: "",
-      m2m_user_client_id: "",
-      cognito_domain: "",
-      cognito_cf_proxy_domain: "",
-      cognito_user_pool_url: "",
-      eiam_logout_url: "",
+      commitHash,
+      buildTime: new Date().toISOString(),
+      endUserClientId: "",
+      m2mUserClientId: "",
+      cognitoDomain: "",
+      cognitoCfProxyDomain: "",
+      cognitoUserPoolUrl: "",
+      eiamLogoutUrl: "",
     },
   },
 
