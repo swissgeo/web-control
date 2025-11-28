@@ -11,7 +11,7 @@
     "start": "nuxt generate && serve .output/public -l 3042",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "type-check": "vue-tsc",
+    "type-check": "nuxt typecheck",
     "lint": "eslint --fix",
     "lint:no-fix": "eslint",
     "format": "prettier -w .",
