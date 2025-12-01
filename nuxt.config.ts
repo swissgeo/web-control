@@ -50,6 +50,10 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
+  pinia: {
+    storesDirs: ["./stores/auth/"],
+  },
+
   ui: {
     fonts: false,
     colorMode: false,
