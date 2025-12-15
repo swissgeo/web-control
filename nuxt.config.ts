@@ -1,7 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import * as child from "child_process";
 
-const commit_hash = child.execSync("git rev-parse --short HEAD").toString();
+const commitHash = child.execSync("git rev-parse --short HEAD").toString();
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -20,10 +20,12 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "nuxt-svgo",
     "@nuxt/test-utils/module",
+    "@pinia/nuxt",
+    "@nuxtjs/google-fonts",
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  ssr: true,
+  ssr: false,
 
   typescript: {
     typeCheck: true,
@@ -33,13 +35,23 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      commit_hash,
-      build_time: new Date().toISOString(),
+      commitHash,
+      buildTime: new Date().toISOString(),
+      endUserClientId: "",
+      m2mUserClientId: "",
+      cognitoDomain: "",
+      cognitoCfProxyDomain: "",
+      cognitoUserPoolUrl: "",
+      eiamLogoutUrl: "",
     },
   },
 
   vite: {
     plugins: [tailwindcss()],
+  },
+
+  pinia: {
+    storesDirs: ["./stores/auth/"],
   },
 
   ui: {
@@ -64,7 +76,13 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Swissgeo Control",
+      title: "SWISSGEO Control",
+    },
+  },
+
+  googleFonts: {
+    families: {
+      Inter: true,
     },
   },
 });

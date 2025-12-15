@@ -1,3 +1,5 @@
 {
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "logout": "Logout",
+  "profile": "Profile"
 }

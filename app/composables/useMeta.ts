@@ -1,7 +1,7 @@
 export default function useMeta() {
   function setPageTitle(title: string) {
     useHead({
-      title: `${title} - Swissgeo control`,
+      title: `${title} - SWISSGEO control`,
     });
   }
 
