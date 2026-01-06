@@ -1,7 +1,24 @@
 <script setup lang="ts">
 import { format } from "date-fns";
+import type { NavigationMenuItem } from "@nuxt/ui";
 
 const runtimeConfig = useRuntimeConfig();
+const route = useRoute();
+
+const items = computed<NavigationMenuItem[]>(() => [
+  {
+    label: "Home",
+    icon: "i-lucide-house",
+    to: "/",
+    active: route.path === "/",
+  },
+  {
+    label: "Users",
+    icon: "i-lucide-users",
+    to: "/admin/m2m",
+    active: route.path.startsWith("/admin"),
+  },
+]);
 </script>
 
 <template>
@@ -13,6 +30,7 @@ const runtimeConfig = useRuntimeConfig();
           <h1 data-testid="global_title">SWISSGEO Control</h1>
         </div>
       </template>
+      <UNavigationMenu :items="items" />
       <template #right>
         <UserAvatar />
       </template>
