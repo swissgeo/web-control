@@ -1,0 +1,82 @@
+<script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
+
+const { setPageTitle } = useMeta();
+const UButton = resolveComponent("UButton");
+
+setPageTitle("Units");
+
+interface OrgUnit {
+  id: number;
+  name: string;
+}
+
+const units = ref<OrgUnit[]>([
+  {
+    id: 1,
+    name: "Unit 1",
+  },
+  {
+    id: 2,
+    name: "Unit 2",
+  },
+]);
+
+const tableColumns: TableColumn<OrgUnit>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    meta: {
+      class: {
+        th: "text-right",
+        td: "text-right",
+      },
+    },
+  },
+];
+
+const onDelete = (row: OrgUnit): void => {
+  console.log("Delete Org Unit:", row);
+};
+</script>
+
+<template>
+  <div>
+    <UPage>
+      <UPageHeader :title="$t('Organization Units')" />
+      <UPageBody>
+        <UTable :columns="tableColumns" :data="units">
+          <template #actions-cell="{ row }">
+            <div>
+              <UButton color="neutral" @click="onDelete(row.original)">
+                Delete
+              </UButton>
+            </div>
+          </template>
+        </UTable>
+      </UPageBody>
+    </UPage>
+  </div>
+</template>
+
+<style>
+/*
+According to https://github.com/nuxt/ui/issues/2332
+Set the default cursor for buttons.
+*/
+button,
+[role="button"] {
+  cursor: pointer;
+}
+:disabled {
+  cursor: default;
+}
+</style>

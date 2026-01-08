@@ -13,10 +13,22 @@ const items = computed<NavigationMenuItem[]>(() => [
     active: route.path === "/",
   },
   {
+    label: "Units",
+    icon: "i-lucide-house",
+    to: "/admin/units",
+    active: route.path.startsWith("/admin/units"),
+  },
+  {
     label: "Users",
     icon: "i-lucide-users",
+    to: "/admin/users",
+    active: route.path.startsWith("/admin/users"),
+  },
+  {
+    label: "M2M",
+    icon: "i-lucide-server",
     to: "/admin/m2m",
-    active: route.path.startsWith("/admin"),
+    active: route.path.startsWith("/admin/m2m"),
   },
 ]);
 </script>
@@ -30,7 +42,7 @@ const items = computed<NavigationMenuItem[]>(() => [
           <h1 data-testid="global_title">SWISSGEO Control</h1>
         </div>
       </template>
-      <UNavigationMenu :items="items" />
+      <UNavigationMenu :items="items" class="w-full justify-center" />
       <template #right>
         <UserAvatar />
       </template>
