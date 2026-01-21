@@ -2,6 +2,11 @@
 
 This is the frontend ("business portal") for the SWISSGEO control infrastructure.
 
+| Branch  | Status                                                                                                                                                                                                                                                                                                                      |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| develop | ![Build Status](https://codebuild.eu-central-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiZ3FHci9lK1VBNHBQNEJFVnNObCtFVitLWGRqVDh2OVBFWmp2V2d4OW8zZGkyZU9aVWFTVFFpUXFreDB3cm5MVDBMY21jdTFHOEdOY1Ywc3RlZkdpYzRrPSIsIml2UGFyYW1ldGVyU3BlYyI6IkN1RytjTlpYeW95aGZQcWwiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop) |
+| main    | ![Build Status](https://codebuild.eu-central-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiZ3FHci9lK1VBNHBQNEJFVnNObCtFVitLWGRqVDh2OVBFWmp2V2d4OW8zZGkyZU9aVWFTVFFpUXFreDB3cm5MVDBMY21jdTFHOEdOY1Ywc3RlZkdpYzRrPSIsIml2UGFyYW1ldGVyU3BlYyI6IkN1RytjTlpYeW95aGZQcWwiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)    |
+
 ## Quickstart
 
 Use common `pnpm` command to install and start the project:
