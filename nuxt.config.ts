@@ -43,6 +43,7 @@ export default defineNuxtConfig({
       cognitoCfProxyDomain: "",
       cognitoUserPoolUrl: "",
       eiamLogoutUrl: "",
+      eiamIdentityProvider: "",
     },
   },
 
