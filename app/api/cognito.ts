@@ -52,6 +52,9 @@ export default function useCognitoApi() {
       redirect_uri: _loginRedirectUrl(),
       response_type: "code",
       scope: "email openid profile",
+      extraQueryParams: {
+        identity_provider: runtimeConfig.public.eiamIdentityProvider,
+      },
     };
 
     // create a UserManager instance
