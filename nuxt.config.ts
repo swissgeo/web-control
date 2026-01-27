@@ -44,6 +44,7 @@ export default defineNuxtConfig({
       cognitoUserPoolUrl: "",
       eiamLogoutUrl: "",
       eiamIdentityProvider: "",
+      serviceControlBase: "",
     },
   },
 
@@ -52,7 +53,7 @@ export default defineNuxtConfig({
   },
 
   pinia: {
-    storesDirs: ["./stores/auth/"],
+    storesDirs: ["./stores/**"],
   },
 
   ui: {

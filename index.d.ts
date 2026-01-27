@@ -10,6 +10,7 @@ declare module "nuxt/schema" {
     cognitoUserPoolUrl: string;
     eiamLogoutUrl: string;
     eiamIdentityProvider: string;
+    serviceControlBase: string;
   }
 }
 // It is always important to ensure you import/export something when augmenting a type

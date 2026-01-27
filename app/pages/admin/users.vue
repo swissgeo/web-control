@@ -67,6 +67,10 @@ const onEdit = (row: User): void => {
     <UPage>
       <UPageHeader :title="$t('Users')" />
       <UPageBody>
+        <UAlert
+          title="Heads up!"
+          description="This is a placeholder page with dummy data"
+        />
         <UTable :columns="tableColumns" :data="users">
           <template #actions-cell="{ row }">
             <div>

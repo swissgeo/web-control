@@ -14,7 +14,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   },
   {
     label: "Units",
-    icon: "i-lucide-house",
+    icon: "i-lucide-square",
     to: "/admin/units",
     active: route.path.startsWith("/admin/units"),
   },

@@ -53,6 +53,10 @@ const onDelete = (row: OrgUnit): void => {
     <UPage>
       <UPageHeader :title="$t('Organization Units')" />
       <UPageBody>
+        <UAlert
+          title="Heads up!"
+          description="This is a placeholder page with dummy data"
+        />
         <UTable :columns="tableColumns" :data="units">
           <template #actions-cell="{ row }">
             <div>
