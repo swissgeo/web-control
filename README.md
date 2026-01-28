@@ -17,6 +17,12 @@ pnpm run dev # local dev server
 pnpm build # build the project
 ```
 
+For E2E tests you also need to install playwright dependencies as follow
+
+```bash
+pnpm exec playwright install --with-deps
+```
+
 ## Render mode
 
 The project is set to be prerendered as a static page. The crucial piece for this is setting the preset to static in the [nitro config](nuxt.config.ts#L12)
