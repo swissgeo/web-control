@@ -47,3 +47,5 @@ To run the e2e test, invoke
 ```bash
 pnpm run test:e2e
 ```
+
+DUMMY PR for amplify test
