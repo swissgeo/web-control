@@ -51,8 +51,14 @@ const onDelete = (row: OrgUnit): void => {
 <template>
   <div>
     <UPage>
-      <UPageHeader :title="$t('Organization Units')" />
+      <UPageHeader
+        :title="$t('Units')"
+        :ui="{
+          root: 'p-2',
+        }"
+      />
       <UPageBody>
+        <p>View and edit the organizational units.</p>
         <UAlert
           title="Heads up!"
           description="This is a placeholder page with dummy data"

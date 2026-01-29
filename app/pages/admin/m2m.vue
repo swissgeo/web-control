@@ -74,8 +74,30 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
   <div>
     <UPage>
-      <UPageHeader :title="$t('Machine users')" />
+      <UPageHeader
+        :title="$t('Machine Users')"
+        :ui="{
+          root: 'p-2',
+        }"
+      />
       <UPageBody>
+        <!-- Toolbar -->
+        <div class="flex flex-wrap items-center justify-between gap-1.5">
+          <UInput
+            class="max-w-sm"
+            icon="i-lucide-search"
+            placeholder="Filter (not yet implemented)"
+          />
+
+          <div class="flex flex-wrap items-center gap-1.5">
+            <UButton
+              label="Add Machine User"
+              variant="subtle"
+              @click="dataStore.startCreateMachineUser()"
+            />
+          </div>
+        </div>
+
         <UModal
           :open="dataStore.addingMachineUser"
           title="New Machine User"
@@ -84,12 +106,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           :dismissible="false"
           :ui="{ footer: 'justify-end' }"
         >
-          <UButton
-            label="Add Machine User"
-            variant="subtle"
-            @click="dataStore.startCreateMachineUser()"
-          />
-
           <template #body>
             <template v-if="dataStore.createMachineUserResponse === undefined">
               <UForm :schema="schema" :state="state" @submit="onSubmit">
@@ -152,6 +168,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           v-if="!dataStore.loadingMachineUsers"
           :columns="tableColumns"
           :data="dataStore.machineUsers"
+          :ui="{
+            base: 'table-fixed border-separate border-spacing-0',
+            thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+            tbody: '[&>tr]:last:[&>td]:border-b-0',
+            th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+            td: 'border-b border-default',
+            separator: 'h-0',
+          }"
         >
           <template #actions-cell="{ row }">
             <div>

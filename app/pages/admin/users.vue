@@ -65,8 +65,14 @@ const onEdit = (row: User): void => {
 <template>
   <div>
     <UPage>
-      <UPageHeader :title="$t('Users')" />
+      <UPageHeader
+        :title="$t('Users')"
+        :ui="{
+          root: 'p-2',
+        }"
+      />
       <UPageBody>
+        <p>View and edit the users of your organization</p>
         <UAlert
           title="Heads up!"
           description="This is a placeholder page with dummy data"
