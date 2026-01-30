@@ -40,6 +40,10 @@ export const useDataStore = defineStore("data", {
     addingMachineUser: (state) => state._addingMachineUser,
     loadingCreateMachineUsers: (state) => state._loadingCreateMachineUser,
     createMachineUserResponse: (state) => state._createMachineUserResponse,
+    createMachineUserStep1: (state) =>
+      state._createMachineUserResponse === undefined,
+    createMachineUserStep2: (state) =>
+      state._createMachineUserResponse !== undefined,
   },
   actions: dataActions(),
 });
