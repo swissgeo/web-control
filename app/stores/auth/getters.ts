@@ -38,8 +38,9 @@ export function authGetters(): _GettersTree<AuthStoreState> {
       return state._userManager;
     },
 
-    isLoggedIn(state) {
-      return !!state._userCache;
+    isLoggedIn(this: thisAuthStore) {
+      this._getUserToCache();
+      return !!this._userCache;
     },
 
     async isLoggedInSync(this: thisAuthStore) {

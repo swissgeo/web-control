@@ -43,7 +43,7 @@ const items: DropdownMenuItem[] = [
 </script>
 
 <template>
-  <UDropdownMenu v-if="authStore.isLoggedIn" :items="items">
+  <UDropdownMenu :items="items">
     <UUser
       class="cursor-pointer"
       :avatar="{

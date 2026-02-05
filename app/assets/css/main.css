@@ -187,3 +187,17 @@ html:root {
 h2 {
   @apply text-2xl;
 }
+
+/*
+According to https://github.com/nuxt/ui/issues/2332
+Set the default cursor for buttons.
+But also: New style guidelines don't use hand cursor for buttons:
+https://medium.com/simple-human/buttons-shouldnt-have-a-hand-cursor-b11e99ca374b#.b33l7fivt
+*/
+button,
+[role="button"] {
+  cursor: pointer;
+}
+:disabled {
+  cursor: default;
+}
