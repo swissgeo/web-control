@@ -11,7 +11,17 @@ setPageTitle($t("welcome"));
 </script>
 
 <template>
-  <UPageSection>
-    <div>{{ $t("welcome") }} {{ usersName }}</div>
-  </UPageSection>
+  <UPage>
+    <UPageHeader
+      :title="$t('Home')"
+      :ui="{
+        root: 'p-2',
+      }"
+    />
+    <UPageBody>
+      <UPageSection>
+        <div>{{ $t("welcome") }} {{ usersName }}</div>
+      </UPageSection>
+    </UPageBody>
+  </UPage>
 </template>
