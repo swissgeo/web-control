@@ -61,7 +61,7 @@ const items = computed<NavigationMenuItem[]>(() => {
       id="default"
       collapsible
       resizable
-      class="bg-elevated/25"
+      class="bg-green-pastel-50"
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
       <template #header="{ collapsed }">
@@ -79,13 +79,18 @@ const items = computed<NavigationMenuItem[]>(() => {
     </UDashboardSidebar>
     <UDashboardPanel id="home">
       <template #header>
-        <UDashboardNavbar :ui="{ right: 'gap-3' }">
+        <UDashboardNavbar class="bg-primary">
           <template #leading>
-            <UDashboardSidebarCollapse />
+            <UDashboardSidebarCollapse class="text-inverted" />
           </template>
 
           <template #title>
-            <UHeader title="SWISSGEO Control Center" />
+            <UHeader class="bg-primary">
+              <template #title>
+                <!-- Applying text-inverted to UHeader does not take effect -->
+                <span class="text-inverted"> SWISSGEO Business Center </span>
+              </template>
+            </UHeader>
           </template>
 
           <template #right>
@@ -98,7 +103,7 @@ const items = computed<NavigationMenuItem[]>(() => {
         <slot />
       </template>
       <template #footer>
-        <UFooter class="bg-green-pastel-200">
+        <UFooter class="bg-secondary text-highlight">
           <template #left>
             <div class="flex flex-col">
               <div class="">Version: {{ runtimeConfig.public.commitHash }}</div>

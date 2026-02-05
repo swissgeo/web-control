@@ -5,13 +5,12 @@ defineProps<{
 </script>
 
 <template>
-  <SvgoLogo
+  <SvgoSwissgeoRgbIcon
     v-if="collapsed"
-    data-testid="header-logo-collapsed"
     class="h-5 text-black"
     :font-controlled="false"
   />
-  <SvgoSwissgeoSwSek
+  <SvgoSwissgeoRgbSek
     v-if="!collapsed"
     data-testid="header-logo"
     class="h-5 text-black"
