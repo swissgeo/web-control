@@ -54,4 +54,4 @@ To run the e2e test, invoke
 pnpm run test:e2e
 ```
 
-Test workflow pr preview update
+Test workflow pr preview update another update
