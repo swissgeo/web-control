@@ -1,0 +1,13 @@
+name: on-pr
+
+on:
+  issue_comment:
+    types:
+      - created
+      - edited
+
+jobs:
+  pr-preview-link-edit:
+    uses: swissgeo/.github/.github/workflows/amplify-pr-preview-link.yml@develop
+    with:
+      preview-domain: control.dev.sgdi.tech
