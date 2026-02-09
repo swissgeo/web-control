@@ -54,4 +54,4 @@ To run the e2e test, invoke
 pnpm run test:e2e
 ```
 
-Dummy changes for test PR auto link
+Dummy changes for test PR auto link test
