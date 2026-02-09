@@ -54,4 +54,4 @@ To run the e2e test, invoke
 pnpm run test:e2e
 ```
 
-Test dummy preview PR
+Test dummy preview PR dummy
