@@ -7,6 +7,15 @@ This is the frontend ("business portal") for the SWISSGEO control infrastructure
 | develop | ![Build Status](https://codebuild.eu-central-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiZ3FHci9lK1VBNHBQNEJFVnNObCtFVitLWGRqVDh2OVBFWmp2V2d4OW8zZGkyZU9aVWFTVFFpUXFreDB3cm5MVDBMY21jdTFHOEdOY1Ywc3RlZkdpYzRrPSIsIml2UGFyYW1ldGVyU3BlYyI6IkN1RytjTlpYeW95aGZQcWwiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop) |
 | main    | ![Build Status](https://codebuild.eu-central-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiZ3FHci9lK1VBNHBQNEJFVnNObCtFVitLWGRqVDh2OVBFWmp2V2d4OW8zZGkyZU9aVWFTVFFpUXFreDB3cm5MVDBMY21jdTFHOEdOY1Ywc3RlZkdpYzRrPSIsIml2UGFyYW1ldGVyU3BlYyI6IkN1RytjTlpYeW95aGZQcWwiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)    |
 
+- [Quickstart](#quickstart)
+- [Deployment](#deployment)
+- [Render mode](#render-mode)
+- [Tech](#tech)
+  - [Base Framework: nuxt](#base-framework-nuxt)
+  - [UI Framework: nuxt ui](#ui-framework-nuxt-ui)
+  - [Testing: playwright](#testing-playwright)
+- [Testing](#testing)
+
 ## Quickstart
 
 Use common `pnpm` command to install and start the project:
@@ -22,6 +31,10 @@ For E2E tests you also need to install playwright dependencies as follow
 ```bash
 pnpm exec playwright install --with-deps
 ```
+
+## Deployment
+
+This project is automatically deployed to Swissgeo dev, as well as to the int and prod staging environments, upon merging a PR into the develop or main branch.
 
 ## Render mode
 
