@@ -35,6 +35,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
+      environment: "",
       commitHash,
       buildTime: new Date().toISOString(),
       endUserClientId: "",

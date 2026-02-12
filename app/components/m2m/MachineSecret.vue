@@ -20,7 +20,7 @@ const emit = defineEmits(["close"]);
       <UInput :value="machineDetails.client_secret" disabled />
     </UFormField>
   </div>
-  <div class="flex shrink-0 p-6 justify-start">
+  <div class="flex shrink-0 justify-start p-6">
     <UButton class="m-1" label="Done" color="primary" @click="emit('close')" />
   </div>
 </template>
