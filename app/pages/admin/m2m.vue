@@ -121,7 +121,7 @@ async function deleteMachineUser(row: MachineUser) {
           <template #right>
             <UButton
               label="Add Machine User"
-              variant="subtle"
+              variant="solid"
               @click="startCreateMachineUser()"
             />
           </template>
@@ -143,7 +143,11 @@ async function deleteMachineUser(row: MachineUser) {
         >
           <template #actions-cell="{ row }">
             <div>
-              <UButton color="neutral" @click="deleteMachineUser(row.original)">
+              <UButton
+                variant="solid"
+                color="warning"
+                @click="deleteMachineUser(row.original)"
+              >
                 Delete
               </UButton>
             </div>
@@ -152,8 +156,8 @@ async function deleteMachineUser(row: MachineUser) {
         <UPageSection>
           <p>Use the following command to generate an access token:</p>
           <pre>
-curl -X POST https://{{ authDomain }}/oauth2/token &Backslash;
-  -H "Content-Type: application/x-www-form-urlencoded" &Backslash;
+curl -X POST https://{{ authDomain }}/oauth2/token \
+  -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=client_credentials&amp;client_id=&lt;CLIENT_ID&gt;&amp;client_secret=&lt;CLIENT_SECRET&gt;&amp;scope={{
               defaultM2MScope
             }}"

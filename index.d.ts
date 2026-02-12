@@ -1,5 +1,6 @@
 declare module "nuxt/schema" {
   interface PublicRuntimeConfig {
+    environment: string;
     commitHash: string;
     buildTime: string;
     endUserClientId: string;

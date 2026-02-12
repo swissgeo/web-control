@@ -175,9 +175,35 @@
   --color-cyan-950: #0e2e3e;
 }
 
-html:root {
-  --ui-primary: var(--color-cyan-700);
-  --ui-secondary: var(--color-green-pastel-50);
+:root {
+  --ui-primary: var(--color-primary);
+  --ui-secondary: var(--color-primary-light);
+  --ui-success: var(--color-green);
+  --ui-info: var(--color-cyan);
+  --ui-warning: var(--color-rust);
+  --ui-error: var(--color-primary-red);
+
+  /* ── Primary ─────────────────────── */
+  --color-primary: #1c6b85;
+  --color-primary-light: #b5ccd1;
+  --color-primary-red: #d4301f;
+  --color-primary-orange: #e38054;
+
+  /* ── Black (& gray scale) ───────────────── */
+  --color-gray-900: #000000;
+  --color-gray-800: #4d4d4d;
+  --color-gray-600: #999999;
+  --color-gray-300: #cccccc;
+
+  /* ── Secondary ───────────────── */
+  --color-teal: #022f33;
+  --color-green: #064700;
+  --color-gold: #f0c54d;
+  --color-sage: #6a9771;
+  --color-rust: #aa5750;
+  --color-mauve: #857068;
+  --color-bronze: #be874f;
+  --color-cyan: #588b95;
 }
 
 .bg-secondary {

@@ -50,7 +50,7 @@ const formState = reactive({
       <UButton
         class="m-1"
         label="Cancel"
-        color="neutral"
+        color="secondary"
         @click="emit('cancel')"
       />
       <UButton class="m-1" type="submit" label="Submit" color="primary" />
