@@ -3,10 +3,9 @@ import type { TableColumn } from "@nuxt/ui";
 import CreateMachineForm from "~/components/m2m/CreateMachineForm.vue";
 import MachineSecret from "~/components/m2m/MachineSecret.vue";
 import {
-  machineUsersUrl,
-  machineUserUrl,
   type MachineUser,
   type CreateMachineUserRequest,
+  useMachineUsersApi,
 } from "~/api/machineUsers";
 
 const { setPageTitle } = useMeta();
@@ -50,8 +49,7 @@ onMounted(() => {
 async function loadMachineUsers() {
   try {
     loadingMachineUsers.value = true;
-    const { items } = await $fetch<{ items: MachineUser[] }>(machineUsersUrl());
-    machineUsers.value = items;
+    machineUsers.value = await useMachineUsersApi().getMachineUsers();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
     toastError("Could not load data");
@@ -76,13 +74,10 @@ function completeCreateMachineUser() {
 }
 
 async function createMachineUser(data: CreateMachineUserRequest) {
+  loadingCreateMachineUser.value = true;
   try {
-    loadingCreateMachineUser.value = true;
-    const resp = await $fetch<MachineUser>(machineUsersUrl(), {
-      method: "POST",
-      body: data,
-    });
-    machineUserDetails.value = resp;
+    machineUserDetails.value =
+      await useMachineUsersApi().createMachineUser(data);
     toastSuccess("Machine user created");
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -96,9 +91,7 @@ async function createMachineUser(data: CreateMachineUserRequest) {
 
 async function deleteMachineUser(row: MachineUser) {
   try {
-    await $fetch<MachineUser>(machineUserUrl(row.client_id), {
-      method: "DELETE",
-    });
+    await useMachineUsersApi().deleteMachineUser(row.client_id);
     toastSuccess("Machine user deleted");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
