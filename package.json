@@ -32,6 +32,7 @@
     "nuxt-svgo": "^4.2.6",
     "oidc-client-ts": "^3.4.0",
     "pinia": "^3.0.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.16",
     "valibot": "^1.2.0",
     "vue": "^3.5.22",

@@ -46,7 +46,7 @@ const formState = reactive({
     <UFormField label="Token Duration in Minutes" name="tokenDuration">
       <UInput v-model="formState.tokenDuration" type="number" />
     </UFormField>
-    <div class="flex shrink-0 p-6 justify-end">
+    <div class="flex shrink-0 justify-end p-6">
       <UButton
         class="m-1"
         label="Cancel"
