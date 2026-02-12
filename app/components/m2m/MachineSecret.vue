@@ -12,7 +12,7 @@ const emit = defineEmits(["close"]);
     color="error"
     description="Copy the secret to a secure location (e.g. password manager). After closing this dialog you will not be able to see the secret again."
   />
-  <div class="flex flex-col shrink-0 p-6">
+  <div class="flex shrink-0 flex-col p-6">
     <UFormField label="ID">
       <UInput :value="machineDetails.client_id" disabled />
     </UFormField>
