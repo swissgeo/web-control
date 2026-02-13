@@ -113,19 +113,49 @@ async function deleteMachineUser(row: MachineUser) {
       />
       <UPageBody>
         <ToolBar>
-          <UInput
+          <!-- <UInput
             class="max-w-sm"
             icon="i-lucide-search"
             placeholder="Filter (not yet implemented)"
-          />
+          /> -->
           <template #right>
             <UButton
               label="Add Machine User"
               variant="solid"
+              :disabled="displayCreateModal"
               @click="startCreateMachineUser()"
             />
           </template>
         </ToolBar>
+
+        <Transition
+          enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          enter-from-class="max-h-0"
+          enter-to-class="max-h-[500px] opacity-100"
+          leave-active-class="transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          leave-from-class="max-h-[500px] opacity-100"
+          leave-to-class="max-h-0"
+        >
+          <UPageSection
+            v-if="displayCreateModal"
+            class="overflow-hidden"
+            :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"
+          >
+            <UCard>
+              <CreateMachineForm
+                v-if="!displaySecretModal"
+                :existing-machine-users="machineUsers"
+                @submit="createMachineUser($event.data)"
+                @cancel="cancelCreateMachineUser()"
+              />
+              <MachineSecret
+                v-if="displaySecretModal && machineUserDetails"
+                :machine-details="machineUserDetails"
+                @close="completeCreateMachineUser()"
+              />
+            </UCard>
+          </UPageSection>
+        </Transition>
 
         <UProgress v-if="loadingMachineUsers" animation="swing" />
         <UTable
@@ -153,7 +183,7 @@ async function deleteMachineUser(row: MachineUser) {
             </div>
           </template>
         </UTable>
-        <UPageSection>
+        <UPageSection :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }">
           <p>Use the following command to generate an access token:</p>
           <pre>
 curl -X POST https://{{ authDomain }}/oauth2/token \
@@ -165,28 +195,5 @@ curl -X POST https://{{ authDomain }}/oauth2/token \
         </UPageSection>
       </UPageBody>
     </UPage>
-
-    <UModal
-      :open="displayCreateModal"
-      title="New Machine User"
-      description="After creation you will receive a client id and secret."
-      :close="false"
-      :dismissible="false"
-      :ui="{ footer: 'justify-end' }"
-    >
-      <template #body>
-        <CreateMachineForm
-          v-if="!displaySecretModal"
-          :existing-machine-users="machineUsers"
-          @submit="createMachineUser($event.data)"
-          @cancel="cancelCreateMachineUser()"
-        />
-        <MachineSecret
-          v-if="displaySecretModal && machineUserDetails"
-          :machine-details="machineUserDetails"
-          @close="completeCreateMachineUser()"
-        />
-      </template>
-    </UModal>
   </div>
 </template>

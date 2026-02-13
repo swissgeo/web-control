@@ -23,10 +23,28 @@ function goToLogin() {
 </script>
 
 <template>
-  <div>
+  <UPage>
+    <UPageHeader
+      :title="$t('Home')"
+      :ui="{
+        root: 'p-2',
+      }"
+    />
+    <UPageBody>
+      <UPageSection
+        :ui="{ container: 'py-4!' }"
+        :title="$t('Login')"
+        description="Welcome to the business portal. Please login"
+      >
+        <UButton icon="i-lucide-external-link" @click="goToLogin"
+          >Login</UButton
+        >
+      </UPageSection>
+    </UPageBody>
+  </UPage>
+  <!-- <div>
     <UPageSection>
       <div>Welcome to the business portal. Please login</div>
-      <UButton icon="i-lucide-external-link" @click="goToLogin">Login</UButton>
     </UPageSection>
-  </div>
+  </div> -->
 </template>

@@ -17,6 +17,12 @@ const items = computed<NavigationMenuItem[]>(() => {
   ];
   const authItems = [
     {
+      label: "Datasets",
+      to: "/datasets",
+      icon: "i-lucide-database",
+      active: route.path.startsWith("/datasets"),
+    },
+    {
       label: "Organization",
       to: "/admin",
       icon: "i-lucide-settings",

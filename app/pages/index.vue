@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PageFeatureProps } from "@nuxt/ui";
+
 const { setPageTitle } = useMeta();
 
 const authStore = useAuthStore();
@@ -8,6 +10,27 @@ const usersName = computed(() => {
 });
 
 setPageTitle($t("welcome"));
+
+const features = ref<PageFeatureProps[]>([
+  {
+    title: "Datasets",
+    description: "Manage your geospatial datasets, including metadata.",
+    icon: "i-lucide-database",
+    to: "/datasets",
+  },
+  {
+    title: "Organization",
+    description: "Manage your organization's structure and permissions.",
+    icon: "i-lucide-settings",
+    to: "/admin",
+  },
+  {
+    title: "Machine Users",
+    description: "Manage your machine users and their permissions.",
+    icon: "i-lucide-server",
+    to: "/admin/m2m",
+  },
+]);
 </script>
 
 <template>
@@ -19,9 +42,13 @@ setPageTitle($t("welcome"));
       }"
     />
     <UPageBody>
-      <UPageSection>
-        <div>{{ $t("welcome") }} {{ usersName }}</div>
-      </UPageSection>
+      <UPageSection
+        :ui="{ container: 'py-4! gap-4!' }"
+        :title="$t('welcome') + ' ' + usersName"
+        description="This is the control center of the SWISSGEO. Use the
+            navigation on the left to access different sections of the app."
+        :features="features"
+      />
     </UPageBody>
   </UPage>
 </template>
