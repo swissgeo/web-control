@@ -23,6 +23,16 @@ export function toastSuccess(description: string) {
   });
 }
 
+export function toastInfo(description: string) {
+  toast.add({
+    title: "Info",
+    description: description,
+    progress: true,
+    color: "info",
+    duration: displayDuration(description),
+  });
+}
+
 // displayDuration calculates how long a message should be displayed based on
 // number of characters (50ms per character) with lower and upper bounds.
 const displayDuration = (message: string) => {

@@ -17,6 +17,12 @@ const items = computed<NavigationMenuItem[]>(() => {
   ];
   const authItems = [
     {
+      label: "Datasets",
+      to: "/datasets",
+      icon: "i-lucide-database",
+      active: route.path.startsWith("/datasets"),
+    },
+    {
       label: "Organization",
       to: "/admin",
       icon: "i-lucide-settings",
@@ -89,7 +95,7 @@ const items = computed<NavigationMenuItem[]>(() => {
             <UHeader class="bg-primary">
               <template #title>
                 <!-- Applying text-inverted to UHeader does not take effect -->
-                <span class="text-inverted"> SWISSGEO Business Center </span>
+                <span class="text-inverted"> SWISSGEO Control Center </span>
               </template>
             </UHeader>
           </template>

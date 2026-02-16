@@ -39,13 +39,19 @@ const formState = reactive({
 </script>
 
 <template>
+  <UAlert
+    color="info"
+    description="Create a new machine user with a unique name"
+  />
   <UForm :schema="schema" :state="formState" @submit="emit('submit', $event)">
-    <UFormField label="Name" name="name">
-      <UInput v-model="formState.name" />
-    </UFormField>
-    <UFormField label="Token Duration in Minutes" name="tokenDuration">
-      <UInput v-model="formState.tokenDuration" type="number" />
-    </UFormField>
+    <div class="flex shrink-0 flex-col p-6">
+      <UFormField label="Name" name="name">
+        <UInput v-model="formState.name" />
+      </UFormField>
+      <UFormField label="Token Duration in Minutes" name="tokenDuration">
+        <UInput v-model="formState.tokenDuration" type="number" />
+      </UFormField>
+    </div>
     <div class="flex shrink-0 justify-end p-6">
       <UButton
         class="m-1"

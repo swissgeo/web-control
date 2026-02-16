@@ -3,31 +3,28 @@ import type { TableColumn } from "@nuxt/ui";
 
 const { setPageTitle } = useMeta();
 
-setPageTitle("Units");
+setPageTitle("Datasets");
 
-interface OrgUnit {
-  id: number;
+interface Datasets {
+  id: string;
   name: string;
-  user_count: number;
-  dataset_count: number;
+  orgUnit: string;
 }
 
-const units = ref<OrgUnit[]>([
+const units = ref<Datasets[]>([
   {
-    id: 1,
-    name: "Vermessung",
-    user_count: 7,
-    dataset_count: 15,
+    id: "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+    name: "Official directory of building addresses",
+    orgUnit: "Vermessung",
   },
   {
-    id: 2,
-    name: "KOGIS",
-    user_count: 3,
-    dataset_count: 8,
+    id: "ch.swisstopo.amtliches-strassenverzeichnis",
+    name: "Official directory of streets",
+    orgUnit: "Vermessung",
   },
 ]);
 
-const tableColumns: TableColumn<OrgUnit>[] = [
+const tableColumns: TableColumn<Datasets>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -37,12 +34,8 @@ const tableColumns: TableColumn<OrgUnit>[] = [
     header: "Name",
   },
   {
-    accessorKey: "user_count",
-    header: "Users",
-  },
-  {
-    accessorKey: "dataset_count",
-    header: "Datasets",
+    accessorKey: "orgUnit",
+    header: "Unit",
   },
   {
     accessorKey: "actions",
@@ -56,7 +49,7 @@ const tableColumns: TableColumn<OrgUnit>[] = [
   },
 ];
 
-const onEdit = (row: OrgUnit): void => {
+const onEdit = (row: Datasets): void => {
   toastInfo("No yet implemented.");
   console.log("Edit Org Unit:", row);
 };
@@ -66,7 +59,7 @@ const onEdit = (row: OrgUnit): void => {
   <div>
     <UPage>
       <UPageHeader
-        :title="$t('Units')"
+        :title="$t('Datasets')"
         :ui="{
           root: 'p-2',
         }"
@@ -77,7 +70,7 @@ const onEdit = (row: OrgUnit): void => {
           title="Heads up!"
           description="This is a placeholder page with dummy data"
         />
-        <p>View and edit the organizational units.</p>
+        <p>View and edit your datasets.</p>
         <UTable
           :columns="tableColumns"
           :data="units"
