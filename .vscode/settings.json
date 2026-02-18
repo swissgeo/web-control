@@ -4,4 +4,10 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": {
+    ".nuxt": true,
+    ".output": true,
+    "dist": true,
+    "node_modules": true
+  },
 }
