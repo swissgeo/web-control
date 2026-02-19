@@ -13,13 +13,11 @@ export interface CreateMachineUserRequest {
 }
 
 export function useMachineUsersApi() {
-  const {
-    public: { serviceControlBase: controlAPIBase },
-  } = useRuntimeConfig();
+  const { $controlAPI } = useNuxtApp();
 
   async function getMachineUsers(): Promise<MachineUser[]> {
-    const { items } = await $fetch<{ items: MachineUser[] }>(
-      `${controlAPIBase}/organizations/${TEMPORARY_ORG_ID}/machineusers`,
+    const { items } = await $controlAPI<{ items: MachineUser[] }>(
+      `organizations/${TEMPORARY_ORG_ID}/machineusers`,
     );
     return items;
   }
@@ -27,18 +25,15 @@ export function useMachineUsersApi() {
   async function createMachineUser(
     request: CreateMachineUserRequest,
   ): Promise<MachineUser> {
-    return await $fetch(
-      `${controlAPIBase}/organizations/${TEMPORARY_ORG_ID}/machineusers`,
-      {
-        method: "POST",
-        body: request,
-      },
-    );
+    return await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/machineusers`, {
+      method: "POST",
+      body: request,
+    });
   }
 
   async function deleteMachineUser(clientId: string): Promise<void> {
-    await $fetch(
-      `${controlAPIBase}/organizations/${TEMPORARY_ORG_ID}/machineusers/${clientId}`,
+    await $controlAPI(
+      `organizations/${TEMPORARY_ORG_ID}/machineusers/${clientId}`,
       {
         method: "DELETE",
       },
