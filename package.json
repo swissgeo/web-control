@@ -13,6 +13,8 @@
     "test:e2e:headed": "playwright test --headed",
     "test:nuxt": "vitest --project nuxt",
     "test:unit": "vitest --project unit",
+    "test:run:nuxt": "vitest run --project nuxt",
+    "test:run:unit": "vitest run --project unit",
     "type-check": "nuxt typecheck",
     "lint": "eslint --fix",
     "lint:no-fix": "eslint",
