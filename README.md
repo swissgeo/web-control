@@ -13,8 +13,10 @@ This is the frontend ("business portal") for the SWISSGEO control infrastructure
 - [Tech](#tech)
   - [Base Framework: nuxt](#base-framework-nuxt)
   - [UI Framework: nuxt ui](#ui-framework-nuxt-ui)
-  - [Testing: playwright](#testing-playwright)
 - [Testing](#testing)
+  - [End-to-end tests](#end-to-end-tests)
+  - [Testing Nuxt components](#testing-nuxt-components)
+  - [Unit tests](#unit-tests)
 
 ## Quickstart
 
@@ -46,7 +48,7 @@ Following is a quick overview of the used technology:
 
 ### Base Framework: nuxt
 
-We use [nuxt](git@github.com:swissgeo/web-control.git) Nuxt as the base framework. Wraps around vue.js and provides a lot more functionality out of the box.
+We use [nuxt](https://nuxt.com/) as the base framework. Nuxt wraps around vue.js and provides a lot more functionality out of the box.
 The rendering mode is set to [client-side-rendering](https://nuxt.com/docs/4.x/guide/concepts/rendering#client-side-rendering). We don't need the nitro server functionality and instead build the application in a common SPA style.
 
 ### UI Framework: nuxt ui
