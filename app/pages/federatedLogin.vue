@@ -29,5 +29,9 @@ async function getAccessTokens() {
 </script>
 
 <template>
-  <UPageSection>Exchanging code for tokens...</UPageSection>
+  <UPageSection>
+    <div class="fixed inset-0 flex items-center justify-center">
+      <UIcon name="svg-spinners:6-dots-scale" mode="svg" size="100" />
+    </div>
+  </UPageSection>
 </template>
