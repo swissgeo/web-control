@@ -2,7 +2,6 @@ import { UserManager, Log } from "oidc-client-ts";
 
 export enum LOGIN_MODE {
   END_USER = "end_user",
-  M2M = "m2m",
 }
 
 /**
@@ -15,40 +14,14 @@ export default function useCognitoApi() {
 
   Log.setLogger(console);
 
-  const CLIENT_IDS: {
-    -readonly [key in LOGIN_MODE]: string;
-  } = {
-    [LOGIN_MODE.END_USER]: runtimeConfig.public.endUserClientId,
-    [LOGIN_MODE.M2M]: runtimeConfig.public.m2mUserClientId,
-  };
+  const CLIENT_ID = runtimeConfig.public.cognitoAppClientId;
 
   function initUserManager() {
-    const COGNITO_USER_POOL_URL = runtimeConfig.public.cognitoUserPoolUrl;
-
-    const COGNITO_URL = `https://${runtimeConfig.public.cognitoDomain}`;
-    const COGNITO_CF_PROXY = `https://${runtimeConfig.public.cognitoCfProxyDomain}`;
+    const COGNITO_USER_POOL_URL = `https://${runtimeConfig.public.cognitoUserPoolUrl}`;
 
     const cognitoAuthConfig = {
-      authority: COGNITO_URL,
-      // Here it is important to provide the full metadata in order to avoid
-      // oidc auto discovery which won't work with our CF proxy.
-      // Some endpoints needs to go through the proxy to add the secrets while other
-      // not. It is also important to have the cognito logout working to use the oauth2/authorize
-      // endpoint using the correct cognito endpoint without proxy because it will redirect to the
-      // Managed login and set a cognito session cookie locked domain that needs to be set to the
-      // logout endpoint at the same domain.
-      metadata: {
-        // Direct cognito endpoints
-        issuer: COGNITO_USER_POOL_URL,
-        authorization_endpoint: `${COGNITO_URL}/oauth2/authorize`,
-        end_session_endpoint: `${COGNITO_URL}/logout`,
-        jwks_uri: `https://${COGNITO_USER_POOL_URL}/.well-known/jwks.json`,
-        // CF proxy endpoints adding client secrets
-        token_endpoint: `${COGNITO_CF_PROXY}/oauth2/token`,
-        userinfo_endpoint: `${COGNITO_CF_PROXY}/oauth2/userinfo`,
-        revocation_endpoint: `${COGNITO_CF_PROXY}/oauth2/revoke`,
-      },
-      client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+      authority: COGNITO_USER_POOL_URL,
+      client_id: CLIENT_ID,
       redirect_uri: _loginRedirectUrl(),
       response_type: "code",
       scope: "email openid profile",
@@ -162,7 +135,7 @@ export default function useCognitoApi() {
   function logout() {
     return authStore.userManager.signoutRedirect({
       extraQueryParams: {
-        client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+        client_id: CLIENT_ID,
         logout_uri: _getLogoutUri(),
       },
       url_state: _getStateParam(),

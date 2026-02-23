@@ -3,11 +3,8 @@ declare module "nuxt/schema" {
     environment: string;
     commitHash: string;
     buildTime: string;
-    endUserClientId: string;
-    m2mUserClientId: string;
-    federated_login_url: string;
+    cognitoAppClientId: string;
     cognitoDomain: string;
-    cognitoCfProxyDomain: string;
     cognitoUserPoolUrl: string;
     eiamLogoutUrl: string;
     eiamIdentityProvider: string;
