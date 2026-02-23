@@ -38,7 +38,7 @@ export default defineNuxtConfig({
       environment: "",
       commitHash,
       buildTime: new Date().toISOString(),
-      endUserClientId: "",
+      cognitoAppClientId: "",
       cognitoDomain: "",
       cognitoUserPoolUrl: "",
       eiamLogoutUrl: "",

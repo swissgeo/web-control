@@ -14,7 +14,7 @@ export default function useCognitoApi() {
 
   Log.setLogger(console);
 
-  const CLIENT_ID = runtimeConfig.public.endUserClientId;
+  const CLIENT_ID = runtimeConfig.public.cognitoAppClientId;
 
   function initUserManager() {
     const COGNITO_USER_POOL_URL = `https://${runtimeConfig.public.cognitoUserPoolUrl}`;
