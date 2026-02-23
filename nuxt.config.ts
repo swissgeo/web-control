@@ -39,7 +39,6 @@ export default defineNuxtConfig({
       commitHash,
       buildTime: new Date().toISOString(),
       endUserClientId: "",
-      m2mUserClientId: "",
       cognitoDomain: "",
       cognitoCfProxyDomain: "",
       cognitoUserPoolUrl: "",

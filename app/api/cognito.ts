@@ -2,7 +2,6 @@ import { UserManager, Log } from "oidc-client-ts";
 
 export enum LOGIN_MODE {
   END_USER = "end_user",
-  M2M = "m2m",
 }
 
 /**
@@ -15,12 +14,7 @@ export default function useCognitoApi() {
 
   Log.setLogger(console);
 
-  const CLIENT_IDS: {
-    -readonly [key in LOGIN_MODE]: string;
-  } = {
-    [LOGIN_MODE.END_USER]: runtimeConfig.public.endUserClientId,
-    [LOGIN_MODE.M2M]: runtimeConfig.public.m2mUserClientId,
-  };
+  const CLIENT_ID = runtimeConfig.public.endUserClientId;
 
   function initUserManager() {
     const COGNITO_USER_POOL_URL = runtimeConfig.public.cognitoUserPoolUrl;
@@ -48,7 +42,7 @@ export default function useCognitoApi() {
         userinfo_endpoint: `${COGNITO_CF_PROXY}/oauth2/userinfo`,
         revocation_endpoint: `${COGNITO_CF_PROXY}/oauth2/revoke`,
       },
-      client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+      client_id: CLIENT_ID,
       redirect_uri: _loginRedirectUrl(),
       response_type: "code",
       scope: "email openid profile",
@@ -162,7 +156,7 @@ export default function useCognitoApi() {
   function logout() {
     return authStore.userManager.signoutRedirect({
       extraQueryParams: {
-        client_id: CLIENT_IDS[LOGIN_MODE.END_USER],
+        client_id: CLIENT_ID,
         logout_uri: _getLogoutUri(),
       },
       url_state: _getStateParam(),
