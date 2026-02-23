@@ -13,30 +13,29 @@ This is the frontend ("business portal") for the SWISSGEO control infrastructure
 - [Tech](#tech)
   - [Base Framework: nuxt](#base-framework-nuxt)
   - [UI Framework: nuxt ui](#ui-framework-nuxt-ui)
+- [Format \& Linting](#format--linting)
 - [Testing](#testing)
-  - [End-to-end tests](#end-to-end-tests)
-  - [Testing Nuxt components](#testing-nuxt-components)
   - [Unit tests](#unit-tests)
+  - [Testing Nuxt components](#testing-nuxt-components)
+  - [End-to-end tests](#end-to-end-tests)
 
 ## Quickstart
 
-Use common `pnpm` command to install and start the project:
+Install dependencies, create environment and run service in debug mode:
 
 ```bash
-pnpm install
-pnpm run dev # local dev server
-pnpm build # build the project
+make setup
+make env
+make serve
 ```
 
-For E2E tests you also need to install playwright dependencies as follow
+Open a browser at [http://localhost:3000](http://localhost:3000).
 
-```bash
-pnpm exec playwright install --with-deps
-```
+Some environment variables are read from aws ssm parameters. To run `make env` make sure to login with aws sso first. By default the environment will connect to the dev environment backend.
 
 ## Deployment
 
-This project is automatically deployed to Swissgeo dev, as well as to the int and prod staging environments, upon merging a PR into the develop or main branch.
+This project is run without nuxt [server-side-rendering](nuxt.config.ts#L28) as most data is not static and retrieved at run-time. There is currently also no need to SEO.
 
 ## Render mode
 
@@ -54,36 +53,50 @@ The rendering mode is set to [client-side-rendering](https://nuxt.com/docs/4.x/g
 ### UI Framework: nuxt ui
 
 For the UI we use [nuxt ui](https://ui.nuxt.com) because of it's seamless integration with the framework. Check the [components list](https://ui.nuxt.com/docs/components) for the available components.
-Currently there's no predefined template in place, it might make sense to adopt to a [predefined template](https://ui.nuxt.com/templates) once we know more about the needed functionality.
+
+Nuxt UI components are built on CSS Framework [Tailwind](https://tailwindcss.com/).
+
+## Format & Linting
+
+```bash
+make format
+make lint
+```
 
 ## Testing
 
 Testing approach follows the [Nuxt guide](https://nuxt.com/docs/4.x/getting-started/testing), with e2e tests using [playwright](https://playwright.dev/) and component & unit tests using vitest.
 
-### End-to-end tests
-
-To run the e2e tests, invoke
+Run all tests:
 
 ```bash
-pnpm run test:e2e
-```
-
-### Testing Nuxt components
-
-Nuxt tests run in a nuxt environment. This is defined in the [vitest configuration](./vitest.config.ts).
-
-To run the nuxt tests, invoke
-
-```bash
-pnpm run test:nuxt
+make test
 ```
 
 ### Unit tests
 
 Unit tests run in a node environment. This is defined in the [vitest configuration](./vitest.config.ts).
 
-To run the unit test, invoke
+Run the unit tests in watch mode:
 
 ```bash
-pnpm run test:unit
+make test-unit
+```
+
+### Testing Nuxt components
+
+Nuxt tests run in a nuxt environment. This is defined in the [vitest configuration](./vitest.config.ts).
+
+Run the nuxt tests in watch mode:
+
+```bash
+make test-nuxt
+```
+
+### End-to-end tests
+
+To run the e2e tests, invoke
+
+```bash
+make test-e2e
 ```
