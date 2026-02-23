@@ -29,3 +29,7 @@ logs
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+
+# git rebase
+*.orig

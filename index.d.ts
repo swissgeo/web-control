@@ -6,7 +6,6 @@ declare module "nuxt/schema" {
     endUserClientId: string;
     federated_login_url: string;
     cognitoDomain: string;
-    cognitoCfProxyDomain: string;
     cognitoUserPoolUrl: string;
     eiamLogoutUrl: string;
     eiamIdentityProvider: string;

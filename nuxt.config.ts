@@ -40,7 +40,6 @@ export default defineNuxtConfig({
       buildTime: new Date().toISOString(),
       endUserClientId: "",
       cognitoDomain: "",
-      cognitoCfProxyDomain: "",
       cognitoUserPoolUrl: "",
       eiamLogoutUrl: "",
       eiamIdentityProvider: "",
