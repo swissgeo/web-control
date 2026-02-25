@@ -5,6 +5,7 @@ type thisAuthStore = ReturnType<typeof useAuthStore>;
 export interface AuthStoreActions {
   _getUserToCache(this: thisAuthStore): void;
   setLoginUrl(this: thisAuthStore, url: string): void;
+  setUser(this: thisAuthStore, user: User): void;
   $reset(this: thisAuthStore): void;
 }
 
@@ -28,6 +29,10 @@ export function authActions(): AuthStoreActions {
 
     setLoginUrl(this: thisAuthStore, url: string) {
       this.loginUrl = url;
+    },
+
+    setUser(this: thisAuthStore, user: User) {
+      this._userCache = user;
     },
 
     $reset(this: thisAuthStore) {

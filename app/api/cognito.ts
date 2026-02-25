@@ -12,6 +12,7 @@ export default function useCognitoApi() {
   const authStore = useAuthStore();
   const router = useRouter();
 
+  // Setup oidc-client-ts library logger
   Log.setLogger(console);
 
   const CLIENT_ID = runtimeConfig.public.cognitoAppClientId;
@@ -28,11 +29,27 @@ export default function useCognitoApi() {
       extraQueryParams: {
         identity_provider: runtimeConfig.public.eiamIdentityProvider,
       },
+      automaticSilentRenew: true,
+      monitorSession: true,
+      refreshTokenAllowedScope: "email openid profile",
     };
 
     // create a UserManager instance
     const userManager = new UserManager({
       ...cognitoAuthConfig,
+    });
+
+    userManager.events.addAccessTokenExpiring(() => {
+      console.log(`Access Token event expiring`);
+    });
+
+    userManager.events.addSilentRenewError((err) => {
+      console.error("Silent renew error", err);
+    });
+
+    userManager.events.addUserLoaded((user) => {
+      console.log("Tokens refreshed");
+      authStore.setUser(user);
     });
 
     return userManager;
