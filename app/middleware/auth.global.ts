@@ -1,6 +1,6 @@
 import type { RouteLocationNormalizedGeneric } from "vue-router";
 
-const PUBLIC_ROUTES = ["login", "auth-callback", "auth-logout"];
+const LOGIN_ROUTES = ["login", "auth-login-callback"];
 
 export default defineNuxtRouteMiddleware(
   async (
@@ -9,22 +9,14 @@ export default defineNuxtRouteMiddleware(
   ) => {
     const authStore = useAuthStore();
 
-    if (!to.name?.toString()) {
+    // If the user is not logged in and is not going to a login-related page, redirect to the login page
+    if (!authStore.isLoggedIn && !LOGIN_ROUTES.includes(to.name as string)) {
+      authStore.setLoginUrl(to.path);
       return navigateTo("/login");
     }
 
-    if (PUBLIC_ROUTES.includes(to.name?.toString())) {
-      return;
+    if (authStore.isLoggedIn && LOGIN_ROUTES.includes(to.name as string)) {
+      return navigateTo("/");
     }
-
-    const isLoggedIn = await authStore.isLoggedInSync;
-
-    if (isLoggedIn) {
-      return;
-    }
-
-    // the fallback should always be go to login
-    authStore.setLoginUrl(to.path);
-    return navigateTo("/login");
   },
 );

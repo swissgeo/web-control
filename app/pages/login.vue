@@ -1,21 +1,11 @@
 <script setup lang="ts">
 import useCognitoApi from "~/api/cognito";
 
-const authStore = useAuthStore();
-const router = useRouter();
-
 const { setPageTitle } = useMeta();
 
 const cognitoApi = useCognitoApi();
 
 setPageTitle("Login");
-
-onMounted(() => {
-  if (authStore.isLoggedIn) {
-    // we're logged in, no need to stay here!
-    router.push("/");
-  }
-});
 
 function goToLogin() {
   cognitoApi.goToLogin();
