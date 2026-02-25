@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+// IMPORTANT: Do not rename this file, as the name is being used to identify this route, and
+// is registered in the cognito client and in eIAM as the post login redirect url !
 import useCognitoApi from "~/api/cognito";
 
 definePageMeta({
   // this name is being used to identify this route, so better not change it
   // or change it everywhere
-  name: "auth-callback",
+  name: "auth-login-callback",
 });
 
 const authStore = useAuthStore();

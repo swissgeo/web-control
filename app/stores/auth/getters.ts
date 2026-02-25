@@ -1,24 +1,20 @@
-import type { IdTokenClaims, User, UserManager } from "oidc-client-ts";
+import type { UserProfile } from "oidc-client-ts";
 import type { _GettersTree } from "pinia";
-import useCognitoApi from "~/api/cognito";
 
 type thisAuthStore = ReturnType<typeof useAuthStore>;
 
 export interface AuthStoreGetters {
-  profile(state: AuthStoreState): IdTokenClaims;
-  userManager(state: AuthStoreState): UserManager;
+  profile(state: AuthStoreState): UserProfile;
   isLoggedIn(state: AuthStoreState): boolean;
-  isLoggedInSync(this: thisAuthStore): Promise<boolean>;
-  accessData(this: thisAuthStore): User | undefined;
   accessToken(this: thisAuthStore): string | undefined;
+  idToken(this: thisAuthStore): string | undefined;
 }
 
 export function authGetters(): _GettersTree<AuthStoreState> {
   return {
     profile(this: thisAuthStore) {
-      this._getUserToCache();
       return (
-        this._userCache?.profile || {
+        this.user?.profile || {
           sub: "",
           iss: "",
           exp: 0,
@@ -30,31 +26,16 @@ export function authGetters(): _GettersTree<AuthStoreState> {
       );
     },
 
-    userManager(state) {
-      if (!state._userManager) {
-        const cognitoApi = useCognitoApi();
-        state._userManager = cognitoApi.initUserManager();
-      }
-      return state._userManager;
-    },
-
     isLoggedIn(this: thisAuthStore) {
-      this._getUserToCache();
-      return !!this._userCache;
-    },
-
-    async isLoggedInSync(this: thisAuthStore) {
-      return !!(await this.userManager.getUser());
-    },
-
-    accessData(this: thisAuthStore) {
-      this._getUserToCache();
-      return this._userCache;
+      return !!this.user && !this.user.expired;
     },
 
     accessToken(this: thisAuthStore) {
-      this._getUserToCache();
-      return this._userCache?.access_token;
+      return this.user?.access_token;
+    },
+
+    idToken(this: thisAuthStore) {
+      return this.user?.id_token;
     },
   };
 }
