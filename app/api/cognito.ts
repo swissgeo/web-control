@@ -168,6 +168,7 @@ export default function useCognitoApi() {
 
     const query: URLSearchParams = new URLSearchParams({
       post_logout_redirect_uri: redirectUrl,
+      ...(_getStateParam() && { state: _getStateParam() }),
     });
     const logoutUri = `${eiamUrl}?${query.toString()}`;
 
@@ -187,7 +188,6 @@ export default function useCognitoApi() {
         client_id: CLIENT_ID,
         logout_uri: _getLogoutUri(),
       },
-      url_state: _getStateParam(),
     });
   }
 
