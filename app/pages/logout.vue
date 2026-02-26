@@ -18,4 +18,6 @@ onMounted(async () => {
 });
 </script>
 
-<template><UPageSection>Logging out ..</UPageSection></template>
+<template>
+  <UPageSection>{{ $t("logout.description") }}</UPageSection>
+</template>

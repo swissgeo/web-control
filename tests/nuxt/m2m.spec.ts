@@ -1,7 +1,20 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { it, expect, describe, vi, afterEach } from "vitest";
 import M2M from "@/pages/admin/m2m.vue";
-import * as toast from "@/utils/toast";
+
+const toastErrorMock = vi.fn();
+
+vi.mock("@/composables/useToastHelpers", () => ({
+  useToastHelpers: () => ({
+    toastError: toastErrorMock,
+  }),
+}));
+
+vi.mock("vue-i18n", () => ({
+  useI18n: () => ({
+    t: (key: string) => key,
+  }),
+}));
 
 describe("M2M Page", () => {
   vi.mock("@/api/machineUsers");
@@ -13,6 +26,7 @@ describe("M2M Page", () => {
     const component = await mountSuspended(M2M);
     expect(component.exists()).toBe(true);
   });
+
   it("Has header 1", async () => {
     const component = await mountSuspended(M2M);
     expect(component.find("h1").exists()).toBe(true);
@@ -23,19 +37,19 @@ describe("M2M Page", () => {
     expect(component.find("table").exists()).toBe(true);
     expect(component.findAll("td")[0].text()).toContain("mock_client_id");
   });
+
   it("shows toast if not loaded", async () => {
     const { useMachineUsersApi } = await import("@/api/machineUsers");
     useMachineUsersApi().getMachineUsers.mockRejectedValueOnce(
       new Error("Failed to load"),
     );
-    const spy = vi.spyOn(toast, "toastError");
     await mountSuspended(M2M);
-    expect(spy).toHaveBeenCalledWith("Could not load data");
+    expect(toastErrorMock).toHaveBeenCalledWith("machineUser.loadError");
   });
 
   it("shows create button", async () => {
     const component = await mountSuspended(M2M);
-    expect(component.find("button").text()).toContain("Add Machine User");
+    expect(component.find("button").text()).toContain("machineUser.create");
   });
 
   it("shows delete button", async () => {
@@ -50,6 +64,6 @@ describe("M2M Page", () => {
     const actionCell = row!.findAll("td").at(-1)!;
     const button = actionCell.find("button");
     expect(button.exists()).toBe(true);
-    expect(button.text()).toContain("Delete");
+    expect(button.text()).toContain("common.delete");
   });
 });

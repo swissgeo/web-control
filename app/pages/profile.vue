@@ -3,7 +3,7 @@ const authStore = useAuthStore();
 
 const { setPageTitle } = useMeta();
 
-setPageTitle("Profile");
+setPageTitle($t("profile.title"));
 
 const profile = computed(() => {
   return authStore.profile;
@@ -25,7 +25,7 @@ const profile = computed(() => {
 <template>
   <UPage>
     <UPageHeader
-      :title="$t('Profile')"
+      :title="$t('profile.title')"
       :ui="{
         root: 'p-2',
       }"
@@ -39,7 +39,9 @@ const profile = computed(() => {
         >
           <!-- TODO: Find if this is correct link and put in config -->
           <a href="https://myaccount-r.eiam.admin.ch"
-            ><UButton icon="i-lucide-external-link">eIAM Profile</UButton></a
+            ><UButton icon="i-lucide-external-link">{{
+              $t("profile.eIamProfile")
+            }}</UButton></a
           >
         </UPageCard>
       </UPageSection>

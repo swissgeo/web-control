@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { setPageTitle } = useMeta();
 
-setPageTitle("Organization");
+setPageTitle($t("organization.title"));
 
 const organization = {
   id: "swisstopo",
@@ -28,20 +28,16 @@ const organization = {
   <div>
     <UPage>
       <UPageHeader
-        :title="$t('Organization')"
+        :title="$t('organization.title')"
         :ui="{
           root: 'p-2',
         }"
       />
       <UPageBody>
-        <UAlert
-          color="warning"
-          title="Heads up!"
-          description="This is a placeholder page with dummy data"
-        />
+        <DummyDataBanner />
         <UPageSection
           :title="organization.name"
-          description="View and edit your organization."
+          :description="$t('organization.description')"
           :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"
         >
           <UForm :disabled="true" class="flex gap-16">

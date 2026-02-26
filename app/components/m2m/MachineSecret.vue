@@ -11,28 +11,25 @@ const emit = defineEmits(["close"]);
 async function copyToClipboard() {
   try {
     if (props.machineDetails.client_secret === undefined) {
-      toastError("Failed to copy to clipboard");
+      toastError($t("machineUser.errorClipboard"));
       return;
     }
     await navigator.clipboard.writeText(props.machineDetails.client_secret);
-    toastSuccess("Copied to clipboard");
+    toastSuccess($t("machineUser.successClipboard"));
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    toastError("Failed to copy to clipboard");
+    toastError($t("machineUser.errorClipboard"));
   }
 }
 </script>
 
 <template>
-  <UAlert
-    color="error"
-    description="Copy the secret to a secure location (e.g. password manager). After closing this dialog you will not be able to see the secret again."
-  />
+  <UAlert color="error" :description="$t('machineUser.copyToken')" />
   <div class="flex shrink-0 flex-col p-6">
-    <UFormField label="ID">
+    <UFormField :label="$t('machineUser.clientId')">
       <UInput :value="machineDetails.client_id" disabled class="w-110" />
     </UFormField>
-    <UFormField label="Secret">
+    <UFormField :label="$t('machineUser.clientSecret')">
       <UFieldGroup>
         <UInput :value="machineDetails.client_secret" disabled class="w-110" />
 
@@ -46,6 +43,11 @@ async function copyToClipboard() {
     </UFormField>
   </div>
   <div class="flex shrink-0 justify-end p-6">
-    <UButton class="m-1" label="Close" color="primary" @click="emit('close')" />
+    <UButton
+      class="m-1"
+      :label="$t('common.close')"
+      color="primary"
+      @click="emit('close')"
+    />
   </div>
 </template>

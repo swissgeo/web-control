@@ -2,6 +2,11 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { it, expect, describe } from "vitest";
 import HeaderLogo from "~/components/HeaderLogo.vue";
 
+function normalizeHtml(html: string) {
+  // replace generated ids, classes, etc.
+  return html.replace(/i-?\d+/g, "i-__replaced__");
+}
+
 describe("HeaderLogo", () => {
   it("displays collapsed logo", async () => {
     const collapsed = true;
@@ -30,7 +35,7 @@ describe("HeaderLogo", () => {
     const component = await mountSuspended(HeaderLogo, {
       props: { collapsed },
     });
-    expect(component.html()).toMatchSnapshot();
+    expect(normalizeHtml(component.html())).toMatchSnapshot();
   });
 
   it("matches expanded snapshop", async () => {
@@ -38,6 +43,6 @@ describe("HeaderLogo", () => {
     const component = await mountSuspended(HeaderLogo, {
       props: { collapsed },
     });
-    expect(component.html()).toMatchSnapshot();
+    expect(normalizeHtml(component.html())).toMatchSnapshot();
   });
 });

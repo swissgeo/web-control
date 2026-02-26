@@ -29,12 +29,12 @@ const items: DropdownMenuItem[] = [
   ],
   [
     {
-      label: $t("profile"),
+      label: $t("profile.title"),
       icon: "i-lucide-user-round",
       to: { name: "profile" },
     },
     {
-      label: $t("logout"),
+      label: $t("logout.title"),
       icon: "i-lucide-log-out",
       to: logoutRoute,
     },
