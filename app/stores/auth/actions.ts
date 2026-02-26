@@ -15,7 +15,7 @@ export function authActions(): AuthStoreActions {
       // User is loaded asynchronously from the web storage.
       const user = await this.userManager.getUser();
       this.user = user;
-      console.log("User initialized", user);
+      console.log("User initialized", user?.profile?.email);
     },
 
     setLoginUrl(this: thisAuthStore, url: string) {

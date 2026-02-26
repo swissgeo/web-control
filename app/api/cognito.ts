@@ -65,7 +65,10 @@ export default function useCognitoApi() {
     });
 
     userManager.events.addUserLoaded((user: User) => {
-      console.log("User loaded or refreshed (token refresh)", user);
+      console.log(
+        "User loaded or refreshed (token refresh)",
+        user?.profile?.email,
+      );
       // When the user has been loaded or updated (e.g. after a silent renew) we need to
       // update the user in the store, so that the new tokens are available for API calls
       authStore.setUser(user);
