@@ -11,6 +11,13 @@ export default defineNuxtConfig({
     // to properly discover and prerender all routes
     preset: "static",
   },
+  sourcemap:
+    process.env.DEBUG_BUILD === "true"
+      ? {
+          client: true,
+          server: false,
+        }
+      : false,
 
   modules: [
     "@nuxt/eslint",
