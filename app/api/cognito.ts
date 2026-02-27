@@ -1,4 +1,5 @@
-import { UserManager, Log } from "oidc-client-ts";
+import type { User } from "oidc-client-ts";
+import { UserManager, Log, WebStorageStateStore } from "oidc-client-ts";
 
 export enum LOGIN_MODE {
   END_USER = "end_user",
@@ -12,9 +13,22 @@ export default function useCognitoApi() {
   const authStore = useAuthStore();
   const router = useRouter();
 
+  // Setup oidc-client-ts library logger
   Log.setLogger(console);
 
   const CLIENT_ID = runtimeConfig.public.cognitoAppClientId;
+
+  // initialize broadcast channel to sync user session across tabs
+  const channel = new BroadcastChannel("auth");
+  const CHANNEL_MESSAGE_LOGOUT = "logout";
+  channel.onmessage = (event) => {
+    if (event.data === CHANNEL_MESSAGE_LOGOUT) {
+      console.log("Received logout message from another tab, go to login page");
+      // clear the user from the store
+      authStore.setUser(null);
+      router.push("/login");
+    }
+  };
 
   function initUserManager() {
     const COGNITO_USER_POOL_URL = `https://${runtimeConfig.public.cognitoUserPoolUrl}`;
@@ -28,11 +42,44 @@ export default function useCognitoApi() {
       extraQueryParams: {
         identity_provider: runtimeConfig.public.eiamIdentityProvider,
       },
+      automaticSilentRenew: true,
+      monitorSession: true,
+      refreshTokenAllowedScope: "email openid profile",
+      // Use localStorage to persist the user session, so that it can be shared across tabs and
+      // windows. The default is sessionStorage, which only persists the session in the current tab.
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
     };
 
     // create a UserManager instance
     const userManager = new UserManager({
       ...cognitoAuthConfig,
+    });
+
+    userManager.events.addSilentRenewError((err) => {
+      console.error("Silent renew error", err);
+      // in case of user refresh error, we need to clear it from the store
+      // and go back to the login page
+      // TODO add a popup error message before going to login
+      authStore.setUser(null);
+      router.push("/login");
+    });
+
+    userManager.events.addUserLoaded((user: User) => {
+      console.log(
+        "User loaded or refreshed (token refresh)",
+        user?.profile?.email,
+      );
+      // When the user has been loaded or updated (e.g. after a silent renew) we need to
+      // update the user in the store, so that the new tokens are available for API calls
+      authStore.setUser(user);
+    });
+
+    userManager.events.addUserUnloaded(() => {
+      console.log("User unloaded loaded");
+    });
+
+    userManager.events.addUserSessionChanged(() => {
+      console.log("User session changed");
     });
 
     return userManager;
@@ -68,7 +115,7 @@ export default function useCognitoApi() {
 
     const callbackRoute = router
       .getRoutes()
-      .find((route) => route.name == "auth-callback");
+      .find((route) => route.name == "auth-login-callback");
 
     if (!callbackRoute) {
       throw new Error("No callback route found");
@@ -133,6 +180,8 @@ export default function useCognitoApi() {
    * Pass in logout_uri of eIam. See _getLogoutUri
    */
   function logout() {
+    // Inform other tabs that the use has logged out
+    channel.postMessage(CHANNEL_MESSAGE_LOGOUT);
     return authStore.userManager.signoutRedirect({
       extraQueryParams: {
         client_id: CLIENT_ID,
@@ -165,8 +214,8 @@ export default function useCognitoApi() {
    * This is only used as a fallback for when the logout round trip fails.
    * The logout procedure removes the user itself
    */
-  function removeUser() {
-    authStore.userManager.removeUser();
+  async function removeUser() {
+    await authStore.userManager.removeUser();
   }
 
   return {
