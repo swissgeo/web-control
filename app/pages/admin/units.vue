@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
+const { toastInfo } = useToastHelpers();
 const { setPageTitle } = useMeta();
 
 setPageTitle("Units");
