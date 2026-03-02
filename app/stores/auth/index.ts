@@ -1,19 +1,18 @@
 import { defineStore } from "pinia";
-import type { User, UserManager } from "oidc-client-ts";
+import type { User } from "oidc-client-ts";
 import useCognitoApi from "~/api/cognito";
 
 export interface AuthStoreState {
-  userManager: UserManager;
+  cognito: ReturnType<typeof useCognitoApi>;
   user: User | null;
   loginUrl: string | undefined;
 }
 
 export function authStoreState() {
   return (): AuthStoreState => {
-    const cognitoApi = useCognitoApi();
-    const manager = cognitoApi.initUserManager();
+    const cognito = useCognitoApi();
     return {
-      userManager: manager,
+      cognito: cognito,
       user: null,
       loginUrl: undefined,
     };

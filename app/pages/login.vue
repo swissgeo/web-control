@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import useCognitoApi from "~/api/cognito";
-
 const { setPageTitle } = useMeta();
 
-const cognitoApi = useCognitoApi();
+const authStore = useAuthStore();
 
 setPageTitle("Login");
 
 function goToLogin() {
-  cognitoApi.goToLogin();
+  authStore.login();
 }
 </script>
 
