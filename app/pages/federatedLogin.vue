@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 // IMPORTANT: Do not rename this file, as the name is being used to identify this route, and
 // is registered in the cognito client and in eIAM as the post login redirect url !
-import useCognitoApi from "~/api/cognito";
 
 definePageMeta({
   // this name is being used to identify this route, so better not change it
@@ -10,7 +9,6 @@ definePageMeta({
 });
 
 const authStore = useAuthStore();
-const cognitoApi = useCognitoApi();
 const router = useRouter();
 
 const isThereAProblem = ref(false);
@@ -21,7 +19,7 @@ onMounted(() => {
 
 async function getAccessTokens() {
   try {
-    await cognitoApi.exchangeCodeForAccessTokens();
+    await authStore.signinCallback();
     router.push(authStore.loginUrl || "/");
   } catch (err: unknown) {
     console.error(err);
