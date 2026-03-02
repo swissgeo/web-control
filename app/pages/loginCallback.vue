@@ -11,8 +11,6 @@ definePageMeta({
 const authStore = useAuthStore();
 const router = useRouter();
 
-const isThereAProblem = ref(false);
-
 onMounted(() => {
   getAccessTokens();
 });
@@ -22,8 +20,10 @@ async function getAccessTokens() {
     await authStore.signinCallback();
     router.push(authStore.loginUrl || "/");
   } catch (err: unknown) {
-    console.error(err);
-    isThereAProblem.value = true;
+    console.error("Error during login callback:", err);
+    showError({
+      statusText: "Login failed",
+    });
   }
 }
 </script>
