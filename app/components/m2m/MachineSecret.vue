@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { MachineUser } from "~/api/machineUsers";
 
+const { toastError, toastSuccess } = useToastHelpers();
+
 const props = defineProps<{
   machineDetails: MachineUser;
 }>();

@@ -8,6 +8,7 @@ import {
   useMachineUsersApi,
 } from "~/api/machineUsers";
 
+const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
 setPageTitle("M2M");
 
