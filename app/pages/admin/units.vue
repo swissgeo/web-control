@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-const { toastInfo } = useToastHelpers();
 const { setPageTitle } = useMeta();
+const { toastInfo } = useToastHelpers();
 
-setPageTitle("Units");
+setPageTitle($t("unit.title"));
 
 interface OrgUnit {
   id: number;
@@ -28,26 +28,26 @@ const units = ref<OrgUnit[]>([
   },
 ]);
 
-const tableColumns: TableColumn<OrgUnit>[] = [
+const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
   {
     accessorKey: "id",
-    header: "ID",
+    header: $t("common.id"),
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: $t("common.name"),
   },
   {
     accessorKey: "user_count",
-    header: "Users",
+    header: $t("unit.userCount"),
   },
   {
     accessorKey: "dataset_count",
-    header: "Datasets",
+    header: $t("unit.datasetCount"),
   },
   {
     accessorKey: "actions",
-    header: "Actions",
+    header: $t("common.actions"),
     meta: {
       class: {
         th: "text-right",
@@ -55,10 +55,10 @@ const tableColumns: TableColumn<OrgUnit>[] = [
       },
     },
   },
-];
+]);
 
 const onEdit = (row: OrgUnit): void => {
-  toastInfo("No yet implemented.");
+  toastInfo($t("common.notImplementedYet"));
   console.log("Edit Org Unit:", row);
 };
 </script>
@@ -67,18 +67,14 @@ const onEdit = (row: OrgUnit): void => {
   <div>
     <UPage>
       <UPageHeader
-        :title="$t('Units')"
+        :title="$t('unit.title')"
         :ui="{
           root: 'p-2',
         }"
       />
       <UPageBody>
-        <UAlert
-          color="warning"
-          title="Heads up!"
-          description="This is a placeholder page with dummy data"
-        />
-        <p>View and edit the organizational units.</p>
+        <DummyDataBanner />
+        <p>{{ $t("unit.description") }}</p>
         <UTable
           :columns="tableColumns"
           :data="units"
@@ -93,8 +89,8 @@ const onEdit = (row: OrgUnit): void => {
         >
           <template #actions-cell="{ row }">
             <div>
-              <UButton color="neutral" @click="onEdit(row.original)">
-                Edit
+              <UButton color="neutral" @click="onEdit(row.original)"
+                >{{ $t("common.edit") }}
               </UButton>
             </div>
           </template>

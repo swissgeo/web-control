@@ -10,7 +10,8 @@ import {
 
 const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
-setPageTitle("M2M");
+
+setPageTitle($t("machineUser.title"));
 
 const defaultM2MScope = useRuntimeConfig().public.defaultM2MScope;
 const authDomain = useRuntimeConfig().public.cognitoDomain;
@@ -22,18 +23,18 @@ const displaySecretModal = ref(false);
 const loadingMachineUsers = ref(false);
 const loadingCreateMachineUser = ref(false);
 
-const tableColumns: TableColumn<MachineUser>[] = [
+const tableColumns = computed<TableColumn<MachineUser>[]>(() => [
   {
     accessorKey: "client_id",
-    header: "ID",
+    header: $t("machineUser.clientId"),
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: $t("common.name"),
   },
   {
     accessorKey: "actions",
-    header: "Actions",
+    header: $t("common.actions"),
     meta: {
       class: {
         th: "text-right",
@@ -41,7 +42,7 @@ const tableColumns: TableColumn<MachineUser>[] = [
       },
     },
   },
-];
+]);
 
 onMounted(() => {
   loadMachineUsers();
@@ -53,7 +54,7 @@ async function loadMachineUsers() {
     machineUsers.value = await useMachineUsersApi().getMachineUsers();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    toastError("Could not load data");
+    toastError($t("machineUser.loadError"));
   } finally {
     loadingMachineUsers.value = false;
   }
@@ -79,24 +80,28 @@ async function createMachineUser(data: CreateMachineUserRequest) {
   try {
     machineUserDetails.value =
       await useMachineUsersApi().createMachineUser(data);
-    toastSuccess("Machine user created");
+    toastSuccess($t("machineUser.successCreated"));
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    toastError("Could not create machine user");
+    toastError($t("machineUser.errorCreate"));
   } finally {
     loadingCreateMachineUser.value = false;
     displaySecretModal.value = true;
   }
 }
 
+// TODO: creating a new machine user should update the table
+
+// TODO: deleting a machine user should use some sort of modal
+
 async function deleteMachineUser(row: MachineUser) {
   try {
     await useMachineUsersApi().deleteMachineUser(row.client_id);
-    toastSuccess("Machine user deleted");
+    toastSuccess($t("machineUser.successDelete"));
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    toastError("Could not delete machine user");
+    toastError($t("machineUser.errorDelete"));
   } finally {
     loadMachineUsers();
   }
@@ -107,12 +112,13 @@ async function deleteMachineUser(row: MachineUser) {
   <div>
     <UPage>
       <UPageHeader
-        :title="$t('Machine Users')"
+        :title="$t('machineUser.title')"
         :ui="{
           root: 'p-2',
         }"
       />
       <UPageBody>
+        <p>{{ $t("machineUser.description") }}</p>
         <ToolBar>
           <!-- <UInput
             class="max-w-sm"
@@ -121,7 +127,7 @@ async function deleteMachineUser(row: MachineUser) {
           /> -->
           <template #right>
             <UButton
-              label="Add Machine User"
+              :label="$t('machineUser.create')"
               variant="solid"
               :disabled="displayCreateModal"
               @click="startCreateMachineUser()"
@@ -179,13 +185,13 @@ async function deleteMachineUser(row: MachineUser) {
                 color="warning"
                 @click="deleteMachineUser(row.original)"
               >
-                Delete
+                {{ $t("common.delete") }}
               </UButton>
             </div>
           </template>
         </UTable>
         <UPageSection :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }">
-          <p>Use the following command to generate an access token:</p>
+          <p>{{ $t("machineUser.generateToken") }}</p>
           <pre>
 curl -X POST https://{{ authDomain }}/oauth2/token \
   -H "Content-Type: application/x-www-form-urlencoded" \

@@ -16,19 +16,25 @@ export type CreateMachineUserSchema = v.InferOutput<typeof schema>;
 const schema = v.object({
   name: v.pipe(
     v.string(),
-    v.nonEmpty("Name is required"),
-    v.minLength(3, "Must be at least 3 characters"),
-    v.maxLength(50, "Must not be more than 50 characters"),
+    v.nonEmpty(() => $t("machineUser.errorNameRequired")),
+    v.minLength(3, () => $t("machineUser.errorNameMinLength", { length: 3 })),
+    v.maxLength(50, () => $t("machineUser.errorNameMaxLength", { length: 50 })),
     v.check(
       (item) =>
         props.existingMachineUsers?.find((m) => m.name === item) === undefined,
-      "Machine user with this name already exists",
+      () => $t("machineUser.errorUserAlreadyExists"),
     ),
   ),
   tokenDuration: v.pipe(
     v.number(),
-    v.minValue(1, "Must be at least 1 minute"),
-    v.maxValue(60, "Maximum 1 hour"),
+    v.minValue(
+      1,
+      $t("machineUser.errorTokenDurationMinValue", { duration: 1 }),
+    ),
+    v.maxValue(
+      60,
+      $t("machineUser.errorTokenDurationMaxValue", { duration: 60 }),
+    ),
   ),
 });
 
@@ -39,27 +45,29 @@ const formState = reactive({
 </script>
 
 <template>
-  <UAlert
-    color="info"
-    description="Create a new machine user with a unique name"
-  />
+  <UAlert color="info" :description="$t('machineUser.createDescription')" />
   <UForm :schema="schema" :state="formState" @submit="emit('submit', $event)">
     <div class="flex shrink-0 flex-col p-6">
-      <UFormField label="Name" name="name">
+      <UFormField :label="$t('common.name')" name="name">
         <UInput v-model="formState.name" />
       </UFormField>
-      <UFormField label="Token Duration in Minutes" name="tokenDuration">
+      <UFormField :label="$t('machineUser.tokenDuration')" name="tokenDuration">
         <UInput v-model="formState.tokenDuration" type="number" />
       </UFormField>
     </div>
     <div class="flex shrink-0 justify-end p-6">
       <UButton
         class="m-1"
-        label="Cancel"
+        :label="$t('common.cancel')"
         color="secondary"
         @click="emit('cancel')"
       />
-      <UButton class="m-1" type="submit" label="Submit" color="primary" />
+      <UButton
+        class="m-1"
+        type="submit"
+        :label="$t('common.submit')"
+        color="primary"
+      />
     </div>
   </UForm>
 </template>

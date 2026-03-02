@@ -1,5 +1,89 @@
 {
-  "welcome": "Welcome",
-  "logout": "Logout",
-  "profile": "Profile"
+  "common": {
+    "actions": "Actions",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete Machine User",
+    "edit": "Edit",
+    "error": "Error",
+    "id": "ID",
+    "info": "Info",
+    "name": "Name",
+    "notImplementedYet": "No yet implemented.",
+    "submit": "Submit",
+    "success": "Success"
+  },
+  "dataset": {
+    "description": "Manage your geospatial datasets, including metadata.",
+    "title": "Datasets"
+  },
+  "dummyDataBanner": {
+    "description": "This is a placeholder page with dummy data.",
+    "title": "Heads up!"
+  },
+  "global": {
+    "buildTime": "Built time: {timestamp}",
+    "controlCenter": "SWISSGEO Control Center",
+    "home": "Home",
+    "swissgeo": "SWISSGEO",
+    "version": "Version: {version}"
+  },
+  "index": {
+    "description": "This is the control center of the SWISSGEO. Use the navigation on the left to access different sections of the app.",
+    "title": "Welcome"
+  },
+  "login": {
+    "description": "Welcome to the business portal. Please login.",
+    "login": "Login",
+    "title": "Login"
+  },
+  "logout": {
+    "description": "Logging out ...",
+    "title": "Logout"
+  },
+  "machineUser": {
+    "clientId": "Client-ID",
+    "clientSecret": "Client-Secret",
+    "copyToken": "Copy the client secret to a secure location (e.g. password manager). After closing this dialog you will not be able to see the client secret again.",
+    "create": "Add Machine User",
+    "createDescription": "Create a new machine user with a unique name",
+    "description": "Manage your machine users and their permissions.",
+    "errorClipboard": "Failed to copy to clipboard",
+    "errorCreate": "Could not create machine user",
+    "errorDelete": "Could not delete machine user",
+    "errorNameMaxLength": "Must not be more than {length} characters",
+    "errorNameMinLength": "Must be at least {length} characters",
+    "errorNameRequired": "Name is required",
+    "errorTokenDurationMaxValue": "Must not be more than {duration} minutes",
+    "errorTokenDurationMinValue": "Must be at least {duration} minute",
+    "errorUserAlreadyExists": "Machine user with this name already exists",
+    "generateToken": "Use the following command to generate an access token:",
+    "loadError": "Could not load data",
+    "successClipboard": "Copied to clipboard",
+    "successCreated": "Machine user created",
+    "successDelete": "Machine user deleted",
+    "title": "Machine Users",
+    "tokenDuration": "Token Duration in Minutes"
+  },
+  "organization": {
+    "description": "Manage your organization's structure and permissions.",
+    "title": "Organization"
+  },
+  "profile": {
+    "eIamProfile": "eIAM Profile",
+    "title": "Profile"
+  },
+  "unit": {
+    "datasetCount": "Datasets",
+    "description": "Manage your organizational units.",
+    "title": "Units",
+    "unit": "Unit | Units",
+    "userCount": "Users"
+  },
+  "user": {
+    "description": "Manage the users of your organization.",
+    "role": "Role",
+    "title": "Users",
+    "username": "Username"
+  }
 }

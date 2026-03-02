@@ -1,3 +1,89 @@
 {
-  "welcome": "Bienvenue"
+  "common": {
+    "actions": "Actions",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "error": "Erreur",
+    "id": "ID",
+    "info": "Info",
+    "name": "Nom",
+    "notImplementedYet": "Pas encore implémenté.",
+    "submit": "Soumettre",
+    "success": "Succès"
+  },
+  "dataset": {
+    "description": "Gérez vos ensembles de données géospatiales, y compris les métadonnées.",
+    "title": "Ensembles de données"
+  },
+  "dummyDataBanner": {
+    "description": "Il s'agit d'une page d'attente contenant des données factices.",
+    "title": "Attention ! "
+  },
+  "global": {
+    "buildTime": "Heure de build : {timestamp}",
+    "controlCenter": "SWISSGEO Control Center",
+    "home": "Accueil",
+    "swissgeo": "SWISSGEO",
+    "version": "Version : {version}"
+  },
+  "index": {
+    "description": "Il s'agit du centre de contrôle de SWISSGEO. Utilisez la navigation à gauche pour accéder aux différentes sections de l'application.",
+    "title": "Bienvenue"
+  },
+  "login": {
+    "description": "Bienvenue sur le business portal. Veuillez vous connecter.",
+    "login": "Connexion",
+    "title": "Connexion"
+  },
+  "logout": {
+    "description": "Déconnexion...",
+    "title": "Déconnexion"
+  },
+  "machineUser": {
+    "clientId": "Client-ID",
+    "clientSecret": "Client-Secret",
+    "copyToken": "Copiez le secret du client dans un emplacement sécurisé (par exemple, un gestionnaire de mots de passe). Une fois cette boîte de dialogue fermée, vous ne pourrez plus voir le secret.",
+    "create": "Ajouter un utilisateur machine",
+    "createDescription": "Créer un nouvel utilisateur machine avec un nom unique",
+    "description": "Gérez vos utilisateurs de machines et leurs autorisations.",
+    "errorClipboard": "Échec de la copie dans le presse-papiers",
+    "errorCreate": "Impossible de créer un utilisateur machine",
+    "errorDelete": "Impossible de supprimer l'utilisateur machine",
+    "errorNameMaxLength": "Ne doit pas dépasser {length} caractères",
+    "errorNameMinLength": "Doit comporter au minimo {length} caractères",
+    "errorNameRequired": "Le nom est obligatoire",
+    "errorTokenDurationMaxValue": "Ne doit pas dépasser {duration} minute",
+    "errorTokenDurationMinValue": "Doit être d'au moins {duration} minute",
+    "errorUserAlreadyExists": "Un utilisateur machine portant ce nom existe déjà",
+    "generateToken": "Utilisez la commande suivante pour générer un jeton d'accès : ",
+    "loadError": "Impossible de charger les données",
+    "successClipboard": "Copié dans le presse-papiers",
+    "successCreated": "Utilisateur machine créé",
+    "successDelete": "Utilisateur machine supprimé",
+    "title": "Utilisateurs de machines",
+    "tokenDuration": "Durée du jeton en minutes"
+  },
+  "organization": {
+    "description": "Gérez la structure et les autorisations de votre organisation.",
+    "title": "Organisation"
+  },
+  "profile": {
+    "eIamProfile": "Profil eIAM",
+    "title": "Profil"
+  },
+  "unit": {
+    "datasetCount": "Ensembles de données",
+    "description": "Gérez vos unités organisationnelles.",
+    "title": "Unités",
+    "unit": "Unité | Unités",
+    "userCount": "Utilisateurs"
+  },
+  "user": {
+    "description": "Gérez les utilisateurs de votre organisation.",
+    "role": "Rôle",
+    "title": "Utilisateurs",
+    "username": "Nom d'utilisateur "
+  }
 }

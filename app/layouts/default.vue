@@ -9,7 +9,7 @@ const authStore = useAuthStore();
 const items = computed<NavigationMenuItem[]>(() => {
   const baseItems = [
     {
-      label: "Home",
+      label: $t("global.home"),
       icon: "i-lucide-house",
       to: "/",
       active: route.path === "/",
@@ -17,13 +17,13 @@ const items = computed<NavigationMenuItem[]>(() => {
   ];
   const authItems = [
     {
-      label: "Datasets",
+      label: $t("dataset.title"),
       to: "/datasets",
       icon: "i-lucide-database",
       active: route.path.startsWith("/datasets"),
     },
     {
-      label: "Organization",
+      label: $t("organization.title"),
       to: "/admin",
       icon: "i-lucide-settings",
       defaultOpen: true,
@@ -31,25 +31,25 @@ const items = computed<NavigationMenuItem[]>(() => {
       active: route.path.startsWith("/admin"),
       children: [
         {
-          label: "Organization",
+          label: $t("organization.title"),
           icon: "i-lucide-settings",
           to: "/admin",
           active: route.path === "/admin",
         },
         {
-          label: "Units",
+          label: $t("unit.title"),
           icon: "i-lucide-square",
           to: "/admin/units",
           active: route.path.startsWith("/admin/units"),
         },
         {
-          label: "Users",
+          label: $t("user.title"),
           icon: "i-lucide-users",
           to: "/admin/users",
           active: route.path.startsWith("/admin/users"),
         },
         {
-          label: "Machine Users",
+          label: $t("machineUser.title"),
           icon: "i-lucide-server",
           to: "/admin/m2m",
           active: route.path.startsWith("/admin/m2m"),
@@ -95,7 +95,9 @@ const items = computed<NavigationMenuItem[]>(() => {
             <UHeader class="bg-primary">
               <template #title>
                 <!-- Applying text-inverted to UHeader does not take effect -->
-                <span class="text-inverted"> SWISSGEO Control Center </span>
+                <span class="text-inverted">{{
+                  $t("global.controlCenter")
+                }}</span>
               </template>
             </UHeader>
           </template>
@@ -113,15 +115,34 @@ const items = computed<NavigationMenuItem[]>(() => {
         <UFooter class="bg-secondary text-highlight">
           <template #left>
             <div class="flex flex-col">
-              <div class="">Version: {{ runtimeConfig.public.commitHash }}</div>
+              <div class="">
+                {{
+                  $t("global.version", {
+                    version: runtimeConfig.public.commitHash,
+                  })
+                }}
+              </div>
               <div>
-                Build time:
-                {{ format(runtimeConfig.public.buildTime, "yyyy-MM-dd HH:mm") }}
+                {{
+                  $t("global.buildTime", {
+                    timestamp: format(
+                      runtimeConfig.public.buildTime,
+                      "yyyy-MM-dd HH:mm",
+                    ),
+                  })
+                }}
               </div>
             </div>
           </template>
 
-          <template #right>SWISSGEO</template>
+          <template #right>
+            <div class="flex flex-col">
+              <div>{{ $t("global.swissgeo") }}</div>
+              <div>
+                <LanguageSwitcherButton />
+              </div>
+            </div>
+          </template>
         </UFooter>
       </template>
     </UDashboardPanel>

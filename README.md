@@ -13,6 +13,7 @@ This is the frontend ("business portal") for the SWISSGEO control infrastructure
 - [Tech](#tech)
   - [Base Framework: nuxt](#base-framework-nuxt)
   - [UI Framework: nuxt ui](#ui-framework-nuxt-ui)
+  - [Translations](#translations)
 - [Format \& Linting](#format--linting)
 - [Testing](#testing)
   - [Unit tests](#unit-tests)
@@ -55,6 +56,30 @@ The rendering mode is set to [client-side-rendering](https://nuxt.com/docs/4.x/g
 For the UI we use [nuxt ui](https://ui.nuxt.com) because of it's seamless integration with the framework. Check the [components list](https://ui.nuxt.com/docs/components) for the available components.
 
 Nuxt UI components are built on CSS Framework [Tailwind](https://tailwindcss.com/).
+
+### Translations
+
+To translate a string, define in the all the locale JSON's and use it with the `$t` in the code and/or template. For example:
+
+```json
+{
+  "messages": {
+    "hello": "hello"
+  }
+}
+```
+
+```vue
+<script>
+const message = $t("message.hello");
+</script>
+
+<template>
+  <h1 :data-message="$t('message.hello')">{{ $t("message.hello") }}</h1>
+</template>
+```
+
+Have a look at [Nuxt I18n](https://i18n.nuxtjs.org/docs/getting-started/usage) and [Vue I18n](https://vue-i18n.intlify.dev/guide/essentials/started) to see how to interpolate strings, formatting dates etc.
 
 ## Format & Linting
 

@@ -1,5 +1,6 @@
 export const useToastHelpers = () => {
   const toast = useToast();
+  const { t } = useI18n();
 
   const MIN_TOAST_DURATION = 2000; // ms
   const MAX_TOAST_DURATION = 7000; // ms
@@ -15,7 +16,7 @@ export const useToastHelpers = () => {
 
   const toastError = (description: string) => {
     toast.add({
-      title: "Error",
+      title: t("common.error"),
       description,
       progress: false,
       color: "error",
@@ -25,7 +26,7 @@ export const useToastHelpers = () => {
 
   const toastSuccess = (description: string) => {
     toast.add({
-      title: "Success",
+      title: t("common.success"),
       description,
       progress: true,
       color: "success",
@@ -35,7 +36,7 @@ export const useToastHelpers = () => {
 
   const toastInfo = (description: string) => {
     toast.add({
-      title: "Info",
+      title: t("common.info"),
       description,
       progress: true,
       color: "info",
