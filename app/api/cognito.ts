@@ -36,6 +36,10 @@ export default function useCognitoApi() {
       extraQueryParams: {
         identity_provider: runtimeConfig.public.eiamIdentityProvider,
       },
+      metadataSeed: {
+        // We use the eIAM logout endpoint for logout
+        end_session_endpoint: runtimeConfig.public.eiamLogoutUrl,
+      },
       automaticSilentRenew: true,
       monitorSession: true,
       refreshTokenAllowedScope: SCOPES,
@@ -111,23 +115,34 @@ export default function useCognitoApi() {
   }
 
   /**
-   * The auth logout workflow works like this:
-   * call to COGNITO -> redirect to EIAM -> redirect to PORTAL
-   * This way, we're being logged out from COGNITO as well as EIAM
+   * Prepare the Cognito logout URL with its query parameters.
    *
-   * So we provide the eIam logout url to cognito by assembling it here
+   * The auth logout workflow works like this:
+   *  -> eIAM Logout -> redirect to Cognito logout -> redirect to PORTAL
+   *
+   * This way, we're being logged out from eIAM as well as Cognito.
+   * eIAM only needs to register the Cognito logout endpoint and supports wildcard in the query
+   * part of the logout URL. This allow us to have full control over the last redirect URL to the
+   * application without having to change the eIAM integration.
+   *
+   * For Cognito logout endpoint specification see
+   * https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html#get-logout
    */
   function _getLogoutUri(): string {
+    const cognitoLogoutEndpoint = `https://${runtimeConfig.public.cognitoDomain}/logout`;
+
     const origin = new URL(window.location.origin);
     origin.hostname = _stripPrPrefix(origin);
-    const redirectUrl = origin.toString();
+    const postLogoutRedirectUri = origin.toString();
 
-    const eiamUrl = runtimeConfig.public.eiamLogoutUrl;
-
-    const query: URLSearchParams = new URLSearchParams({
-      post_logout_redirect_uri: redirectUrl,
+    const query = new URLSearchParams({
+      client_id: CLIENT_ID,
+      logout_uri: postLogoutRedirectUri,
+      // Unfortunately, Cognito doesn't support passing the state parameter when using
+      // logout_uri query parameter, it only supports sate param with redirect_uri.
+      // ...(_getStateParam() ? { state: _getStateParam() } : {}),
     });
-    const logoutUri = `${eiamUrl}?${query.toString()}`;
+    const logoutUri = `${cognitoLogoutEndpoint}?${query.toString()}`;
 
     return logoutUri;
   }
@@ -176,17 +191,16 @@ export default function useCognitoApi() {
   /**
    * Logout the user
    *
-   * Pass in logout_uri of eIam. See _getLogoutUri
+   * Pass in logout_uri of Cognito. See _getLogoutUri
    */
   function logout(): Promise<void> {
     // stop access token renewal
     userManager.stopSilentRenew();
+    // Trigger the eIAM logout endpoint with post_logout_redirect_uri query parameter set to
+    // the Cognito logout endpoint. This will trigger the whole logout workflow described in _getLogoutUri()
+    // eIAM logout endpoint is configured in _initUserManager()
     return userManager.signoutRedirect({
-      extraQueryParams: {
-        client_id: CLIENT_ID,
-        logout_uri: _getLogoutUri(),
-      },
-      url_state: _getStateParam(),
+      post_logout_redirect_uri: _getLogoutUri(),
     });
   }
 
