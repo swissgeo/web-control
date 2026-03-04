@@ -14,7 +14,7 @@ const { setPageTitle } = useMeta();
 setPageTitle($t("machineUser.title"));
 
 const defaultM2MScope = useRuntimeConfig().public.defaultM2MScope;
-const authDomain = useRuntimeConfig().public.cognitoDomain;
+const authUrl = useRuntimeConfig().public.cognitoUrl;
 
 const machineUsers = ref<MachineUser[]>();
 const machineUserDetails = ref<MachineUser>();
@@ -193,7 +193,7 @@ async function deleteMachineUser(row: MachineUser) {
         <UPageSection :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }">
           <p>{{ $t("machineUser.generateToken") }}</p>
           <pre>
-curl -X POST https://{{ authDomain }}/oauth2/token \
+curl -X POST {{ authUrl }}/oauth2/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=client_credentials&amp;client_id=&lt;CLIENT_ID&gt;&amp;client_secret=&lt;CLIENT_SECRET&gt;&amp;scope={{
               defaultM2MScope
