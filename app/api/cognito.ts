@@ -129,7 +129,7 @@ export default function useCognitoApi() {
    * https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html#get-logout
    */
   function _getLogoutUri(): string {
-    const cognitoLogoutEndpoint = `https://${runtimeConfig.public.cognitoDomain}/logout`;
+    const cognitoLogoutEndpoint = `${runtimeConfig.public.cognitoUrl}/logout`;
 
     const origin = new URL(window.location.origin);
     origin.hostname = _stripPrPrefix(origin);

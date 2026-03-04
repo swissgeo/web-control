@@ -4,7 +4,7 @@ declare module "nuxt/schema" {
     commitHash: string;
     buildTime: string;
     cognitoAppClientId: string;
-    cognitoDomain: string;
+    cognitoUrl: string;
     cognitoUserPoolUrl: string;
     eiamLogoutUrl: string;
     eiamIdentityProvider: string;
