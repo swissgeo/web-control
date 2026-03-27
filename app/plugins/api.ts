@@ -1,6 +1,6 @@
 export default defineNuxtPlugin(() => {
   const {
-    public: { serviceControlBase: controlAPIBase },
+    public: { serviceControlBase: controlAPIBase, environment: environment },
   } = useRuntimeConfig();
   const authStore = useAuthStore();
 
@@ -12,6 +12,14 @@ export default defineNuxtPlugin(() => {
       if (token) {
         const headers = new Headers(options.headers);
         headers.set("Authorization", `Bearer ${token}`);
+
+        if (environment === "local") {
+          headers.set("X-Auth-Request-User", "superuser");
+          headers.set("X-Auth-Request-Preferred-Username", "superuser");
+          headers.set("X-Auth-Request-Email", "superuser@example.com");
+          headers.set("X-Auth-Request-Groups", "swissgeo-admin");
+        }
+
         options.headers = headers;
       }
     },

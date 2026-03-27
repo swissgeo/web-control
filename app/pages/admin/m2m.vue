@@ -54,7 +54,7 @@ async function loadMachineUsers() {
     machineUsers.value = await useMachineUsersApi().getMachineUsers();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    toastError($t("machineUser.loadError"));
+    toastError($t("common.loadError"));
   } finally {
     loadingMachineUsers.value = false;
   }

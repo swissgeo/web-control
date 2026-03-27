@@ -1,117 +1,43 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import { useUsersApi, type User } from "~/api/users";
 
+const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
 const { toastInfo } = useToastHelpers();
 
 setPageTitle($t("user.title"));
 
-interface User {
-  id: number;
-  username: string;
-  orgUnit: string;
-  role: string;
-}
-
-const users = ref<User[]>([
-  {
-    id: 1,
-    username: "Elisabeth Valenzuela",
-    orgUnit: "-",
-    role: "Organization Admin",
-  },
-  {
-    id: 1,
-    username: "Jamari Freeman",
-    orgUnit: "KOGIS",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Norah Anthony",
-    orgUnit: "KOGIS",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Shiloh Herman",
-    orgUnit: "KOGIS",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Imani McCoy",
-    orgUnit: "KOGIS",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Jett Wyatt",
-    orgUnit: "KOGIS",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Liberty Herman",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Juelz Chambers",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Makayla Kaur",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Augustine Wyatt",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Liberty Hayes",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Legend Long",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Jade Powell",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-  {
-    id: 1,
-    username: "Bennett Jarvis",
-    orgUnit: "Vermessung",
-    role: "Dataset Admin",
-  },
-]);
+const users = ref<User[]>([]);
+const loadingUsers = ref(false);
 
 const tableColumns = computed<TableColumn<User>[]>(() => [
   {
-    accessorKey: "username",
-    header: $t("user.username"),
+    accessorKey: "first_name",
+    header: $t("user.first_name"),
   },
   {
-    accessorKey: "orgUnit",
+    accessorKey: "last_name",
+    header: $t("user.last_name"),
+  },
+  {
+    accessorKey: "email",
+    header: $t("user.email"),
+  },
+  {
+    accessorKey: "unit.name",
     header: $t("unit.unit"),
+    cell: ({ row }) => {
+      return row.original.unit ? row.original.unit.name : "-";
+    },
   },
   {
-    accessorKey: "role",
-    header: $t("user.role"),
+    accessorKey: "roles",
+    header: $t("user.roles"),
+    cell: ({ row }) => {
+      const names = (row.original.roles ?? []).map((r) => r.name);
+      return names.length ? names.join(", ") : "-";
+    },
   },
   {
     accessorKey: "actions",
@@ -124,6 +50,22 @@ const tableColumns = computed<TableColumn<User>[]>(() => [
     },
   },
 ]);
+
+onMounted(() => {
+  loadUsers();
+});
+
+async function loadUsers() {
+  try {
+    loadingUsers.value = true;
+    users.value = await useUsersApi().getUsers();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err: unknown) {
+    toastError($t("common.loadError"));
+  } finally {
+    loadingUsers.value = false;
+  }
+}
 
 const onEdit = (row: User): void => {
   toastInfo($t("common.notImplementedYet"));
@@ -141,7 +83,6 @@ const onEdit = (row: User): void => {
         }"
       />
       <UPageBody>
-        <DummyDataBanner />
         <p>{{ $t("user.description") }}</p>
         <UTable
           :columns="tableColumns"

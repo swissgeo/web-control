@@ -1,34 +1,17 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import { useUnitsApi, type Unit } from "~/api/units";
 
+const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
 const { toastInfo } = useToastHelpers();
 
 setPageTitle($t("unit.title"));
 
-interface OrgUnit {
-  id: number;
-  name: string;
-  user_count: number;
-  dataset_count: number;
-}
+const units = ref<Unit[]>([]);
+const loadingUnits = ref(false);
 
-const units = ref<OrgUnit[]>([
-  {
-    id: 1,
-    name: "Vermessung",
-    user_count: 7,
-    dataset_count: 15,
-  },
-  {
-    id: 2,
-    name: "KOGIS",
-    user_count: 3,
-    dataset_count: 8,
-  },
-]);
-
-const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
+const tableColumns = computed<TableColumn<Unit>[]>(() => [
   {
     accessorKey: "id",
     header: $t("common.id"),
@@ -36,14 +19,6 @@ const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
   {
     accessorKey: "name",
     header: $t("common.name"),
-  },
-  {
-    accessorKey: "user_count",
-    header: $t("unit.userCount"),
-  },
-  {
-    accessorKey: "dataset_count",
-    header: $t("unit.datasetCount"),
   },
   {
     accessorKey: "actions",
@@ -57,7 +32,23 @@ const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
   },
 ]);
 
-const onEdit = (row: OrgUnit): void => {
+onMounted(() => {
+  loadUnits();
+});
+
+async function loadUnits() {
+  try {
+    loadingUnits.value = true;
+    units.value = await useUnitsApi().getUnits();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err: unknown) {
+    toastError($t("common.loadError"));
+  } finally {
+    loadingUnits.value = false;
+  }
+}
+
+const onEdit = (row: Unit): void => {
   toastInfo($t("common.notImplementedYet"));
   console.log("Edit Org Unit:", row);
 };
@@ -73,7 +64,6 @@ const onEdit = (row: OrgUnit): void => {
         }"
       />
       <UPageBody>
-        <DummyDataBanner />
         <p>{{ $t("unit.description") }}</p>
         <UTable
           :columns="tableColumns"
