@@ -20,6 +20,35 @@ export function useUnitsApi() {
     return items;
   }
 
+  async function createUnit(unit: Unit): Promise<Unit> {
+    const newUnit = await $controlAPI<Unit>(
+      `organizations/${TEMPORARY_ORG_ID}/units`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          id: unit.id,
+          organization_id: TEMPORARY_ORG_ID,
+          name_translations: unit.name_translations,
+        }),
+      },
+    );
+    return newUnit;
+  }
+  async function updateUnit(unit: Unit): Promise<Unit> {
+    const newUnit = await $controlAPI<Unit>(
+      `organizations/${TEMPORARY_ORG_ID}/units/${unit.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          id: unit.id,
+          organization_id: TEMPORARY_ORG_ID,
+          name_translations: unit.name_translations,
+        }),
+      },
+    );
+    return newUnit;
+  }
+
   async function deleteUnit(unitId: string): Promise<void> {
     await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/units/${unitId}`, {
       method: "DELETE",
@@ -28,6 +57,8 @@ export function useUnitsApi() {
 
   return {
     getUnits,
+    createUnit,
+    updateUnit,
     deleteUnit,
   };
 }

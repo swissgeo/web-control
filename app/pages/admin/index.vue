@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useOrganizationApi, type Organization } from "~/api/organization";
 
-const { toastError, toastSuccess } = useToastHelpers();
+const { toastError } = useToastHelpers();
 const { setPageTitle } = useMeta();
 
 setPageTitle($t("organization.title"));

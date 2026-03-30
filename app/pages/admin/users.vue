@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import { useUsersApi, type User } from "~/api/users";
+import { useUnitsApi, type Unit } from "~/api/units";
+import { useUsersApi, type Role, type User } from "~/api/users";
+import DetailUserForm, {
+  type UserSchema,
+} from "~/components/user/detailUserForm.vue";
 
 const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
-const { toastInfo } = useToastHelpers();
 
 setPageTitle($t("user.title"));
 
+const allRoles = ref<Role[]>([]);
+const allUnits = ref<Unit[]>([]);
 const users = ref<User[]>([]);
 const loadingUsers = ref(false);
+const displayDetailModal = ref(false);
+const selectedUser = ref<User>();
 
 const tableColumns = computed<TableColumn<User>[]>(() => [
   {
@@ -52,6 +59,16 @@ const tableColumns = computed<TableColumn<User>[]>(() => [
 ]);
 
 onMounted(() => {
+  useUsersApi()
+    .getRoles()
+    .then((roles) => {
+      allRoles.value = roles;
+    });
+  useUnitsApi()
+    .getUnits()
+    .then((units) => {
+      allUnits.value = units;
+    });
   loadUsers();
 });
 
@@ -68,9 +85,29 @@ async function loadUsers() {
 }
 
 const onEdit = (row: User): void => {
-  toastInfo($t("common.notImplementedYet"));
-  console.log("Edit User:", row);
+  selectedUser.value = row;
+  displayDetailModal.value = true;
 };
+
+function closeUserDetails() {
+  displayDetailModal.value = false;
+}
+
+async function saveUser(data: UserSchema) {
+  try {
+    await useUsersApi().updateUser({
+      id: selectedUser.value!.id,
+      unit_id: data.unit ? data.unit : null,
+      role_ids: data.roles,
+    });
+    toastSuccess($t("user.updateSuccess"));
+    loadUsers();
+    closeUserDetails();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err: unknown) {
+    toastError($t("user.errorUpdate"));
+  }
+}
 </script>
 
 <template>
@@ -84,6 +121,33 @@ const onEdit = (row: User): void => {
       />
       <UPageBody>
         <p>{{ $t("user.description") }}</p>
+
+        <Transition
+          enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          enter-from-class="max-h-0"
+          enter-to-class="max-h-[500px] opacity-100"
+          leave-active-class="transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          leave-from-class="max-h-[500px] opacity-100"
+          leave-to-class="max-h-0"
+        >
+          <UPageSection
+            v-if="displayDetailModal && selectedUser"
+            class="overflow-hidden"
+            :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"
+          >
+            <UCard>
+              <DetailUserForm
+                :user="selectedUser"
+                :available-roles="allRoles"
+                :available-units="allUnits"
+                @submit="saveUser($event)"
+                @cancel="closeUserDetails()"
+              />
+            </UCard>
+          </UPageSection>
+        </Transition>
+
+        <UProgress v-if="loadingUsers" animation="swing" />
         <UTable
           :columns="tableColumns"
           :data="users"
