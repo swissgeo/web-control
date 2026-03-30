@@ -16,9 +16,9 @@ export type CreateMachineUserSchema = v.InferOutput<typeof schema>;
 const schema = v.object({
   name: v.pipe(
     v.string(),
-    v.nonEmpty(() => $t("machineUser.errorNameRequired")),
-    v.minLength(3, () => $t("machineUser.errorNameMinLength", { length: 3 })),
-    v.maxLength(50, () => $t("machineUser.errorNameMaxLength", { length: 50 })),
+    v.nonEmpty(() => $t("validation.required")),
+    v.minLength(3, () => $t("validation.minLength", { length: 3 })),
+    v.maxLength(50, () => $t("validation.maxLength", { length: 50 })),
     v.check(
       (item) =>
         props.existingMachineUsers?.find((m) => m.name === item) === undefined,
@@ -27,14 +27,8 @@ const schema = v.object({
   ),
   tokenDuration: v.pipe(
     v.number(),
-    v.minValue(
-      1,
-      $t("machineUser.errorTokenDurationMinValue", { duration: 1 }),
-    ),
-    v.maxValue(
-      60,
-      $t("machineUser.errorTokenDurationMaxValue", { duration: 60 }),
-    ),
+    v.minValue(1, () => $t("validation.minValue", { value: 1 })),
+    v.maxValue(60, () => $t("validation.maxValue", { value: 60 })),
   ),
 });
 

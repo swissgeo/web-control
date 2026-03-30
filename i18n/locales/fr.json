@@ -11,7 +11,14 @@
     "name": "Nom",
     "notImplementedYet": "Pas encore implémenté.",
     "submit": "Soumettre",
-    "success": "Succès"
+    "success": "Succès",
+    "loadError": "Impossible de charger les données",
+    "name_de": "Nom Allemand",
+    "name_fr": "Nom Français",
+    "name_en": "Nom Anglais",
+    "name_it": "Nom Italien",
+    "name_rm": "Nom Rétoroman",
+    "none": "Aucun"
   },
   "dataset": {
     "description": "Gérez vos ensembles de données géospatiales, y compris les métadonnées.",
@@ -51,14 +58,8 @@
     "errorClipboard": "Échec de la copie dans le presse-papiers",
     "errorCreate": "Impossible de créer un utilisateur machine",
     "errorDelete": "Impossible de supprimer l'utilisateur machine",
-    "errorNameMaxLength": "Ne doit pas dépasser {length} caractères",
-    "errorNameMinLength": "Doit comporter au minimo {length} caractères",
-    "errorNameRequired": "Le nom est obligatoire",
-    "errorTokenDurationMaxValue": "Ne doit pas dépasser {duration} minute",
-    "errorTokenDurationMinValue": "Doit être d'au moins {duration} minute",
     "errorUserAlreadyExists": "Un utilisateur machine portant ce nom existe déjà",
     "generateToken": "Utilisez la commande suivante pour générer un jeton d'accès : ",
-    "loadError": "Impossible de charger les données",
     "successClipboard": "Copié dans le presse-papiers",
     "successCreated": "Utilisateur machine créé",
     "successDelete": "Utilisateur machine supprimé",
@@ -74,16 +75,30 @@
     "title": "Profil"
   },
   "unit": {
-    "datasetCount": "Ensembles de données",
     "description": "Gérez vos unités organisationnelles.",
     "title": "Unités",
     "unit": "Unité | Unités",
-    "userCount": "Utilisateurs"
+    "create": "Ajouter une unité",
+    "createSuccess": "Unité créée",
+    "errorCreate": "Impossible de créer l'unité",
+    "updateSuccess": "Unité mise à jour",
+    "errorUpdate": "Impossible de mettre à jour l'unité"
   },
   "user": {
     "description": "Gérez les utilisateurs de votre organisation.",
-    "role": "Rôle",
+    "roles": "Rôles",
     "title": "Utilisateurs",
-    "username": "Nom d'utilisateur "
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "E-mail",
+    "updateSuccess": "Utilisateur mis à jour",
+    "errorUpdate": "Impossible de mettre à jour l'utilisateur"
+  },
+  "validation": {
+    "required": "Ce champ est requis",
+    "minLength": "Doit comporter au moins {length} caractères",
+    "maxLength": "Ne doit pas dépasser {length} caractères",
+    "minValue": "Doit être au moins {value}",
+    "maxValue": "Ne doit pas être supérieur à {value}"
   }
 }
