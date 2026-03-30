@@ -72,7 +72,10 @@
   },
   "profile": {
     "eIamProfile": "eIAM Profile",
-    "title": "Profile"
+    "title": "Profile",
+    "superUserTitle": "Superuser",
+    "superUserDescription": "Set organization, unit and roles for superuser for the frontend to use. This does not affect the actual permissions of the superuser, which are determined by the backend.",
+    "updateSuccess": "Profile updated"
   },
   "unit": {
     "description": "Manage your organizational units.",

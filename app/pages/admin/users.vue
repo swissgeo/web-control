@@ -58,9 +58,17 @@ const tableColumns = computed<TableColumn<User>[]>(() => [
   },
 ]);
 
-onMounted(async () => {
-  allRoles.value = await useUsersApi().getRoles();
-  allUnits.value = await useUnitsApi().getUnits();
+onMounted(() => {
+  useUsersApi()
+    .getRoles()
+    .then((roles) => {
+      allRoles.value = roles;
+    });
+  useUnitsApi()
+    .getUnits()
+    .then((units) => {
+      allUnits.value = units;
+    });
   loadUsers();
 });
 

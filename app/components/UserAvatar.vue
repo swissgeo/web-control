@@ -17,7 +17,7 @@ const logoutRoute = computed(() => {
 });
 
 const name = computed(() => {
-  return authStore.profile.given_name + " " + authStore.profile.family_name;
+  return authStore.profile.firstName + " " + authStore.profile.lastName;
 });
 
 const items: DropdownMenuItem[] = [

@@ -72,7 +72,10 @@
   },
   "profile": {
     "eIamProfile": "eIAM Profil",
-    "title": "Profil"
+    "title": "Profil",
+    "superUserTitle": "Superuser",
+    "superUserDescription": "Legen Sie Organisation, Einheit und Rollen für den Superuser fest, die im Frontend verwendet werden. Dies hat keine Auswirkungen auf die tatsächlichen Berechtigungen des Superusers, die vom Backend bestimmt werden.",
+    "updateSuccess": "Profil aktualisiert"
   },
   "unit": {
     "description": "Verwalten Sie Ihre Organisationseinheiten.",

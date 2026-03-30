@@ -17,6 +17,7 @@ vi.mock("vue-i18n", () => ({
 }));
 
 describe("Users Page", () => {
+  vi.mock("@/api/units");
   vi.mock("@/api/users");
   afterEach(() => {
     vi.clearAllMocks();
