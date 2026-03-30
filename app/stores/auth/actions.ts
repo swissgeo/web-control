@@ -1,4 +1,5 @@
 import type { User } from "oidc-client-ts";
+import { EMPTY_PROFILE, profileFromUserProfile } from "~/stores/auth/profile";
 type thisAuthStore = ReturnType<typeof useAuthStore>;
 
 export interface AuthStoreActions {
@@ -8,6 +9,12 @@ export interface AuthStoreActions {
   signinCallback(this: thisAuthStore): Promise<void>;
   setLoginUrl(this: thisAuthStore, url: string): void;
   setUser(this: thisAuthStore, user: User | null): void;
+  setProfileForSuperUser(
+    this: thisAuthStore,
+    organizationId: string | undefined,
+    unitId: string | undefined,
+    roles: string[],
+  ): void;
   $reset(this: thisAuthStore): void;
 }
 
@@ -46,7 +53,7 @@ export function authActions(): AuthStoreActions {
 
       // when opening the app (first load, reload or load in another tab) we need to check if there
       // is already a user session saved in cognito local storate and set the user in the store.
-      this.user = await this.cognito.getUser();
+      this.setUser(await this.cognito.getUser());
       console.log("User:", this.user?.profile?.email);
     },
 
@@ -63,7 +70,7 @@ export function authActions(): AuthStoreActions {
     async signinCallback(): Promise<void> {
       const user = await this.cognito.signinCallback();
       console.log("User signed in, email:", user.profile?.email);
-      this.user = user;
+      this.setUser(user);
     },
 
     setLoginUrl(this: thisAuthStore, url: string) {
@@ -72,10 +79,29 @@ export function authActions(): AuthStoreActions {
 
     setUser(this: thisAuthStore, user: User | null) {
       this.user = user;
+      const superuserGroup = useRuntimeConfig().public.superuserGroup;
+      this.profile = user
+        ? profileFromUserProfile(user.profile, superuserGroup)
+        : { ...EMPTY_PROFILE };
+    },
+
+    setProfileForSuperUser(
+      this: thisAuthStore,
+      organizationId: string | undefined,
+      unitId: string | undefined,
+      roles: string[],
+    ) {
+      this.profile = {
+        ...this.profile,
+        organizationId,
+        unitId,
+        roles,
+      };
     },
 
     $reset(this: thisAuthStore) {
       this.user = null;
+      this.profile = { ...EMPTY_PROFILE };
       this.cognito.reset();
     },
   };

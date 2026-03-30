@@ -1,5 +1,4 @@
-// TODO: Use the correct organization of the user once available.
-const TEMPORARY_ORG_ID = "ch.swisstopo";
+import { getOrganizationId } from "~/api/common";
 
 export interface MachineUser {
   client_id: string;
@@ -16,8 +15,9 @@ export function useMachineUsersApi() {
   const { $controlAPI } = useNuxtApp();
 
   async function getMachineUsers(): Promise<MachineUser[]> {
+    const organizationId = getOrganizationId();
     const { items } = await $controlAPI<{ items: MachineUser[] }>(
-      `organizations/${TEMPORARY_ORG_ID}/machineusers`,
+      `organizations/${organizationId}/machineusers`,
     );
     return items;
   }
@@ -25,15 +25,17 @@ export function useMachineUsersApi() {
   async function createMachineUser(
     request: CreateMachineUserRequest,
   ): Promise<MachineUser> {
-    return await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/machineusers`, {
+    const organizationId = getOrganizationId();
+    return await $controlAPI(`organizations/${organizationId}/machineusers`, {
       method: "POST",
       body: request,
     });
   }
 
   async function deleteMachineUser(clientId: string): Promise<void> {
+    const organizationId = getOrganizationId();
     await $controlAPI(
-      `organizations/${TEMPORARY_ORG_ID}/machineusers/${clientId}`,
+      `organizations/${organizationId}/machineusers/${clientId}`,
       {
         method: "DELETE",
       },

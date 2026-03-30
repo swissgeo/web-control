@@ -1,7 +1,5 @@
 import type { Unit } from "~/api/units";
-
-// TODO: Use the correct organization of the user once available.
-const TEMPORARY_ORG_ID = "ch.swisstopo";
+import { getOrganizationId } from "~/api/common";
 
 export interface User {
   id: string;
@@ -32,16 +30,21 @@ export function useUsersApi() {
     return items;
   }
 
-  async function getUsers(): Promise<User[]> {
+  async function getUsers(organizationId?: string): Promise<User[]> {
+    const currentOrganizationId = getOrganizationId(organizationId);
     const { items } = await $controlAPI<{ items: User[] }>(
-      `organizations/${TEMPORARY_ORG_ID}/users`,
+      `organizations/${currentOrganizationId}/users`,
     );
     return items;
   }
 
-  async function updateUser(user: UpdateUser): Promise<User> {
+  async function updateUser(
+    user: UpdateUser,
+    organizationId?: string,
+  ): Promise<User> {
+    const currentOrganizationId = getOrganizationId(organizationId);
     const updatedUser = await $controlAPI<User>(
-      `organizations/${TEMPORARY_ORG_ID}/users/${user.id}`,
+      `organizations/${currentOrganizationId}/users/${user.id}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -53,10 +56,17 @@ export function useUsersApi() {
     return updatedUser;
   }
 
-  async function removeUser(userId: string): Promise<void> {
-    await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/users/${userId}`, {
-      method: "DELETE",
-    });
+  async function removeUser(
+    userId: string,
+    organizationId?: string,
+  ): Promise<void> {
+    const currentOrganizationId = getOrganizationId(organizationId);
+    await $controlAPI(
+      `organizations/${currentOrganizationId}/users/${userId}`,
+      {
+        method: "DELETE",
+      },
+    );
   }
 
   return {

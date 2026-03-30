@@ -52,6 +52,7 @@ export default defineNuxtConfig({
       eiamIdentityProvider: "",
       serviceControlBase: "",
       defaultM2MScope: "",
+      superuserGroup: "",
     },
   },
 
