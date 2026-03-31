@@ -9,7 +9,6 @@ const { setPageTitle } = useMeta();
 setPageTitle($t("unit.title"));
 
 const units = ref<Unit[]>([]);
-const loadingUnits = ref(false);
 const displayDetailModal = ref(false);
 const selectedUnit = ref<Unit>();
 
@@ -40,13 +39,10 @@ onMounted(() => {
 
 async function loadUnits() {
   try {
-    loadingUnits.value = true;
     units.value = await useUnitsApi().getUnits();
   } catch (err: unknown) {
     console.error("Failed to load units", err);
     toastError($t("common.loadError"));
-  } finally {
-    loadingUnits.value = false;
   }
 }
 
@@ -140,7 +136,6 @@ async function updateUnit(data: Unit) {
           </UPageSection>
         </Transition>
 
-        <UProgress v-if="loadingUnits" animation="swing" />
         <UTable
           :columns="tableColumns"
           :data="units"

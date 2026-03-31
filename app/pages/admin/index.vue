@@ -7,7 +7,6 @@ const { setPageTitle } = useMeta();
 setPageTitle($t("organization.title"));
 
 const organization = ref<Organization | null>(null);
-const loadingOrganization = ref(false);
 
 onMounted(() => {
   loadOrganization();
@@ -15,14 +14,11 @@ onMounted(() => {
 
 async function loadOrganization() {
   try {
-    loadingOrganization.value = true;
     organization.value = await useOrganizationApi().getOrganization();
   } catch (err: unknown) {
     console.error("Failed to load organization", err);
     organization.value = null;
     toastError($t("common.loadError"));
-  } finally {
-    loadingOrganization.value = false;
   }
 }
 </script>
@@ -37,7 +33,6 @@ async function loadOrganization() {
         }"
       />
       <UPageBody>
-        <UProgress v-if="loadingOrganization" animation="swing" />
         <UPageSection
           v-if="organization"
           :title="organization.name"

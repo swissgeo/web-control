@@ -14,7 +14,6 @@ setPageTitle($t("user.title"));
 const allRoles = ref<Role[]>([]);
 const allUnits = ref<Unit[]>([]);
 const users = ref<User[]>([]);
-const loadingUsers = ref(false);
 const displayDetailModal = ref(false);
 const selectedUser = ref<User>();
 
@@ -74,13 +73,10 @@ onMounted(() => {
 
 async function loadUsers() {
   try {
-    loadingUsers.value = true;
     users.value = await useUsersApi().getUsers();
   } catch (err: unknown) {
     console.error("Failed to load users", err);
     toastError($t("common.loadError"));
-  } finally {
-    loadingUsers.value = false;
   }
 }
 
@@ -145,7 +141,6 @@ async function saveUser(data: UserSchema) {
           </UPageSection>
         </Transition>
 
-        <UProgress v-if="loadingUsers" animation="swing" />
         <UTable
           :columns="tableColumns"
           :data="users"

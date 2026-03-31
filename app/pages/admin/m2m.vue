@@ -20,7 +20,6 @@ const machineUsers = ref<MachineUser[]>();
 const machineUserDetails = ref<MachineUser>();
 const displayCreateModal = ref(false);
 const displaySecretModal = ref(false);
-const loadingMachineUsers = ref(false);
 const loadingCreateMachineUser = ref(false);
 
 const tableColumns = computed<TableColumn<MachineUser>[]>(() => [
@@ -50,13 +49,10 @@ onMounted(() => {
 
 async function loadMachineUsers() {
   try {
-    loadingMachineUsers.value = true;
     machineUsers.value = await useMachineUsersApi().getMachineUsers();
   } catch (err: unknown) {
     console.error("Failed to load machine users", err);
     toastError($t("common.loadError"));
-  } finally {
-    loadingMachineUsers.value = false;
   }
 }
 
@@ -158,9 +154,7 @@ async function deleteMachineUser(row: MachineUser) {
           </UPageSection>
         </Transition>
 
-        <UProgress v-if="loadingMachineUsers" animation="swing" />
         <UTable
-          v-if="!loadingMachineUsers"
           :columns="tableColumns"
           :data="machineUsers"
           :ui="{
