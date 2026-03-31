@@ -1,34 +1,18 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import { useUnitsApi, type Unit } from "~/api/units";
+import DetailUnitForm from "~/components/unit/detailUnitForm.vue";
 
+const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
-const { toastInfo } = useToastHelpers();
 
 setPageTitle($t("unit.title"));
 
-interface OrgUnit {
-  id: number;
-  name: string;
-  user_count: number;
-  dataset_count: number;
-}
+const units = ref<Unit[]>([]);
+const displayDetailModal = ref(false);
+const selectedUnit = ref<Unit>();
 
-const units = ref<OrgUnit[]>([
-  {
-    id: 1,
-    name: "Vermessung",
-    user_count: 7,
-    dataset_count: 15,
-  },
-  {
-    id: 2,
-    name: "KOGIS",
-    user_count: 3,
-    dataset_count: 8,
-  },
-]);
-
-const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
+const tableColumns = computed<TableColumn<Unit>[]>(() => [
   {
     accessorKey: "id",
     header: $t("common.id"),
@@ -36,14 +20,6 @@ const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
   {
     accessorKey: "name",
     header: $t("common.name"),
-  },
-  {
-    accessorKey: "user_count",
-    header: $t("unit.userCount"),
-  },
-  {
-    accessorKey: "dataset_count",
-    header: $t("unit.datasetCount"),
   },
   {
     accessorKey: "actions",
@@ -57,10 +33,64 @@ const tableColumns = computed<TableColumn<OrgUnit>[]>(() => [
   },
 ]);
 
-const onEdit = (row: OrgUnit): void => {
-  toastInfo($t("common.notImplementedYet"));
-  console.log("Edit Org Unit:", row);
+onMounted(() => {
+  loadUnits();
+});
+
+async function loadUnits() {
+  try {
+    units.value = await useUnitsApi().getUnits();
+  } catch (err: unknown) {
+    console.error("Failed to load units", err);
+    toastError($t("common.loadError"));
+  }
+}
+
+const onEdit = (row: Unit): void => {
+  selectedUnit.value = row;
+  displayDetailModal.value = true;
 };
+
+function openUnitDetails() {
+  selectedUnit.value = undefined;
+  displayDetailModal.value = true;
+}
+
+function closeUnitDetails() {
+  displayDetailModal.value = false;
+}
+
+function saveUnit(data: Unit) {
+  if (selectedUnit.value) {
+    updateUnit(data);
+  } else {
+    createUnit(data);
+  }
+}
+
+async function createUnit(data: Unit) {
+  try {
+    await useUnitsApi().createUnit(data);
+    toastSuccess($t("unit.createSuccess"));
+    loadUnits();
+    closeUnitDetails();
+  } catch (err: unknown) {
+    console.error("Failed to create unit", err);
+    toastError($t("unit.errorCreate"));
+  }
+}
+
+async function updateUnit(data: Unit) {
+  try {
+    await useUnitsApi().updateUnit(data);
+    toastSuccess($t("unit.updateSuccess"));
+    loadUnits();
+    closeUnitDetails();
+  } catch (err: unknown) {
+    console.error("Failed to update unit", err);
+    toastError($t("unit.errorUpdate"));
+  }
+}
 </script>
 
 <template>
@@ -73,8 +103,39 @@ const onEdit = (row: OrgUnit): void => {
         }"
       />
       <UPageBody>
-        <DummyDataBanner />
         <p>{{ $t("unit.description") }}</p>
+        <ToolBar>
+          <template #right>
+            <UButton
+              :label="$t('unit.create')"
+              variant="solid"
+              :disabled="displayDetailModal"
+              @click="openUnitDetails()"
+            />
+          </template>
+        </ToolBar>
+
+        <Transition
+          enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          enter-from-class="max-h-0"
+          enter-to-class="max-h-[500px] opacity-100"
+          leave-active-class="transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          leave-from-class="max-h-[500px] opacity-100"
+          leave-to-class="max-h-0"
+        >
+          <UPageSection
+            v-if="displayDetailModal"
+            class="overflow-hidden"
+            :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"
+          >
+            <DetailUnitForm
+              :existing-unit="selectedUnit"
+              @submit="saveUnit($event)"
+              @cancel="closeUnitDetails()"
+            />
+          </UPageSection>
+        </Transition>
+
         <UTable
           :columns="tableColumns"
           :data="units"

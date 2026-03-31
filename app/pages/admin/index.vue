@@ -1,27 +1,26 @@
 <script setup lang="ts">
+import { useOrganizationApi, type Organization } from "~/api/organization";
+
+const { toastError } = useToastHelpers();
 const { setPageTitle } = useMeta();
 
 setPageTitle($t("organization.title"));
 
-const organization = {
-  id: "swisstopo",
-  name: "Bundesamt für Landestopografie",
-  name_translations: {
-    de: "Bundesamt für Landestopografie",
-    fr: "Office fédéral de topographie",
-    en: "Federal Office of Topography",
-    it: "Ufficio federale di topografia",
-    rm: "",
-  },
-  acronym: "swisstopo",
-  acronym_translations: {
-    de: "swisstopo",
-    fr: "swisstopo",
-    en: "swisstopo",
-    it: "swisstopo",
-    rm: "",
-  },
-};
+const organization = ref<Organization | null>(null);
+
+onMounted(() => {
+  loadOrganization();
+});
+
+async function loadOrganization() {
+  try {
+    organization.value = await useOrganizationApi().getOrganization();
+  } catch (err: unknown) {
+    console.error("Failed to load organization", err);
+    organization.value = null;
+    toastError($t("common.loadError"));
+  }
+}
 </script>
 
 <template>
@@ -34,8 +33,8 @@ const organization = {
         }"
       />
       <UPageBody>
-        <DummyDataBanner />
         <UPageSection
+          v-if="organization"
           :title="organization.name"
           :description="$t('organization.description')"
           :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"

@@ -16,8 +16,8 @@ async function copyToClipboard() {
     }
     await navigator.clipboard.writeText(props.machineDetails.client_secret);
     toastSuccess($t("machineUser.successClipboard"));
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to copy to clipboard", err);
     toastError($t("machineUser.errorClipboard"));
   }
 }

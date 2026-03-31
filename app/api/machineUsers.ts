@@ -1,5 +1,5 @@
 // TODO: Use the correct organization of the user once available.
-const TEMPORARY_ORG_ID = "test";
+const TEMPORARY_ORG_ID = "ch.swisstopo";
 
 export interface MachineUser {
   client_id: string;

@@ -11,7 +11,15 @@
     "name": "Name",
     "notImplementedYet": "Noch nicht implementiert.",
     "submit": "Absenden",
-    "success": "Erfolg"
+    "success": "Erfolg",
+    "loadError": "Daten konnten nicht geladen werden",
+    "translations": "Übersetzungen",
+    "name_de": "Name Deutsch",
+    "name_fr": "Name Französisch",
+    "name_en": "Name Englisch",
+    "name_it": "Name Italienisch",
+    "name_rm": "Name Rätoromanisch",
+    "none": "Keine"
   },
   "dataset": {
     "description": "Verwalten Sie Ihre Geodatensätze, einschliesslich Metadaten.",
@@ -48,17 +56,11 @@
     "create": "Maschinenbenutzer hinzufügen",
     "createDescription": "Einen neuen Maschinenbenutzer mit einem eindeutigen Namen erstellen",
     "description": "Verwalten Sie Ihre Maschinenbenutzer und deren Berechtigungen.",
-    "errorClipboard": "Failed to copy to clipboard",
+    "errorClipboard": "Kopieren in die Zwischenablage fehlgeschlagen",
     "errorCreate": "Maschinenbenutzer konnte nicht erstellt werden",
     "errorDelete": "Maschinenbenutzer konnte nicht gelöscht werden",
-    "errorNameMaxLength": "Darf nicht länger als {length} Zeichen sein",
-    "errorNameMinLength": "Muss mindestens {length} Zeichen lang sein",
-    "errorNameRequired": "Name ist erforderlich",
-    "errorTokenDurationMaxValue": "Darf nicht mehr als {duration} Minuten betragen",
-    "errorTokenDurationMinValue": "Muss mindestens {duration} Minute betragen",
     "errorUserAlreadyExists": "Maschinenbenutzer mit diesem Namen existiert bereits",
     "generateToken": "Verwenden Sie den folgenden Befehl, um ein Zugriffstoken zu generieren:",
-    "loadError": "Daten konnten nicht geladen werden",
     "successClipboard": "In die Zwischenablage kopiert",
     "successCreated": "Maschinenbenutzer erstellt",
     "successDelete": "Maschinenbenutzer gelöscht",
@@ -74,16 +76,32 @@
     "title": "Profil"
   },
   "unit": {
-    "datasetCount": "Datensätze",
     "description": "Verwalten Sie Ihre Organisationseinheiten.",
     "title": "Einheiten",
-    "unit": "Einheit",
-    "userCount": "Benutzer"
+    "unit": "Einheit | Einheiten",
+    "create": "Einheit hinzufügen",
+    "createSuccess": "Einheit erstellt",
+    "errorCreate": "Einheit konnte nicht erstellt werden",
+    "updateSuccess": "Einheit aktualisiert",
+    "errorUpdate": "Einheit konnte nicht aktualisiert werden",
+    "editTitle": "Einheit {name} bearbeiten",
+    "createTitle": "Neue Einheit erstellen"
   },
   "user": {
     "description": "Verwalten Sie die Benutzer Ihrer Organisation.",
-    "role": "Rolle",
+    "roles": "Rollen",
     "title": "Benutzer",
-    "username": "Benutzername"
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "email": "E-Mail",
+    "updateSuccess": "Benutzer aktualisiert",
+    "errorUpdate": "Benutzer konnte nicht aktualisiert werden"
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "minLength": "Muss mindestens {length} Zeichen lang sein",
+    "maxLength": "Darf nicht länger als {length} Zeichen sein",
+    "minValue": "Muss mindestens {value} sein",
+    "maxValue": "Darf nicht mehr als {value} sein"
   }
 }

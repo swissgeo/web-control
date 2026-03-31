@@ -9,17 +9,17 @@ const profile = computed(() => {
   return authStore.profile;
 });
 
-// const accessData = computed(() => {
-//   if (authStore.accessData) {
-//     return Object.fromEntries(
-//       Object.entries(authStore.accessData).filter(
-//         ([key, _]) => key !== "profile",
-//       ),
-//     );
-//   } else {
-//     return "";
-//   }
-// });
+const accessData = computed(() => {
+  if (authStore.accessData) {
+    return Object.fromEntries(
+      Object.entries(authStore.accessData).filter(
+        ([key, _]) => key !== "profile",
+      ),
+    );
+  } else {
+    return "";
+  }
+});
 </script>
 
 <template>
@@ -46,7 +46,7 @@ const profile = computed(() => {
         </UPageCard>
       </UPageSection>
 
-      <!-- <UPageSection :ui="{ container: 'py-4! gap-4!' }">
+      <UPageSection :ui="{ container: 'py-4! gap-4!' }">
         <pre class="bg-amber-50">
             {{ profile }}
           </pre
@@ -56,7 +56,7 @@ const profile = computed(() => {
         <pre class="bg-amber-50">
           {{ accessData }}
         </pre>
-      </UPageSection> -->
+      </UPageSection>
     </UPageBody>
   </UPage>
 </template>

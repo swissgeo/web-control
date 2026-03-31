@@ -20,7 +20,6 @@ const machineUsers = ref<MachineUser[]>();
 const machineUserDetails = ref<MachineUser>();
 const displayCreateModal = ref(false);
 const displaySecretModal = ref(false);
-const loadingMachineUsers = ref(false);
 const loadingCreateMachineUser = ref(false);
 
 const tableColumns = computed<TableColumn<MachineUser>[]>(() => [
@@ -50,13 +49,10 @@ onMounted(() => {
 
 async function loadMachineUsers() {
   try {
-    loadingMachineUsers.value = true;
     machineUsers.value = await useMachineUsersApi().getMachineUsers();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    toastError($t("machineUser.loadError"));
-  } finally {
-    loadingMachineUsers.value = false;
+    console.error("Failed to load machine users", err);
+    toastError($t("common.loadError"));
   }
 }
 
@@ -81,9 +77,8 @@ async function createMachineUser(data: CreateMachineUserRequest) {
     machineUserDetails.value =
       await useMachineUsersApi().createMachineUser(data);
     toastSuccess($t("machineUser.successCreated"));
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to create machine user", err);
     toastError($t("machineUser.errorCreate"));
   } finally {
     loadingCreateMachineUser.value = false;
@@ -99,8 +94,8 @@ async function deleteMachineUser(row: MachineUser) {
   try {
     await useMachineUsersApi().deleteMachineUser(row.client_id);
     toastSuccess($t("machineUser.successDelete"));
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to delete machine user", err);
     toastError($t("machineUser.errorDelete"));
   } finally {
     loadMachineUsers();
@@ -120,11 +115,6 @@ async function deleteMachineUser(row: MachineUser) {
       <UPageBody>
         <p>{{ $t("machineUser.description") }}</p>
         <ToolBar>
-          <!-- <UInput
-            class="max-w-sm"
-            icon="i-lucide-search"
-            placeholder="Filter (not yet implemented)"
-          /> -->
           <template #right>
             <UButton
               :label="$t('machineUser.create')"
@@ -164,9 +154,7 @@ async function deleteMachineUser(row: MachineUser) {
           </UPageSection>
         </Transition>
 
-        <UProgress v-if="loadingMachineUsers" animation="swing" />
         <UTable
-          v-if="!loadingMachineUsers"
           :columns="tableColumns"
           :data="machineUsers"
           :ui="{

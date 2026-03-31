@@ -11,7 +11,15 @@
     "name": "Name",
     "notImplementedYet": "No yet implemented.",
     "submit": "Submit",
-    "success": "Success"
+    "success": "Success",
+    "loadError": "Could not load data",
+    "translations": "Translations",
+    "name_de": "Name German",
+    "name_fr": "Name French",
+    "name_en": "Name English",
+    "name_it": "Name Italian",
+    "name_rm": "Name Romansh",
+    "none": "None"
   },
   "dataset": {
     "description": "Manage your geospatial datasets, including metadata.",
@@ -51,14 +59,8 @@
     "errorClipboard": "Failed to copy to clipboard",
     "errorCreate": "Could not create machine user",
     "errorDelete": "Could not delete machine user",
-    "errorNameMaxLength": "Must not be more than {length} characters",
-    "errorNameMinLength": "Must be at least {length} characters",
-    "errorNameRequired": "Name is required",
-    "errorTokenDurationMaxValue": "Must not be more than {duration} minutes",
-    "errorTokenDurationMinValue": "Must be at least {duration} minute",
     "errorUserAlreadyExists": "Machine user with this name already exists",
     "generateToken": "Use the following command to generate an access token:",
-    "loadError": "Could not load data",
     "successClipboard": "Copied to clipboard",
     "successCreated": "Machine user created",
     "successDelete": "Machine user deleted",
@@ -74,16 +76,32 @@
     "title": "Profile"
   },
   "unit": {
-    "datasetCount": "Datasets",
     "description": "Manage your organizational units.",
     "title": "Units",
     "unit": "Unit | Units",
-    "userCount": "Users"
+    "create": "Add Unit",
+    "createSuccess": "Unit created",
+    "errorCreate": "Could not create unit",
+    "updateSuccess": "Unit updated",
+    "errorUpdate": "Could not update unit",
+    "editTitle": "Edit {name} Unit",
+    "createTitle": "Create New Unit"
   },
   "user": {
     "description": "Manage the users of your organization.",
-    "role": "Role",
+    "roles": "Roles",
     "title": "Users",
-    "username": "Username"
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "updateSuccess": "User updated",
+    "errorUpdate": "Could not update user"
+  },
+  "validation": {
+    "required": "This field is required",
+    "minLength": "Must be at least {length} characters",
+    "maxLength": "Must not be more than {length} characters",
+    "minValue": "Must be at least {value}",
+    "maxValue": "Must not be more than {value}"
   }
 }
