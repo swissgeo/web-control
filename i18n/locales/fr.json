@@ -11,6 +11,7 @@
     "name": "Nom",
     "notImplementedYet": "Pas encore implémenté.",
     "submit": "Soumettre",
+    "save": "Enregistrer",
     "success": "Succès",
     "loadError": "Impossible de charger les données",
     "translations": "Traductions",

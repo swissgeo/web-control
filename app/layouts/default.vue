@@ -60,14 +60,10 @@ const items = computed<NavigationMenuItem[]>(() => {
     },
   ];
   let navigationItems = baseItems;
-  if (
-    authStore.isDatasetAdmin ||
-    authStore.isDatasetContributor ||
-    authStore.isOrganizationAdmin
-  ) {
+  if (authStore.canManageDatasets) {
     navigationItems = [...navigationItems, ...datasetItems];
   }
-  if (authStore.isOrganizationAdmin) {
+  if (authStore.canManageOrganization) {
     navigationItems = [...navigationItems, ...adminItems];
   }
   return navigationItems;

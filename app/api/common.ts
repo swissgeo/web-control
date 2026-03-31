@@ -6,9 +6,7 @@ export interface Translations {
   rm?: string;
 }
 
-export function getOrganizationId(organizationId?: string): string {
-  if (organizationId) return organizationId;
-
+export function getOrganizationId(): string {
   const authStore = useAuthStore();
   const profileOrganizationId = authStore.profile.organizationId;
   if (profileOrganizationId) return profileOrganizationId;

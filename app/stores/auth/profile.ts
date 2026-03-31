@@ -48,7 +48,9 @@ function cognitoGroupsFromProfile(
   profile: UserProfile | undefined,
 ): string[] | undefined {
   const groups = profile?.["cognito:groups"];
-  if (!Array.isArray(groups)) return undefined;
+  if (!Array.isArray(groups)) {
+    return undefined;
+  }
   return groups.every((group) => typeof group === "string")
     ? groups
     : undefined;
@@ -58,7 +60,9 @@ function cognitoRolesFromProfile(
   profile: UserProfile | undefined,
 ): string[] | undefined {
   const roles = profile?.["custom:roles"];
-  if (!Array.isArray(roles)) return undefined;
+  if (!Array.isArray(roles)) {
+    return undefined;
+  }
   return roles.every((role) => typeof role === "string") ? roles : undefined;
 }
 

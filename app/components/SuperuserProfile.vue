@@ -154,16 +154,10 @@ function handleSubmit(event: FormSubmitEvent<AdminSchema>) {
         </UFormField>
       </div>
       <div class="flex shrink-0 justify-end p-6">
-        <!-- <UButton
-                class="m-1"
-                :label="$t('common.cancel')"
-                color="secondary"
-                @click="emit('cancel')"
-              /> -->
         <UButton
           class="m-1"
           type="submit"
-          :label="$t('common.submit')"
+          :label="$t('common.save')"
           color="primary"
         />
       </div>

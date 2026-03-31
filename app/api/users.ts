@@ -30,21 +30,18 @@ export function useUsersApi() {
     return items;
   }
 
-  async function getUsers(organizationId?: string): Promise<User[]> {
-    const currentOrganizationId = getOrganizationId(organizationId);
+  async function getUsers(): Promise<User[]> {
+    const organizationId = getOrganizationId();
     const { items } = await $controlAPI<{ items: User[] }>(
-      `organizations/${currentOrganizationId}/users`,
+      `organizations/${organizationId}/users`,
     );
     return items;
   }
 
-  async function updateUser(
-    user: UpdateUser,
-    organizationId?: string,
-  ): Promise<User> {
-    const currentOrganizationId = getOrganizationId(organizationId);
+  async function updateUser(user: UpdateUser): Promise<User> {
+    const organizationId = getOrganizationId();
     const updatedUser = await $controlAPI<User>(
-      `organizations/${currentOrganizationId}/users/${user.id}`,
+      `organizations/${organizationId}/users/${user.id}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -56,17 +53,11 @@ export function useUsersApi() {
     return updatedUser;
   }
 
-  async function removeUser(
-    userId: string,
-    organizationId?: string,
-  ): Promise<void> {
-    const currentOrganizationId = getOrganizationId(organizationId);
-    await $controlAPI(
-      `organizations/${currentOrganizationId}/users/${userId}`,
-      {
-        method: "DELETE",
-      },
-    );
+  async function removeUser(userId: string): Promise<void> {
+    const organizationId = getOrganizationId();
+    await $controlAPI(`organizations/${organizationId}/users/${userId}`, {
+      method: "DELETE",
+    });
   }
 
   return {

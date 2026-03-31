@@ -14,6 +14,7 @@ export function useUnitsApi() {
     return getUnitsByOrganization(getOrganizationId());
   }
 
+  // Special case for superuser we can pass an organization id
   async function getUnitsByOrganization(
     organizationId: string,
   ): Promise<Unit[]> {
@@ -24,7 +25,7 @@ export function useUnitsApi() {
   }
 
   async function createUnit(unit: Unit): Promise<Unit> {
-    const organizationId = getOrganizationId(unit.organization_id);
+    const organizationId = getOrganizationId();
     const newUnit = await $controlAPI<Unit>(
       `organizations/${organizationId}/units`,
       {
@@ -39,7 +40,7 @@ export function useUnitsApi() {
     return newUnit;
   }
   async function updateUnit(unit: Unit): Promise<Unit> {
-    const organizationId = getOrganizationId(unit.organization_id);
+    const organizationId = getOrganizationId();
     const newUnit = await $controlAPI<Unit>(
       `organizations/${organizationId}/units/${unit.id}`,
       {
@@ -54,17 +55,11 @@ export function useUnitsApi() {
     return newUnit;
   }
 
-  async function deleteUnit(
-    unitId: string,
-    organizationId?: string,
-  ): Promise<void> {
-    const currentOrganizationId = getOrganizationId(organizationId);
-    await $controlAPI(
-      `organizations/${currentOrganizationId}/units/${unitId}`,
-      {
-        method: "DELETE",
-      },
-    );
+  async function deleteUnit(unitId: string): Promise<void> {
+    const organizationId = getOrganizationId();
+    await $controlAPI(`organizations/${organizationId}/units/${unitId}`, {
+      method: "DELETE",
+    });
   }
 
   return {

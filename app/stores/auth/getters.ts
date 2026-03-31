@@ -25,6 +25,16 @@ export function authGetters(): _GettersTree<AuthStoreState> {
     isDatasetContributor(this: thisAuthStore) {
       return this.profile.roles?.includes("dataset_contributor") ?? false;
     },
+    canManageDatasets(this: thisAuthStore) {
+      return (
+        this.isOrganizationAdmin ||
+        this.isDatasetAdmin ||
+        this.isDatasetContributor
+      );
+    },
+    canManageOrganization(this: thisAuthStore) {
+      return this.isOrganizationAdmin;
+    },
 
     isLoggedIn(this: thisAuthStore) {
       return !!this.user && !this.user.expired;
