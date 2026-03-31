@@ -13,6 +13,7 @@
     "submit": "Absenden",
     "success": "Erfolg",
     "loadError": "Daten konnten nicht geladen werden",
+    "translations": "Übersetzungen",
     "name_de": "Name Deutsch",
     "name_fr": "Name Französisch",
     "name_en": "Name Englisch",
@@ -82,7 +83,9 @@
     "createSuccess": "Einheit erstellt",
     "errorCreate": "Einheit konnte nicht erstellt werden",
     "updateSuccess": "Einheit aktualisiert",
-    "errorUpdate": "Einheit konnte nicht aktualisiert werden"
+    "errorUpdate": "Einheit konnte nicht aktualisiert werden",
+    "editTitle": "Einheit {name} bearbeiten",
+    "createTitle": "Neue Einheit erstellen"
   },
   "user": {
     "description": "Verwalten Sie die Benutzer Ihrer Organisation.",

@@ -76,8 +76,8 @@ async function loadUsers() {
   try {
     loadingUsers.value = true;
     users.value = await useUsersApi().getUsers();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to load users", err);
     toastError($t("common.loadError"));
   } finally {
     loadingUsers.value = false;
@@ -103,8 +103,8 @@ async function saveUser(data: UserSchema) {
     toastSuccess($t("user.updateSuccess"));
     loadUsers();
     closeUserDetails();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to update user", err);
     toastError($t("user.errorUpdate"));
   }
 }
@@ -135,15 +135,13 @@ async function saveUser(data: UserSchema) {
             class="overflow-hidden"
             :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"
           >
-            <UCard>
-              <DetailUserForm
-                :user="selectedUser"
-                :available-roles="allRoles"
-                :available-units="allUnits"
-                @submit="saveUser($event)"
-                @cancel="closeUserDetails()"
-              />
-            </UCard>
+            <DetailUserForm
+              :user="selectedUser"
+              :available-roles="allRoles"
+              :available-units="allUnits"
+              @submit="saveUser($event)"
+              @cancel="closeUserDetails()"
+            />
           </UPageSection>
         </Transition>
 

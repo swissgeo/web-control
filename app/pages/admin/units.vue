@@ -42,8 +42,8 @@ async function loadUnits() {
   try {
     loadingUnits.value = true;
     units.value = await useUnitsApi().getUnits();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to load units", err);
     toastError($t("common.loadError"));
   } finally {
     loadingUnits.value = false;
@@ -78,8 +78,8 @@ async function createUnit(data: Unit) {
     toastSuccess($t("unit.createSuccess"));
     loadUnits();
     closeUnitDetails();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to create unit", err);
     toastError($t("unit.errorCreate"));
   }
 }
@@ -90,8 +90,8 @@ async function updateUnit(data: Unit) {
     toastSuccess($t("unit.updateSuccess"));
     loadUnits();
     closeUnitDetails();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to update unit", err);
     toastError($t("unit.errorUpdate"));
   }
 }
@@ -109,11 +109,6 @@ async function updateUnit(data: Unit) {
       <UPageBody>
         <p>{{ $t("unit.description") }}</p>
         <ToolBar>
-          <!-- <UInput
-            class="max-w-sm"
-            icon="i-lucide-search"
-            placeholder="Filter (not yet implemented)"
-          /> -->
           <template #right>
             <UButton
               :label="$t('unit.create')"
@@ -137,13 +132,11 @@ async function updateUnit(data: Unit) {
             class="overflow-hidden"
             :ui="{ container: 'py-4! gap-4!', description: 'mt-2' }"
           >
-            <UCard>
-              <DetailUnitForm
-                :existing-unit="selectedUnit"
-                @submit="saveUnit($event)"
-                @cancel="closeUnitDetails()"
-              />
-            </UCard>
+            <DetailUnitForm
+              :existing-unit="selectedUnit"
+              @submit="saveUnit($event)"
+              @cancel="closeUnitDetails()"
+            />
           </UPageSection>
         </Transition>
 

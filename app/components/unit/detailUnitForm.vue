@@ -81,43 +81,52 @@ function handleSubmit(event: FormSubmitEvent<CreateUnitSchema>) {
 </script>
 
 <template>
-  <UForm :schema="schema" :state="formState" @submit="handleSubmit($event)">
-    <div class="flex shrink-0 flex-col p-6">
-      <UFormField :label="$t('common.id')" name="id">
-        <UInput
-          v-model="formState.id"
-          :readonly="Boolean(props.existingUnit)"
+  <UPageCard
+    :title="
+      props.existingUnit
+        ? $t('unit.editTitle', { name: props.existingUnit.name })
+        : $t('unit.createTitle')
+    "
+  >
+    <UForm :schema="schema" :state="formState" @submit="handleSubmit($event)">
+      <div class="wp-100 flex shrink-0 flex-wrap gap-4 p-6">
+        <UFormField :label="$t('common.id')" name="id">
+          <UInput
+            v-model="formState.id"
+            :readonly="Boolean(props.existingUnit)"
+          />
+        </UFormField>
+        <USeparator :label="$t('common.translations')" class="wp-100" />
+        <UFormField :label="$t('common.name_de')" name="name_de">
+          <UInput v-model="formState.name_de" />
+        </UFormField>
+        <UFormField :label="$t('common.name_fr')" name="name_fr">
+          <UInput v-model="formState.name_fr" />
+        </UFormField>
+        <UFormField :label="$t('common.name_en')" name="name_en">
+          <UInput v-model="formState.name_en" />
+        </UFormField>
+        <UFormField :label="$t('common.name_it')" name="name_it">
+          <UInput v-model="formState.name_it" />
+        </UFormField>
+        <UFormField :label="$t('common.name_rm')" name="name_rm">
+          <UInput v-model="formState.name_rm" />
+        </UFormField>
+      </div>
+      <div class="flex shrink-0 justify-end p-6">
+        <UButton
+          class="m-1"
+          :label="$t('common.cancel')"
+          color="secondary"
+          @click="emit('cancel')"
         />
-      </UFormField>
-      <UFormField :label="$t('common.name_de')" name="name_de">
-        <UInput v-model="formState.name_de" />
-      </UFormField>
-      <UFormField :label="$t('common.name_fr')" name="name_fr">
-        <UInput v-model="formState.name_fr" />
-      </UFormField>
-      <UFormField :label="$t('common.name_en')" name="name_en">
-        <UInput v-model="formState.name_en" />
-      </UFormField>
-      <UFormField :label="$t('common.name_it')" name="name_it">
-        <UInput v-model="formState.name_it" />
-      </UFormField>
-      <UFormField :label="$t('common.name_rm')" name="name_rm">
-        <UInput v-model="formState.name_rm" />
-      </UFormField>
-    </div>
-    <div class="flex shrink-0 justify-end p-6">
-      <UButton
-        class="m-1"
-        :label="$t('common.cancel')"
-        color="secondary"
-        @click="emit('cancel')"
-      />
-      <UButton
-        class="m-1"
-        type="submit"
-        :label="$t('common.submit')"
-        color="primary"
-      />
-    </div>
-  </UForm>
+        <UButton
+          class="m-1"
+          type="submit"
+          :label="$t('common.submit')"
+          color="primary"
+        />
+      </div>
+    </UForm>
+  </UPageCard>
 </template>

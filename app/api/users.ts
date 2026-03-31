@@ -53,7 +53,7 @@ export function useUsersApi() {
     return updatedUser;
   }
 
-  async function deleteUser(userId: string): Promise<void> {
+  async function removeUser(userId: string): Promise<void> {
     await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/users/${userId}`, {
       method: "DELETE",
     });
@@ -63,6 +63,6 @@ export function useUsersApi() {
     getRoles,
     getUsers,
     updateUser,
-    deleteUser,
+    removeUser,
   };
 }

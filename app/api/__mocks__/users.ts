@@ -35,11 +35,11 @@ export const updateUser = vi.fn().mockResolvedValue({
   roles: [{ name: "Organization Admin" }],
   unit: { name: "mock-unit" },
 });
-export const deleteUser = vi.fn();
+export const removeUser = vi.fn();
 
 export const useUsersApi = () => ({
   getRoles: getRoles,
   getUsers: getUsers,
   updateUser: updateUser,
-  deleteUser: deleteUser,
+  removeUser: removeUser,
 });

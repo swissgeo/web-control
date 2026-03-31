@@ -13,6 +13,7 @@
     "submit": "Soumettre",
     "success": "Succès",
     "loadError": "Impossible de charger les données",
+    "translations": "Traductions",
     "name_de": "Nom Allemand",
     "name_fr": "Nom Français",
     "name_en": "Nom Anglais",
@@ -82,7 +83,9 @@
     "createSuccess": "Unité créée",
     "errorCreate": "Impossible de créer l'unité",
     "updateSuccess": "Unité mise à jour",
-    "errorUpdate": "Impossible de mettre à jour l'unité"
+    "errorUpdate": "Impossible de mettre à jour l'unité",
+    "editTitle": "Modifier l'unité {name}",
+    "createTitle": "Créer une nouvelle unité"
   },
   "user": {
     "description": "Gérez les utilisateurs de votre organisation.",

@@ -17,8 +17,8 @@ async function loadOrganization() {
   try {
     loadingOrganization.value = true;
     organization.value = await useOrganizationApi().getOrganization();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
+    console.error("Failed to load organization", err);
     organization.value = null;
     toastError($t("common.loadError"));
   } finally {

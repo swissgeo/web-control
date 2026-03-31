@@ -13,6 +13,7 @@
     "submit": "Submit",
     "success": "Success",
     "loadError": "Could not load data",
+    "translations": "Translations",
     "name_de": "Name German",
     "name_fr": "Name French",
     "name_en": "Name English",
@@ -82,7 +83,9 @@
     "createSuccess": "Unit created",
     "errorCreate": "Could not create unit",
     "updateSuccess": "Unit updated",
-    "errorUpdate": "Could not update unit"
+    "errorUpdate": "Could not update unit",
+    "editTitle": "Edit {name} Unit",
+    "createTitle": "Create New Unit"
   },
   "user": {
     "description": "Manage the users of your organization.",
