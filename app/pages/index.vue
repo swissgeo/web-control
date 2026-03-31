@@ -36,7 +36,7 @@ const features = computed<PageFeatureProps[]>(() => [
 <template>
   <UPage>
     <UPageHeader
-      :title="$t('global.home')"
+      :title="$t('global.home') + ' TEST'"
       :ui="{
         root: 'p-2',
       }"
