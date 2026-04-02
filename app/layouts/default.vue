@@ -15,13 +15,15 @@ const items = computed<NavigationMenuItem[]>(() => {
       active: route.path === "/",
     },
   ];
-  const authItems = [
+  const datasetItems = [
     {
       label: $t("dataset.title"),
       to: "/datasets",
       icon: "i-lucide-database",
       active: route.path.startsWith("/datasets"),
     },
+  ];
+  const adminItems = [
     {
       label: $t("organization.title"),
       to: "/admin",
@@ -57,7 +59,14 @@ const items = computed<NavigationMenuItem[]>(() => {
       ],
     },
   ];
-  return !authStore.isLoggedIn ? baseItems : [...baseItems, ...authItems];
+  let navigationItems = baseItems;
+  if (authStore.canManageDatasets) {
+    navigationItems = [...navigationItems, ...datasetItems];
+  }
+  if (authStore.canManageOrganization) {
+    navigationItems = [...navigationItems, ...adminItems];
+  }
+  return navigationItems;
 });
 </script>
 

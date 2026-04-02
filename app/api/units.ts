@@ -1,7 +1,4 @@
-import type { Translations } from "~/api/common";
-
-// TODO: Use the correct organization of the user once available.
-const TEMPORARY_ORG_ID = "ch.swisstopo";
+import { getOrganizationId, type Translations } from "~/api/common";
 
 export interface Unit {
   id: string;
@@ -14,20 +11,28 @@ export function useUnitsApi() {
   const { $controlAPI } = useNuxtApp();
 
   async function getUnits(): Promise<Unit[]> {
+    return getUnitsByOrganization(getOrganizationId());
+  }
+
+  // Special case for superuser we can pass an organization id
+  async function getUnitsByOrganization(
+    organizationId: string,
+  ): Promise<Unit[]> {
     const { items } = await $controlAPI<{ items: Unit[] }>(
-      `organizations/${TEMPORARY_ORG_ID}/units`,
+      `organizations/${organizationId}/units`,
     );
     return items;
   }
 
   async function createUnit(unit: Unit): Promise<Unit> {
+    const organizationId = getOrganizationId();
     const newUnit = await $controlAPI<Unit>(
-      `organizations/${TEMPORARY_ORG_ID}/units`,
+      `organizations/${organizationId}/units`,
       {
         method: "POST",
         body: JSON.stringify({
           id: unit.id,
-          organization_id: TEMPORARY_ORG_ID,
+          organization_id: organizationId,
           name_translations: unit.name_translations,
         }),
       },
@@ -35,13 +40,14 @@ export function useUnitsApi() {
     return newUnit;
   }
   async function updateUnit(unit: Unit): Promise<Unit> {
+    const organizationId = getOrganizationId();
     const newUnit = await $controlAPI<Unit>(
-      `organizations/${TEMPORARY_ORG_ID}/units/${unit.id}`,
+      `organizations/${organizationId}/units/${unit.id}`,
       {
         method: "PUT",
         body: JSON.stringify({
           id: unit.id,
-          organization_id: TEMPORARY_ORG_ID,
+          organization_id: organizationId,
           name_translations: unit.name_translations,
         }),
       },
@@ -50,13 +56,15 @@ export function useUnitsApi() {
   }
 
   async function deleteUnit(unitId: string): Promise<void> {
-    await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/units/${unitId}`, {
+    const organizationId = getOrganizationId();
+    await $controlAPI(`organizations/${organizationId}/units/${unitId}`, {
       method: "DELETE",
     });
   }
 
   return {
     getUnits,
+    getUnitsByOrganization,
     createUnit,
     updateUnit,
     deleteUnit,

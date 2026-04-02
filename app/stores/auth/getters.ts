@@ -1,10 +1,8 @@
-import type { UserProfile } from "oidc-client-ts";
 import type { _GettersTree } from "pinia";
 
 type thisAuthStore = ReturnType<typeof useAuthStore>;
 
 export interface AuthStoreGetters {
-  profile(state: AuthStoreState): UserProfile;
   isLoggedIn(state: AuthStoreState): boolean;
   accessToken(this: thisAuthStore): string | undefined;
   idToken(this: thisAuthStore): string | undefined;
@@ -12,18 +10,30 @@ export interface AuthStoreGetters {
 
 export function authGetters(): _GettersTree<AuthStoreState> {
   return {
-    profile(this: thisAuthStore) {
+    organizationId(this: thisAuthStore) {
+      return this.profile.organizationId || "";
+    },
+    unitId(this: thisAuthStore) {
+      return this.profile.unitId || "";
+    },
+    isOrganizationAdmin(this: thisAuthStore) {
+      return this.profile.roles?.includes("org_admin") ?? false;
+    },
+    isDatasetAdmin(this: thisAuthStore) {
+      return this.profile.roles?.includes("dataset_admin") ?? false;
+    },
+    isDatasetContributor(this: thisAuthStore) {
+      return this.profile.roles?.includes("dataset_contributor") ?? false;
+    },
+    canManageDatasets(this: thisAuthStore) {
       return (
-        this.user?.profile || {
-          sub: "",
-          iss: "",
-          exp: 0,
-          aud: "",
-          iat: 0,
-          given_name: "",
-          family_name: "",
-        }
+        this.isOrganizationAdmin ||
+        this.isDatasetAdmin ||
+        this.isDatasetContributor
       );
+    },
+    canManageOrganization(this: thisAuthStore) {
+      return this.isOrganizationAdmin;
     },
 
     isLoggedIn(this: thisAuthStore) {

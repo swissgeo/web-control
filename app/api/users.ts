@@ -1,7 +1,5 @@
 import type { Unit } from "~/api/units";
-
-// TODO: Use the correct organization of the user once available.
-const TEMPORARY_ORG_ID = "ch.swisstopo";
+import { getOrganizationId } from "~/api/common";
 
 export interface User {
   id: string;
@@ -33,15 +31,17 @@ export function useUsersApi() {
   }
 
   async function getUsers(): Promise<User[]> {
+    const organizationId = getOrganizationId();
     const { items } = await $controlAPI<{ items: User[] }>(
-      `organizations/${TEMPORARY_ORG_ID}/users`,
+      `organizations/${organizationId}/users`,
     );
     return items;
   }
 
   async function updateUser(user: UpdateUser): Promise<User> {
+    const organizationId = getOrganizationId();
     const updatedUser = await $controlAPI<User>(
-      `organizations/${TEMPORARY_ORG_ID}/users/${user.id}`,
+      `organizations/${organizationId}/users/${user.id}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -54,7 +54,8 @@ export function useUsersApi() {
   }
 
   async function removeUser(userId: string): Promise<void> {
-    await $controlAPI(`organizations/${TEMPORARY_ORG_ID}/users/${userId}`, {
+    const organizationId = getOrganizationId();
+    await $controlAPI(`organizations/${organizationId}/users/${userId}`, {
       method: "DELETE",
     });
   }

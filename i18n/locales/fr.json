@@ -11,6 +11,7 @@
     "name": "Nom",
     "notImplementedYet": "Pas encore implémenté.",
     "submit": "Soumettre",
+    "save": "Enregistrer",
     "success": "Succès",
     "loadError": "Impossible de charger les données",
     "translations": "Traductions",
@@ -73,7 +74,10 @@
   },
   "profile": {
     "eIamProfile": "Profil eIAM",
-    "title": "Profil"
+    "title": "Profil",
+    "superUserTitle": "Superuser",
+    "superUserDescription": "Définissez l'organisation, l'unité et les rôles pour le superutilisateur à utiliser dans le frontend. Cela n'affecte pas les autorisations réelles du superutilisateur, qui sont déterminées par le backend.",
+    "updateSuccess": "Profil mis à jour"
   },
   "unit": {
     "description": "Gérez vos unités organisationnelles.",

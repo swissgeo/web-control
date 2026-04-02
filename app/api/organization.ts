@@ -1,7 +1,4 @@
-import type { Translations } from "~/api/common";
-
-// TODO: Use the correct organization of the user once available.
-const TEMPORARY_ORG_ID = "ch.swisstopo";
+import { getOrganizationId, type Translations } from "~/api/common";
 
 export interface Organization {
   id: string;
@@ -14,14 +11,23 @@ export interface Organization {
 export function useOrganizationApi() {
   const { $controlAPI } = useNuxtApp();
 
+  async function getOrganizations(): Promise<Organization[]> {
+    const { items } = await $controlAPI<{ items: Organization[] }>(
+      `organizations`,
+    );
+    return items;
+  }
+
   async function getOrganization(): Promise<Organization> {
+    const organizationId = getOrganizationId();
     const org = await $controlAPI<Organization>(
-      `organizations/${TEMPORARY_ORG_ID}`,
+      `organizations/${organizationId}`,
     );
     return org;
   }
 
   return {
+    getOrganizations,
     getOrganization,
   };
 }
