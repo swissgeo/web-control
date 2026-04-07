@@ -60,10 +60,13 @@ function cognitoRolesFromProfile(
   profile: UserProfile | undefined,
 ): string[] | undefined {
   const roles = profile?.["custom:roles"];
-  if (!Array.isArray(roles)) {
-    return undefined;
+  if (typeof roles === "string") {
+    return roles
+      .split(",")
+      .map((role) => role.trim())
+      .filter(Boolean);
   }
-  return roles.every((role) => typeof role === "string") ? roles : undefined;
+  return undefined;
 }
 
 function idFromGroups(groups: string[], prefix: string): string | undefined {
