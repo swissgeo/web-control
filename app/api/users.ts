@@ -22,6 +22,15 @@ export interface UpdateUser {
   unit_id: string | null;
 }
 
+export interface AccessRequest {
+  id: string;
+  state: "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+  created: string;
+  organization_id: string;
+  organization_acronym: string;
+  organization_name: string;
+}
+
 export function useUsersApi() {
   const { $controlAPI } = useNuxtApp();
 
@@ -60,10 +69,41 @@ export function useUsersApi() {
     });
   }
 
+  async function pendingAccessRequest(): Promise<AccessRequest | null> {
+    const { items } = await $controlAPI<{ items: AccessRequest[] }>(
+      `accessrequests`,
+    );
+    return items.find((r) => r.state === "PENDING") || null;
+  }
+
+  async function createAccessRequest(
+    organizationId: string,
+  ): Promise<AccessRequest> {
+    const accessRequest = await $controlAPI<AccessRequest>("accessrequests", {
+      method: "POST",
+      body: JSON.stringify({
+        organization_id: organizationId,
+      }),
+    });
+    return accessRequest;
+  }
+
+  async function cancelAccessRequest(requestId: string): Promise<void> {
+    await $controlAPI(`accessrequests/${requestId}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        state: "CANCELLED",
+      }),
+    });
+  }
+
   return {
     getRoles,
     getUsers,
     updateUser,
     removeUser,
+    pendingAccessRequest,
+    createAccessRequest,
+    cancelAccessRequest,
   };
 }

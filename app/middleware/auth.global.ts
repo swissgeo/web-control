@@ -1,6 +1,9 @@
 import type { RouteLocationNormalizedGeneric } from "vue-router";
 
 const LOGIN_ROUTES = ["login", "auth-login-callback"];
+const ACCESS_REQUEST_ROUTES = ["accessRequest"];
+const ORGANIZATION_ADMIN_ROUTE = "admin";
+const DATASET_ROUTE = "datasets";
 
 export default defineNuxtRouteMiddleware(
   async (
@@ -16,6 +19,47 @@ export default defineNuxtRouteMiddleware(
     }
 
     if (authStore.isLoggedIn && LOGIN_ROUTES.includes(to.name as string)) {
+      return navigateTo("/");
+    }
+
+    // Routing related to login is handled above.
+    if (!authStore.isLoggedIn) {
+      return;
+    }
+    // Always allow logout
+    if (to.name === "auth-logout") {
+      return;
+    }
+    // Always allow profile
+    if (to.name === "profile") {
+      return;
+    }
+
+    // If user has no organization, redirect to access request page.
+    if (
+      authStore.organizationId == "" &&
+      !ACCESS_REQUEST_ROUTES.includes(to.name as string)
+    ) {
+      return navigateTo("/accessRequest");
+    }
+    // If user has an organization, no longer needs to go to access request page.
+    if (
+      authStore.organizationId != "" &&
+      ACCESS_REQUEST_ROUTES.includes(to.name as string)
+    ) {
+      return navigateTo("/");
+    }
+
+    if (
+      (to.name as string).startsWith(ORGANIZATION_ADMIN_ROUTE) &&
+      !authStore.canManageOrganization
+    ) {
+      return navigateTo("/");
+    }
+    if (
+      (to.name as string).startsWith(DATASET_ROUTE) &&
+      !authStore.canManageDatasets
+    ) {
       return navigateTo("/");
     }
   },

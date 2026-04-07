@@ -1,4 +1,17 @@
 {
+  "accessRequest": {
+    "pageTitle": "Access requests",
+    "requestAccessTitle": "Request access",
+    "requestAccessSubtitle": "Request access to the SWISSGEO Control Center. Your request will be reviewed by the organization's administrators.",
+    "requestAccessDescription": "Select the organization you wish to join:",
+    "pendingTitle": "Pending access request",
+    "pendingSubtitle": "You have a pending access request to the following organization:",
+    "pendingDescription": "Pending access request for { organization_name }. Waiting for approval by the organization administrators.",
+    "requestSubmitted": "Access request submitted",
+    "requestFailed": "Failed to submit access request",
+    "cancelRequest": "Cancel access request",
+    "requestCancelled": "Access request cancelled"
+  },
   "common": {
     "actions": "Actions",
     "cancel": "Cancel",
@@ -9,7 +22,7 @@
     "id": "ID",
     "info": "Info",
     "name": "Name",
-    "notImplementedYet": "No yet implemented.",
+    "notImplementedYet": "Not yet implemented.",
     "submit": "Submit",
     "save": "Save",
     "success": "Success",
