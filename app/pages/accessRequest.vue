@@ -14,17 +14,20 @@ const pendingAccessRequest = ref<AccessRequest | null>(null);
 
 setPageTitle($t("accessRequest.pageTitle"));
 
-onMounted(() => {
-  useOrganizationApi()
-    .getOrganizations()
-    .then((orgs) => {
-      organizations.value = orgs;
-    });
-  useUsersApi()
-    .pendingAccessRequest()
-    .then((request: AccessRequest | null) => {
-      pendingAccessRequest.value = request;
-    });
+onMounted(async () => {
+  try {
+    organizations.value = await useOrganizationApi().getOrganizations();
+  } catch (err: unknown) {
+    console.error("Failed to load organizations", err);
+    toastError($t("common.loadError"));
+  }
+
+  try {
+    pendingAccessRequest.value = await useUsersApi().pendingAccessRequest();
+  } catch (err: unknown) {
+    console.error("Failed to load pending access request", err);
+    toastError($t("common.loadError"));
+  }
 });
 
 export type AccessRequestSchema = v.InferOutput<typeof schema>;
@@ -39,29 +42,28 @@ const formState = reactive({
   organization_id: undefined as string | undefined,
 });
 
-function handleSubmit(event: FormSubmitEvent<AccessRequestSchema>) {
+async function handleSubmit(event: FormSubmitEvent<AccessRequestSchema>) {
   console.log("submit", event.data);
-  useUsersApi()
-    .createAccessRequest(event.data.organization_id)
-    .then((request) => {
-      pendingAccessRequest.value = request;
-      toastSuccess($t("accessRequest.requestSubmitted"));
-    })
-    .catch(() => {
-      toastError($t("accessRequest.requestFailed"));
-    });
+  try {
+    pendingAccessRequest.value = await useUsersApi().createAccessRequest(
+      event.data.organization_id,
+    );
+    toastSuccess($t("accessRequest.requestSubmitted"));
+  } catch (err: unknown) {
+    console.error("Failed to create access request", err);
+    toastError($t("accessRequest.requestFailed"));
+  }
 }
 
-function handleCancelRequest(requestId: string) {
-  useUsersApi()
-    .cancelAccessRequest(requestId)
-    .then(() => {
-      pendingAccessRequest.value = null;
-      toastSuccess($t("accessRequest.requestCancelled"));
-    })
-    .catch(() => {
-      toastError($t("accessRequest.requestFailed"));
-    });
+async function handleCancelRequest(requestId: string) {
+  try {
+    await useUsersApi().cancelAccessRequest(requestId);
+    pendingAccessRequest.value = null;
+    toastSuccess($t("accessRequest.requestCancelled"));
+  } catch (err: unknown) {
+    console.error("Failed to cancel access request", err);
+    toastError($t("accessRequest.requestFailed"));
+  }
 }
 </script>
 

@@ -21,17 +21,14 @@ export default defineNuxtRouteMiddleware(
     if (authStore.isLoggedIn && LOGIN_ROUTES.includes(to.name as string)) {
       return navigateTo("/");
     }
-
-    // Routing related to login is handled above.
     if (!authStore.isLoggedIn) {
+      // If we reach this, the user is going to a login route, so just return to avoid infinite
+      // redirect loop.
       return;
     }
-    // Always allow logout
-    if (to.name === "auth-logout") {
-      return;
-    }
-    // Always allow profile
-    if (to.name === "profile") {
+
+    // Always allowed routes (if is logged in)
+    if (["auth-logout", "profile"].includes(to.name as string)) {
       return;
     }
 
