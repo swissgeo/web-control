@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
+definePageMeta({
+  middleware: ["datasets"],
+});
+
 const { setPageTitle } = useMeta();
 const { toastInfo } = useToastHelpers();
 

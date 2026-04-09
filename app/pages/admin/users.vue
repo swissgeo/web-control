@@ -6,6 +6,10 @@ import DetailUserForm, {
   type UserSchema,
 } from "~/components/user/detailUserForm.vue";
 
+definePageMeta({
+  middleware: ["organization-admin"],
+});
+
 const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
 
