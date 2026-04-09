@@ -57,6 +57,7 @@
   "login": {
     "description": "Willkommen auf dem Business-Portal. Bitte melden Sie sich an.",
     "login": "Anmeldung",
+    "loginWithCognito": "Cognito Anmeldung",
     "title": "Anmeldung"
   },
   "logout": {

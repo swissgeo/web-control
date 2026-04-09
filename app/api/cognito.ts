@@ -6,10 +6,15 @@ export enum LOGIN_MODE {
 }
 
 /**
- * API to the cognito endpoint using oidc client
+ * API to the cognito endpoint using oidc client.
+ * When not on production allow setting cognitoOnly to true to login with cognito users that don't
+ * exists in eIAM. This is useful for testing and development purposes.
  */
-export default function useCognitoApi() {
+export default function useCognitoApi(cognitoOnly = false) {
   const runtimeConfig = useRuntimeConfig();
+  if (cognitoOnly && runtimeConfig.public.environment === "prod") {
+    throw new Error("Cognito only mode is not allowed in production");
+  }
   const router = useRouter();
 
   // Setup oidc-client-ts library logger
@@ -27,6 +32,14 @@ export default function useCognitoApi() {
     const COGNITO_USER_POOL_URL = `https://${runtimeConfig.public.cognitoUserPoolUrl}`;
     const SCOPES = "email openid profile";
 
+    let identityProvider = runtimeConfig.public.eiamIdentityProvider;
+    // We use the eIAM logout endpoint for logout
+    let endSessionEndpoint = runtimeConfig.public.eiamLogoutUrl;
+    if (cognitoOnly) {
+      identityProvider = "COGNITO";
+      endSessionEndpoint = _getLogoutUri();
+    }
+
     const cognitoAuthConfig = {
       authority: COGNITO_USER_POOL_URL,
       client_id: CLIENT_ID,
@@ -34,11 +47,10 @@ export default function useCognitoApi() {
       response_type: "code",
       scope: SCOPES,
       extraQueryParams: {
-        identity_provider: runtimeConfig.public.eiamIdentityProvider,
+        identity_provider: identityProvider,
       },
       metadataSeed: {
-        // We use the eIAM logout endpoint for logout
-        end_session_endpoint: runtimeConfig.public.eiamLogoutUrl,
+        end_session_endpoint: endSessionEndpoint,
       },
       automaticSilentRenew: true,
       monitorSession: true,

@@ -57,6 +57,7 @@
   "login": {
     "description": "Bienvenue sur le business portal. Veuillez vous connecter.",
     "login": "Connexion",
+    "loginWithCognito": "Connexion Cognito",
     "title": "Connexion"
   },
   "logout": {
