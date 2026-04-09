@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useOrganizationApi, type Organization } from "~/api/organization";
 
+definePageMeta({
+  middleware: ["organization-admin"],
+});
+
 const { toastError } = useToastHelpers();
 const { setPageTitle } = useMeta();
 

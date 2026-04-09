@@ -1,4 +1,17 @@
 {
+  "accessRequest": {
+    "pageTitle": "Demandes d'accès",
+    "requestAccessTitle": "Demande d'accès",
+    "requestAccessSubtitle": "Demandez l'accès au SWISSGEO Control Center. Votre demande sera examinée par les administrateurs de l'organisation.",
+    "requestAccessDescription": "Sélectionnez l'organisation que vous souhaitez rejoindre:",
+    "pendingTitle": "Demande d'accès en attente",
+    "pendingSubtitle": "Vous avez une demande d'accès en attente pour l'organisation suivante:",
+    "pendingDescription": "Demande d'accès en attente pour { organization_name }. En attente d'approbation par les administrateurs de l'organisation.",
+    "requestSubmitted": "Demande d'accès soumise",
+    "requestFailed": "Échec de la soumission de la demande d'accès",
+    "cancelRequest": "Annuler la demande d'accès",
+    "requestCancelled": "Demande d'accès annulée"
+  },
   "common": {
     "actions": "Actions",
     "cancel": "Annuler",

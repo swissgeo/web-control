@@ -1,4 +1,17 @@
 {
+  "accessRequest": {
+    "pageTitle": "Zugriffsanfragen",
+    "requestAccessTitle": "Zugriff beantragen",
+    "requestAccessSubtitle": "Beantragen Sie Zugriff auf das SWISSGEO Control Center. Ihre Anfrage wird von den Administratoren der Organisation überprüft.",
+    "requestAccessDescription": "Wählen Sie die Organisation aus, der Sie beitreten möchten:",
+    "pendingTitle": "Ausstehende Zugriffsanfrage",
+    "pendingSubtitle": "Sie haben eine ausstehende Zugriffsanfrage für die folgende Organisation:",
+    "pendingDescription": "Ausstehende Zugriffsanfrage für { organization_name }. Warten auf Genehmigung durch die Administratoren der Organisation.",
+    "requestSubmitted": "Zugriffsanfrage gesendet",
+    "requestFailed": "Fehler beim Senden der Zugriffsanfrage",
+    "cancelRequest": "Zugriffsanfrage stornieren",
+    "requestCancelled": "Zugriffsanfrage storniert"
+  },
   "common": {
     "actions": "Aktionen",
     "cancel": "Abbrechen",

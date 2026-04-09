@@ -3,6 +3,10 @@ import type { TableColumn } from "@nuxt/ui";
 import { useUnitsApi, type Unit } from "~/api/units";
 import DetailUnitForm from "~/components/unit/detailUnitForm.vue";
 
+definePageMeta({
+  middleware: ["organization-admin"],
+});
+
 const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
 

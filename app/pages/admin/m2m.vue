@@ -8,6 +8,10 @@ import {
   useMachineUsersApi,
 } from "~/api/machineUsers";
 
+definePageMeta({
+  middleware: ["organization-admin"],
+});
+
 const { toastError, toastSuccess } = useToastHelpers();
 const { setPageTitle } = useMeta();
 
