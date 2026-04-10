@@ -37,7 +37,8 @@ export function authActions(): AuthStoreActions {
         }
       };
 
-      this.cognito.init(userEventCb);
+      // TODO: Check if/how this is needed
+      // this.cognito.init(userEventCb);
 
       // Register listener for logout messages from other tabs. When we receive a logout message,
       // we clear the user from the store and go to the login page
@@ -53,24 +54,27 @@ export function authActions(): AuthStoreActions {
 
       // when opening the app (first load, reload or load in another tab) we need to check if there
       // is already a user session saved in cognito local storate and set the user in the store.
-      this.setUser(await this.cognito.getUser());
+      // TODO: Check if/how this is needed, as the oidc auth module should handle this automatically
+      // this.setUser(await this.cognito.getUser());
       console.log("User:", this.user?.profile?.email);
     },
 
     async login(): Promise<void> {
-      await this.cognito.login();
+      await useOidcAuth().login();
     },
 
     async logout(): Promise<void> {
       // Inform other tabs that the use has logged out
       channel.postMessage(CHANNEL_MESSAGE_LOGOUT);
-      await this.cognito.logout();
+      await useOidcAuth().logout();
     },
 
     async signinCallback(): Promise<void> {
-      const user = await this.cognito.signinCallback();
-      console.log("User signed in, email:", user.profile?.email);
-      this.setUser(user);
+      console.log("CALLBACK USER", useOidcAuth().user);
+      // TODO: Check if/how this is needed, as the oidc auth module should handle this automatically
+      // const user = await this.cognito.signinCallback();
+      // console.log("User signed in, email:", user.profile?.email);
+      // this.setUser(user);
     },
 
     setLoginUrl(this: thisAuthStore, url: string) {
@@ -102,7 +106,8 @@ export function authActions(): AuthStoreActions {
     $reset(this: thisAuthStore) {
       this.user = null;
       this.profile = { ...EMPTY_PROFILE };
-      this.cognito.reset();
+      // TODO: Check if/how this is needed, as the oidc auth module should handle this automatically
+      // this.cognito.reset();
     },
   };
 }

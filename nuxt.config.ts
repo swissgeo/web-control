@@ -29,10 +29,11 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@pinia/nuxt",
     "@nuxtjs/google-fonts",
+    "nuxt-oidc-auth",
   ],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  ssr: false,
+  ssr: true,
 
   typescript: {
     typeCheck: true,
@@ -53,6 +54,27 @@ export default defineNuxtConfig({
       serviceControlBase: "",
       defaultM2MScope: "",
       superuserGroup: "",
+    },
+  },
+  oidc: {
+    // devMode: {
+    //   enabled: true,
+    // },
+    defaultProvider: "cognito",
+    providers: {
+      cognito: {
+        clientId: "",
+        redirectUri: "http://localhost:3000/loginCallback",
+        clientSecret: "",
+        scope: ["openid", "email", "profile"],
+        logoutRedirectUri: "https://google.com",
+        baseUrl: "",
+        exposeIdToken: true, // This is necessary to validate the logout redirect. If you don't need the ID token and don't use a logout redirect, set this to false.
+      },
+    },
+    middleware: {
+      globalMiddlewareEnabled: false,
+      customLoginPage: false,
     },
   },
 
