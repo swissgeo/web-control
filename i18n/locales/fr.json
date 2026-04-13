@@ -1,6 +1,7 @@
 {
   "accessRequest": {
     "pageTitle": "Demandes d'accès",
+    "description": "Gérez les demandes d'accès à votre organisation.",
     "requestAccessTitle": "Demande d'accès",
     "requestAccessSubtitle": "Demandez l'accès au SWISSGEO Control Center. Votre demande sera examinée par les administrateurs de l'organisation.",
     "requestAccessDescription": "Sélectionnez l'organisation que vous souhaitez rejoindre:",
@@ -10,7 +11,17 @@
     "requestSubmitted": "Demande d'accès soumise",
     "requestFailed": "Échec de la soumission de la demande d'accès",
     "cancelRequest": "Annuler la demande d'accès",
-    "requestCancelled": "Demande d'accès annulée"
+    "requestCancelled": "Demande d'accès annulée",
+    "created": "Créé le",
+    "state": "Statut",
+    "statePending": "En attente",
+    "stateApproved": "Approuvé",
+    "stateDeclined": "Refusé",
+    "stateCancelled": "Annulé",
+    "approve": "Approuver",
+    "decline": "Refuser",
+    "approveModalTitle": "Approuver la demande d'accès",
+    "approveModalDescription": "Ajouter l'utilisateur à votre organisation"
   },
   "common": {
     "actions": "Actions",
