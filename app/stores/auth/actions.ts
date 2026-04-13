@@ -4,8 +4,10 @@ type thisAuthStore = ReturnType<typeof useAuthStore>;
 
 export interface AuthStoreActions {
   init(this: thisAuthStore): Promise<void>;
-  login(this: thisAuthStore): Promise<void>;
-  loginWithCognito(this: thisAuthStore): Promise<void>;
+  login(
+    this: thisAuthStore,
+    config: { useCognitoOnly: boolean },
+  ): Promise<void>;
   logout(this: thisAuthStore): Promise<void>;
   signinCallback(this: thisAuthStore): Promise<void>;
   setLoginUrl(this: thisAuthStore, url: string): void;
@@ -58,37 +60,16 @@ export function authActions(): AuthStoreActions {
       console.log("User:", this.user?.profile?.email);
     },
 
-    async login(): Promise<void> {
-      this.usingCognitoOnly = false;
-      await this.cognito.login();
-    },
-
-    async loginWithCognito(): Promise<void> {
-      if (!this.noEIAMCognito) {
-        console.error(
-          "No separate Cognito instance available for login with Cognito only",
-        );
-        return;
-      }
-      this.usingCognitoOnly = true;
-      await this.noEIAMCognito.login();
+    async login(config): Promise<void> {
+      this.loginConfig = config;
+      await this.cognito.login(config);
     },
 
     async logout(): Promise<void> {
       // Inform other tabs that the use has logged out
       channel.postMessage(CHANNEL_MESSAGE_LOGOUT);
-      if (this.usingCognitoOnly) {
-        if (!this.noEIAMCognito) {
-          console.error(
-            "No separate Cognito instance available for login with Cognito only",
-          );
-          return;
-        }
-        this.usingCognitoOnly = false;
-        await this.noEIAMCognito.logout();
-        return;
-      }
-      await this.cognito.logout();
+      await this.cognito.logout(this.loginConfig);
+      this.loginConfig = { useCognitoOnly: false };
     },
 
     async signinCallback(): Promise<void> {
@@ -127,9 +108,6 @@ export function authActions(): AuthStoreActions {
       this.user = null;
       this.profile = { ...EMPTY_PROFILE };
       this.cognito.reset();
-      if (this.noEIAMCognito) {
-        this.noEIAMCognito.reset();
-      }
     },
   };
 }

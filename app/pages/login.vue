@@ -7,10 +7,10 @@ const environment = useRuntimeConfig().public.environment;
 setPageTitle($t("login.title"));
 
 function goToLogin() {
-  authStore.login();
+  authStore.login({ useCognitoOnly: false });
 }
 function goToLoginWithCognito() {
-  authStore.loginWithCognito();
+  authStore.login({ useCognitoOnly: true });
 }
 </script>
 

@@ -6,7 +6,7 @@ import type { Profile } from "~/stores/auth/profile";
 
 export interface AuthStoreState {
   cognito: ReturnType<typeof useCognitoApi>;
-  noEIAMCognito: ReturnType<typeof useCognitoApi> | null;
+  loginConfig: { useCognitoOnly: boolean };
   usingCognitoOnly: boolean;
   user: User | null;
   loginUrl: string | undefined;
@@ -16,13 +16,9 @@ export interface AuthStoreState {
 export function authStoreState() {
   return (): AuthStoreState => {
     const cognito = useCognitoApi();
-    let noEIAMCognito = null;
-    if (useRuntimeConfig().public.environment !== "prod") {
-      noEIAMCognito = useCognitoApi(true);
-    }
     return {
       cognito: cognito,
-      noEIAMCognito: noEIAMCognito,
+      loginConfig: { useCognitoOnly: false },
       usingCognitoOnly: false,
       user: null,
       loginUrl: undefined,
