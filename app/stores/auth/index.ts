@@ -6,8 +6,6 @@ import type { Profile } from "~/stores/auth/profile";
 
 export interface AuthStoreState {
   cognito: ReturnType<typeof useCognitoApi>;
-  loginConfig: { useCognitoOnly: boolean };
-  usingCognitoOnly: boolean;
   user: User | null;
   loginUrl: string | undefined;
   profile: Profile;
@@ -18,8 +16,6 @@ export function authStoreState() {
     const cognito = useCognitoApi();
     return {
       cognito: cognito,
-      loginConfig: { useCognitoOnly: false },
-      usingCognitoOnly: false,
       user: null,
       loginUrl: undefined,
       profile: { ...EMPTY_PROFILE },

@@ -72,7 +72,7 @@ const items = computed<NavigationMenuItem[]>(() => {
 
 <template>
   <UDashboardGroup unit="rem">
-    <EnvBanner v-if="runtimeConfig.public.environment !== 'prod'" />
+    <EnvBanner v-if="isNotProd()" />
     <UDashboardSidebar
       id="default"
       collapsible

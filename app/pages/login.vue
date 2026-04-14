@@ -2,7 +2,6 @@
 const { setPageTitle } = useMeta();
 
 const authStore = useAuthStore();
-const environment = useRuntimeConfig().public.environment;
 
 setPageTitle($t("login.title"));
 
@@ -36,7 +35,7 @@ function goToLoginWithCognito() {
             @click="goToLogin"
             >{{ $t("login.login") }}</UButton
           >
-          <div v-if="environment !== 'prod'" class="m-4">
+          <div v-if="isNotProd()" class="m-4">
             <UButton
               icon="i-lucide-external-link"
               class="max-w-max p-3 ps-5 pe-5"

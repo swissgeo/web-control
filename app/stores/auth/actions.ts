@@ -61,15 +61,13 @@ export function authActions(): AuthStoreActions {
     },
 
     async login(config): Promise<void> {
-      this.loginConfig = config;
       await this.cognito.login(config);
     },
 
     async logout(): Promise<void> {
       // Inform other tabs that the use has logged out
       channel.postMessage(CHANNEL_MESSAGE_LOGOUT);
-      await this.cognito.logout(this.loginConfig);
-      this.loginConfig = { useCognitoOnly: false };
+      await this.cognito.logout();
     },
 
     async signinCallback(): Promise<void> {
