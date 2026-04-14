@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     "@nuxt/test-utils/module",
     "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/google-fonts",
   ],
   compatibilityDate: "2025-07-15",

@@ -5,11 +5,21 @@ export enum LOGIN_MODE {
   END_USER = "end_user",
 }
 
+// Store if we are using the cognito only client in local storage so it is persistet after redirect
+// to cognito/eIAM login pages.
+const LS_USER_MANAGER_KEY = "useCognitoOnly";
+
 /**
- * API to the cognito endpoint using oidc client
+ * API to the cognito endpoint using oidc client, configured to work with eIAM integration.
+ * When not on production, also create an additional client that can be used to login with Cognito
+ * only to support testing and development.
  */
 export default function useCognitoApi() {
   const runtimeConfig = useRuntimeConfig();
+  let createCognitoOnlyClient = false;
+  if (isNotProd()) {
+    createCognitoOnlyClient = true;
+  }
   const router = useRouter();
 
   // Setup oidc-client-ts library logger
@@ -18,14 +28,32 @@ export default function useCognitoApi() {
   const CLIENT_ID = runtimeConfig.public.cognitoAppClientId;
 
   // Initialize the UserManager instance from oidc-client-ts, which will handle the OIDC flow with Cognito
-  const userManager = _initUserManager();
+  const eiamUserManager = _initUserManager();
+  let cognitoUserManager: UserManager | null = null;
+  if (createCognitoOnlyClient) {
+    cognitoUserManager = _initUserManager(true);
+  }
+
+  function _getUserManager(): UserManager {
+    return localStorage.getItem(LS_USER_MANAGER_KEY) === "true"
+      ? cognitoUserManager!
+      : eiamUserManager;
+  }
 
   /**
    * Initialize the OIDC User manager
    */
-  function _initUserManager(): UserManager {
+  function _initUserManager(cognitoOnly = false): UserManager {
     const COGNITO_USER_POOL_URL = `https://${runtimeConfig.public.cognitoUserPoolUrl}`;
     const SCOPES = "email openid profile";
+
+    let identityProvider = runtimeConfig.public.eiamIdentityProvider;
+    // We use the eIAM logout endpoint for logout
+    let endSessionEndpoint = runtimeConfig.public.eiamLogoutUrl;
+    if (cognitoOnly) {
+      identityProvider = "COGNITO";
+      endSessionEndpoint = _getLogoutUri();
+    }
 
     const cognitoAuthConfig = {
       authority: COGNITO_USER_POOL_URL,
@@ -34,11 +62,10 @@ export default function useCognitoApi() {
       response_type: "code",
       scope: SCOPES,
       extraQueryParams: {
-        identity_provider: runtimeConfig.public.eiamIdentityProvider,
+        identity_provider: identityProvider,
       },
       metadataSeed: {
-        // We use the eIAM logout endpoint for logout
-        end_session_endpoint: runtimeConfig.public.eiamLogoutUrl,
+        end_session_endpoint: endSessionEndpoint,
       },
       automaticSilentRenew: true,
       monitorSession: true,
@@ -157,12 +184,12 @@ export default function useCognitoApi() {
    */
   function init(userEventCb: (user: User | null) => void): void {
     // Listen to silent renew errors
-    userManager.events.addSilentRenewError((err) => {
+    eiamUserManager.events.addSilentRenewError((err) => {
       console.error("Silent renew error", err);
       userEventCb(null);
     });
 
-    userManager.events.addUserLoaded((user: User) => {
+    eiamUserManager.events.addUserLoaded((user: User) => {
       console.log(
         "User loaded or refreshed (token refresh)",
         user?.profile?.email,
@@ -170,20 +197,51 @@ export default function useCognitoApi() {
       userEventCb(user);
     });
 
-    userManager.events.addUserUnloaded(() => {
+    eiamUserManager.events.addUserUnloaded(() => {
       console.log("User unloaded loaded");
     });
 
-    userManager.events.addUserSessionChanged(() => {
+    eiamUserManager.events.addUserSessionChanged(() => {
       console.log("User session changed");
     });
+    if (cognitoUserManager) {
+      // Listen to silent renew errors
+      cognitoUserManager.events.addSilentRenewError((err) => {
+        console.error("Silent renew error", err);
+        userEventCb(null);
+      });
+
+      cognitoUserManager.events.addUserLoaded((user: User) => {
+        console.log(
+          "User loaded or refreshed (token refresh)",
+          user?.profile?.email,
+        );
+        userEventCb(user);
+      });
+
+      cognitoUserManager.events.addUserUnloaded(() => {
+        console.log("User unloaded loaded");
+      });
+
+      cognitoUserManager.events.addUserSessionChanged(() => {
+        console.log("User session changed");
+      });
+    }
   }
 
   /**
    * Go to the login page of OIDC provider (e.g. eIAM)
    */
-  async function login(): Promise<void> {
-    return await userManager.signinRedirect({
+  async function login(
+    config: { useCognitoOnly?: boolean } = {},
+  ): Promise<void> {
+    const { useCognitoOnly = false } = config;
+    if (useCognitoOnly) {
+      localStorage.setItem(LS_USER_MANAGER_KEY, "true");
+    } else {
+      localStorage.setItem(LS_USER_MANAGER_KEY, "false");
+    }
+    return await _getUserManager().signinRedirect({
       url_state: _getStateParam(),
     });
   }
@@ -195,11 +253,11 @@ export default function useCognitoApi() {
    */
   function logout(): Promise<void> {
     // stop access token renewal
-    userManager.stopSilentRenew();
+    _getUserManager().stopSilentRenew();
     // Trigger the eIAM logout endpoint with post_logout_redirect_uri query parameter set to
     // the Cognito logout endpoint. This will trigger the whole logout workflow described in _getLogoutUri()
     // eIAM logout endpoint is configured in _initUserManager()
-    return userManager.signoutRedirect({
+    return _getUserManager().signoutRedirect({
       post_logout_redirect_uri: _getLogoutUri(),
     });
   }
@@ -208,7 +266,7 @@ export default function useCognitoApi() {
    * Exchanges the auth code for JWT tokens
    */
   async function signinCallback(): Promise<User> {
-    const user = await userManager.signinCallback();
+    const user = await _getUserManager().signinCallback();
 
     if (!user) {
       throw new Error("No user returned from signin callback");
@@ -224,12 +282,12 @@ export default function useCognitoApi() {
 
     // Once the user is signed in, we start the silent renew to automatically refresh the tokens
     // before they expire
-    userManager.startSilentRenew();
+    _getUserManager().startSilentRenew();
     return user;
   }
 
   async function getUser(): Promise<User | null> {
-    return await userManager.getUser();
+    return await _getUserManager().getUser();
   }
 
   /**
@@ -239,8 +297,13 @@ export default function useCognitoApi() {
    * The logout procedure removes the user itself
    */
   async function reset(): Promise<void> {
-    await userManager.removeUser();
-    await userManager.clearStaleState();
+    await eiamUserManager.removeUser();
+    await eiamUserManager.clearStaleState();
+    if (cognitoUserManager) {
+      await cognitoUserManager.removeUser();
+      await cognitoUserManager.clearStaleState();
+    }
+    localStorage.setItem(LS_USER_MANAGER_KEY, "false");
   }
 
   return {

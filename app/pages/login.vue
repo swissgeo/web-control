@@ -6,7 +6,10 @@ const authStore = useAuthStore();
 setPageTitle($t("login.title"));
 
 function goToLogin() {
-  authStore.login();
+  authStore.login({ useCognitoOnly: false });
+}
+function goToLoginWithCognito() {
+  authStore.login({ useCognitoOnly: true });
 }
 </script>
 
@@ -32,6 +35,14 @@ function goToLogin() {
             @click="goToLogin"
             >{{ $t("login.login") }}</UButton
           >
+          <div v-if="isNotProd()" class="m-4">
+            <UButton
+              icon="i-lucide-external-link"
+              class="max-w-max p-3 ps-5 pe-5"
+              @click="goToLoginWithCognito"
+              >{{ $t("login.loginWithCognito") }}</UButton
+            >
+          </div>
         </div>
       </UPageSection>
     </UPageBody>

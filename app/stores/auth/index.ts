@@ -27,4 +27,5 @@ export const useAuthStore = defineStore("auth", {
   state: authStoreState(),
   getters: authGetters(),
   actions: authActions(),
+  persist: true,
 });

@@ -4,7 +4,10 @@ type thisAuthStore = ReturnType<typeof useAuthStore>;
 
 export interface AuthStoreActions {
   init(this: thisAuthStore): Promise<void>;
-  login(this: thisAuthStore): Promise<void>;
+  login(
+    this: thisAuthStore,
+    config: { useCognitoOnly: boolean },
+  ): Promise<void>;
   logout(this: thisAuthStore): Promise<void>;
   signinCallback(this: thisAuthStore): Promise<void>;
   setLoginUrl(this: thisAuthStore, url: string): void;
@@ -57,8 +60,8 @@ export function authActions(): AuthStoreActions {
       console.log("User:", this.user?.profile?.email);
     },
 
-    async login(): Promise<void> {
-      await this.cognito.login();
+    async login(config): Promise<void> {
+      await this.cognito.login(config);
     },
 
     async logout(): Promise<void> {
