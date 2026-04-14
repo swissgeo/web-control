@@ -29,6 +29,7 @@ export interface AccessRequest {
   organization_id: string;
   organization_acronym: string;
   organization_name: string;
+  user: User;
 }
 
 export function useUsersApi() {
@@ -97,6 +98,33 @@ export function useUsersApi() {
     });
   }
 
+  async function getAccessRequests(): Promise<AccessRequest[]> {
+    const { items } = await $controlAPI<{ items: AccessRequest[] }>(
+      `organizations/${getOrganizationId()}/accessrequests`,
+    );
+    return items;
+  }
+
+  async function updateAccessRequest(
+    accessRequestId: string,
+    state: "APPROVED" | "DECLINED",
+    roles: string[] | null,
+    unit_id: string | null,
+  ): Promise<AccessRequest> {
+    const accessRequest = await $controlAPI<AccessRequest>(
+      `organizations/${getOrganizationId()}/accessrequests/${accessRequestId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          state,
+          roles,
+          unit_id,
+        }),
+      },
+    );
+    return accessRequest;
+  }
+
   return {
     getRoles,
     getUsers,
@@ -105,5 +133,7 @@ export function useUsersApi() {
     pendingAccessRequest,
     createAccessRequest,
     cancelAccessRequest,
+    getAccessRequests,
+    updateAccessRequest,
   };
 }

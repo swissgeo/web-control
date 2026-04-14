@@ -1,6 +1,7 @@
 {
   "accessRequest": {
     "pageTitle": "Access requests",
+    "description": "Manage access requests to your organization.",
     "requestAccessTitle": "Request access",
     "requestAccessSubtitle": "Request access to the SWISSGEO Control Center. Your request will be reviewed by the organization's administrators.",
     "requestAccessDescription": "Select the organization you wish to join:",
@@ -10,7 +11,17 @@
     "requestSubmitted": "Access request submitted",
     "requestFailed": "Failed to submit access request",
     "cancelRequest": "Cancel access request",
-    "requestCancelled": "Access request cancelled"
+    "requestCancelled": "Access request cancelled",
+    "created": "Created at",
+    "state": "State",
+    "statePending": "Pending",
+    "stateApproved": "Approved",
+    "stateDeclined": "Declined",
+    "stateCancelled": "Cancelled",
+    "approve": "Approve",
+    "decline": "Decline",
+    "approveModalTitle": "Approve access request",
+    "approveModalDescription": "Add the user to your organization"
   },
   "common": {
     "actions": "Actions",

@@ -14,6 +14,7 @@ This is the frontend ("business portal") for the SWISSGEO control infrastructure
   - [Base Framework: nuxt](#base-framework-nuxt)
   - [UI Framework: nuxt ui](#ui-framework-nuxt-ui)
   - [Translations](#translations)
+  - [Forms and validation](#forms-and-validation)
 - [Format \& Linting](#format--linting)
 - [Testing](#testing)
   - [Unit tests](#unit-tests)
@@ -80,6 +81,11 @@ const message = $t("message.hello");
 ```
 
 Have a look at [Nuxt I18n](https://i18n.nuxtjs.org/docs/getting-started/usage) and [Vue I18n](https://vue-i18n.intlify.dev/guide/essentials/started) to see how to interpolate strings, formatting dates etc.
+
+### Forms and validation
+
+We use the Nuxt UI Form component. It supports any validation library supporting [Standard Schema](https://github.com/standard-schema/standard-schema). In this project we use [valibot](https://github.com/open-circle/valibot).
+Examples and usage can be found on the [NUXT UI Form](https://ui.nuxt.com/docs/components/form) documentation.
 
 ## Format & Linting
 

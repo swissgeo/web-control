@@ -1,6 +1,7 @@
 {
   "accessRequest": {
     "pageTitle": "Zugriffsanfragen",
+    "description": "Verwalten Sie Zugriffsanfragen für Ihre Organisation.",
     "requestAccessTitle": "Zugriff beantragen",
     "requestAccessSubtitle": "Beantragen Sie Zugriff auf das SWISSGEO Control Center. Ihre Anfrage wird von den Administratoren der Organisation überprüft.",
     "requestAccessDescription": "Wählen Sie die Organisation aus, der Sie beitreten möchten:",
@@ -10,7 +11,17 @@
     "requestSubmitted": "Zugriffsanfrage gesendet",
     "requestFailed": "Fehler beim Senden der Zugriffsanfrage",
     "cancelRequest": "Zugriffsanfrage stornieren",
-    "requestCancelled": "Zugriffsanfrage storniert"
+    "requestCancelled": "Zugriffsanfrage storniert",
+    "created": "Erstellt am",
+    "state": "Status",
+    "statePending": "Ausstehend",
+    "stateApproved": "Genehmigt",
+    "stateDeclined": "Abgelehnt",
+    "stateCancelled": "Storniert",
+    "approve": "Genehmigen",
+    "decline": "Ablehnen",
+    "approveModalTitle": "Zugriffsanfrage genehmigen",
+    "approveModalDescription": "Fügen Sie den Benutzer zu Ihrer Organisation hinzu"
   },
   "common": {
     "actions": "Aktionen",

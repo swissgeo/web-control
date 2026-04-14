@@ -56,6 +56,12 @@ const items = computed<NavigationMenuItem[]>(() => {
           to: "/admin/m2m",
           active: route.path.startsWith("/admin/m2m"),
         },
+        {
+          label: $t("accessRequest.pageTitle"),
+          icon: "i-lucide-user-plus",
+          to: "/admin/accessrequests",
+          active: route.path.startsWith("/admin/accessrequests"),
+        },
       ],
     },
   ];
