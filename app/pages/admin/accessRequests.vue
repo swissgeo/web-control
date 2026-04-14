@@ -90,19 +90,11 @@ const formState = reactive({
   roles: [] as string[],
 });
 
-onMounted(() => {
+onMounted(async () => {
   loadAccessRequests();
   try {
-    useUsersApi()
-      .getRoles()
-      .then((roles) => {
-        allRoles.value = roles;
-      });
-    useUnitsApi()
-      .getUnits()
-      .then((units) => {
-        allUnits.value = units;
-      });
+    allRoles.value = await useUsersApi().getRoles();
+    allUnits.value = await useUnitsApi().getUnits();
   } catch (err: unknown) {
     console.error("Failed to load roles or units", err);
     toastError($t("common.loadError"));
