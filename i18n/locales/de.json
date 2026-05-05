@@ -1,3 +1,136 @@
 {
-  "welcome": "Willkommen"
+  "accessRequest": {
+    "pageTitle": "Zugriffsanfragen",
+    "description": "Verwalten Sie Zugriffsanfragen für Ihre Organisation.",
+    "requestAccessTitle": "Zugriff beantragen",
+    "requestAccessSubtitle": "Beantragen Sie Zugriff auf das SWISSGEO Control Center. Ihre Anfrage wird von den Administratoren der Organisation überprüft.",
+    "requestAccessDescription": "Wählen Sie die Organisation aus, der Sie beitreten möchten:",
+    "pendingTitle": "Ausstehende Zugriffsanfrage",
+    "pendingSubtitle": "Sie haben eine ausstehende Zugriffsanfrage für die folgende Organisation:",
+    "pendingDescription": "Ausstehende Zugriffsanfrage für { organization_name }. Warten auf Genehmigung durch die Administratoren der Organisation.",
+    "requestSubmitted": "Zugriffsanfrage gesendet",
+    "requestFailed": "Fehler beim Senden der Zugriffsanfrage",
+    "cancelRequest": "Zugriffsanfrage stornieren",
+    "requestCancelled": "Zugriffsanfrage storniert",
+    "created": "Erstellt am",
+    "state": "Status",
+    "statePending": "Ausstehend",
+    "stateApproved": "Genehmigt",
+    "stateDeclined": "Abgelehnt",
+    "stateCancelled": "Storniert",
+    "approve": "Genehmigen",
+    "decline": "Ablehnen",
+    "approveModalTitle": "Zugriffsanfrage genehmigen",
+    "approveModalDescription": "Fügen Sie den Benutzer zu Ihrer Organisation hinzu"
+  },
+  "common": {
+    "actions": "Aktionen",
+    "cancel": "Abbrechen",
+    "close": "Schliessen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "error": "Fehler",
+    "id": "ID",
+    "info": "Info",
+    "name": "Name",
+    "notImplementedYet": "Noch nicht implementiert.",
+    "submit": "Absenden",
+    "save": "Speichern",
+    "success": "Erfolg",
+    "loadError": "Daten konnten nicht geladen werden",
+    "translations": "Übersetzungen",
+    "name_de": "Name Deutsch",
+    "name_fr": "Name Französisch",
+    "name_en": "Name Englisch",
+    "name_it": "Name Italienisch",
+    "name_rm": "Name Rätoromanisch",
+    "none": "Keine"
+  },
+  "dataset": {
+    "description": "Verwalten Sie Ihre Geodatensätze, einschliesslich Metadaten.",
+    "title": "Datensätze"
+  },
+  "dummyDataBanner": {
+    "description": "Dies ist eine Platzhalterseite mit Dummy-Daten.",
+    "title": "Achtung!"
+  },
+  "global": {
+    "buildTime": "Build-Zeit: {timestamp}",
+    "controlCenter": "SWISSGEO Control Center",
+    "home": "Startseite",
+    "swissgeo": "SWISSGEO",
+    "version": "Version: {version}"
+  },
+  "index": {
+    "description": "Dies ist das Control Center von SWISSGEO. Verwenden Sie die Navigation auf der linken Seite, um auf verschiedene Bereiche der App zuzugreifen.",
+    "title": "Willkommen"
+  },
+  "login": {
+    "description": "Willkommen auf dem Business-Portal. Bitte melden Sie sich an.",
+    "login": "Anmeldung",
+    "loginWithCognito": "Cognito Anmeldung",
+    "title": "Anmeldung"
+  },
+  "logout": {
+    "description": "Abmelden ...",
+    "title": "Abmelden"
+  },
+  "machineUser": {
+    "clientId": "Client-ID",
+    "clientSecret": "Client-Secret",
+    "copyToken": "Kopieren Sie das Client-Secret an einen sicheren Ort (z. B. Passwort-Manager). Nach dem Schliessen dieses Dialogfelds können Sie den Geheimcode nicht mehr einsehen.",
+    "create": "Maschinenbenutzer hinzufügen",
+    "createDescription": "Einen neuen Maschinenbenutzer mit einem eindeutigen Namen erstellen",
+    "description": "Verwalten Sie Ihre Maschinenbenutzer und deren Berechtigungen.",
+    "errorClipboard": "Kopieren in die Zwischenablage fehlgeschlagen",
+    "errorCreate": "Maschinenbenutzer konnte nicht erstellt werden",
+    "errorDelete": "Maschinenbenutzer konnte nicht gelöscht werden",
+    "errorUserAlreadyExists": "Maschinenbenutzer mit diesem Namen existiert bereits",
+    "generateToken": "Verwenden Sie den folgenden Befehl, um ein Zugriffstoken zu generieren:",
+    "successClipboard": "In die Zwischenablage kopiert",
+    "successCreated": "Maschinenbenutzer erstellt",
+    "successDelete": "Maschinenbenutzer gelöscht",
+    "title": "Maschinenbenutzer",
+    "tokenDuration": "Token-Gültigkeitsdauer in Minuten"
+  },
+  "organization": {
+    "description": "Verwalten Sie die Struktur und Berechtigungen Ihrer Organisation.",
+    "title": "Organisation"
+  },
+  "profile": {
+    "eIamProfile": "eIAM Profil",
+    "title": "Profil",
+    "superUserTitle": "Superuser",
+    "superUserDescription": "Legen Sie Organisation, Einheit und Rollen für den Superuser fest, die im Frontend verwendet werden. Dies hat keine Auswirkungen auf die tatsächlichen Berechtigungen des Superusers, die vom Backend bestimmt werden.",
+    "updateSuccess": "Profil aktualisiert"
+  },
+  "unit": {
+    "description": "Verwalten Sie Ihre Organisationseinheiten.",
+    "title": "Einheiten",
+    "unit": "Einheit | Einheiten",
+    "create": "Einheit hinzufügen",
+    "createSuccess": "Einheit erstellt",
+    "errorCreate": "Einheit konnte nicht erstellt werden",
+    "updateSuccess": "Einheit aktualisiert",
+    "errorUpdate": "Einheit konnte nicht aktualisiert werden",
+    "editTitle": "Einheit {name} bearbeiten",
+    "createTitle": "Neue Einheit erstellen"
+  },
+  "user": {
+    "description": "Verwalten Sie die Benutzer Ihrer Organisation.",
+    "roles": "Rollen",
+    "title": "Benutzer",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "email": "E-Mail",
+    "updateSuccess": "Benutzer aktualisiert",
+    "errorUpdate": "Benutzer konnte nicht aktualisiert werden"
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "minLength": "Muss mindestens {length} Zeichen lang sein",
+    "maxLength": "Darf nicht länger als {length} Zeichen sein",
+    "minValue": "Muss mindestens {value} sein",
+    "maxValue": "Darf nicht mehr als {value} sein"
+  }
 }

@@ -1,39 +1,41 @@
 <script setup lang="ts">
+import SuperuserProfile from "~/components/SuperuserProfile.vue";
+
 const authStore = useAuthStore();
 
 const { setPageTitle } = useMeta();
 
-setPageTitle("Profile");
+setPageTitle($t("profile.title"));
 
 const profile = computed(() => {
   return authStore.profile;
 });
-
-const accessData = computed(() => {
-  if (authStore.accessData) {
-    return Object.fromEntries(
-      Object.entries(authStore.accessData).filter(
-        ([key, _]) => key !== "profile",
-      ),
-    );
-  } else {
-    return "";
-  }
-});
 </script>
 
 <template>
-  <div>
-    <UPageSection :title="$t('profile')">
-      <pre class="bg-amber-50">
-        {{ profile }}
-      </pre>
-    </UPageSection>
-
-    <UPageSection title="accessData">
-      <pre class="bg-amber-50">
-        {{ accessData }}
-      </pre>
-    </UPageSection>
-  </div>
+  <UPage>
+    <UPageHeader
+      :title="$t('profile.title')"
+      :ui="{
+        root: 'p-2',
+      }"
+    />
+    <UPageBody>
+      <UPageSection :ui="{ container: 'py-4! gap-4!' }">
+        <UPageCard
+          icon="i-lucide-user"
+          :title="profile?.lastName + ' ' + profile?.firstName || 'Profile'"
+          :description="profile?.email"
+        >
+          <!-- TODO: Find if this is correct link and put in config -->
+          <a href="https://myaccount-r.eiam.admin.ch"
+            ><UButton icon="i-lucide-external-link">{{
+              $t("profile.eIamProfile")
+            }}</UButton></a
+          >
+        </UPageCard>
+        <SuperuserProfile v-if="profile?.isSuperUser" />
+      </UPageSection>
+    </UPageBody>
+  </UPage>
 </template>

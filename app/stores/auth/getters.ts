@@ -1,59 +1,51 @@
-import type { IdTokenClaims, User, UserManager } from "oidc-client-ts";
 import type { _GettersTree } from "pinia";
-import useCognitoApi from "~/api/cognito";
 
 type thisAuthStore = ReturnType<typeof useAuthStore>;
 
 export interface AuthStoreGetters {
-  profile(state: AuthStoreState): IdTokenClaims;
-  userManager(state: AuthStoreState): UserManager;
   isLoggedIn(state: AuthStoreState): boolean;
-  isLoggedInSync(this: thisAuthStore): Promise<boolean>;
-  accessData(this: thisAuthStore): User | undefined;
   accessToken(this: thisAuthStore): string | undefined;
+  idToken(this: thisAuthStore): string | undefined;
 }
 
 export function authGetters(): _GettersTree<AuthStoreState> {
   return {
-    profile(this: thisAuthStore) {
-      this._getUserToCache();
+    organizationId(this: thisAuthStore) {
+      return this.profile.organizationId || "";
+    },
+    unitId(this: thisAuthStore) {
+      return this.profile.unitId || "";
+    },
+    isOrganizationAdmin(this: thisAuthStore) {
+      return this.profile.roles?.includes("org_admin") ?? false;
+    },
+    isDatasetAdmin(this: thisAuthStore) {
+      return this.profile.roles?.includes("dataset_admin") ?? false;
+    },
+    isDatasetContributor(this: thisAuthStore) {
+      return this.profile.roles?.includes("dataset_contributor") ?? false;
+    },
+    canManageDatasets(this: thisAuthStore) {
       return (
-        this._userCache?.profile || {
-          sub: "",
-          iss: "",
-          exp: 0,
-          aud: "",
-          iat: 0,
-          given_name: "",
-          family_name: "",
-        }
+        this.isOrganizationAdmin ||
+        this.isDatasetAdmin ||
+        this.isDatasetContributor
       );
     },
-
-    userManager(state) {
-      if (!state._userManager) {
-        const cognitoApi = useCognitoApi();
-        state._userManager = cognitoApi.initUserManager();
-      }
-      return state._userManager;
+    canManageOrganization(this: thisAuthStore) {
+      return this.isOrganizationAdmin;
     },
 
-    isLoggedIn(state) {
-      return !!state._userCache;
-    },
-
-    async isLoggedInSync(this: thisAuthStore) {
-      return !!(await this.userManager.getUser());
-    },
-
-    accessData(this: thisAuthStore) {
-      this._getUserToCache();
-      return this._userCache;
+    isLoggedIn(this: thisAuthStore) {
+      return !!this.user && !this.user.expired;
     },
 
     accessToken(this: thisAuthStore) {
-      this._getUserToCache();
-      return this._userCache?.access_token;
+      return this.user?.access_token;
+    },
+
+    idToken(this: thisAuthStore) {
+      return this.user?.id_token;
     },
   };
 }

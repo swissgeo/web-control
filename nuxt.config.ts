@@ -11,6 +11,13 @@ export default defineNuxtConfig({
     // to properly discover and prerender all routes
     preset: "static",
   },
+  sourcemap:
+    process.env.DEBUG_BUILD === "true"
+      ? {
+          client: true,
+          server: false,
+        }
+      : false,
 
   modules: [
     "@nuxt/eslint",
@@ -21,6 +28,7 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     "@nuxt/test-utils/module",
     "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/google-fonts",
   ],
   compatibilityDate: "2025-07-15",
@@ -35,15 +43,17 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
+      environment: "",
       commitHash,
       buildTime: new Date().toISOString(),
-      endUserClientId: "",
-      m2mUserClientId: "",
-      cognitoDomain: "",
-      cognitoCfProxyDomain: "",
+      cognitoAppClientId: "",
+      cognitoUrl: "",
       cognitoUserPoolUrl: "",
       eiamLogoutUrl: "",
       eiamIdentityProvider: "",
+      serviceControlBase: "",
+      defaultM2MScope: "",
+      superuserGroup: "",
     },
   },
 
@@ -52,7 +62,7 @@ export default defineNuxtConfig({
   },
 
   pinia: {
-    storesDirs: ["./stores/auth/"],
+    storesDirs: ["./stores/**"],
   },
 
   ui: {
@@ -64,13 +74,31 @@ export default defineNuxtConfig({
     strategy: "no_prefix",
     defaultLocale: "en",
     locales: [
-      { code: "en", name: "English", file: "en.json" },
-      { code: "de", name: "Deutsch", file: "de.json" },
-      { code: "fr", name: "Français", file: "fr.json" },
+      {
+        code: "en",
+        name: "English",
+        file: {
+          path: "en.json",
+        },
+      },
+      {
+        code: "de",
+        name: "Deutsch",
+        file: {
+          path: "de.json",
+        },
+      },
+      {
+        code: "fr",
+        name: "Français",
+        file: {
+          path: "fr.json",
+        },
+      },
     ],
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: "i18n_redirected",
+      cookieKey: "selectedLanguage",
       redirectOn: "root", // recommended
     },
   },

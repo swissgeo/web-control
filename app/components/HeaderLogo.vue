@@ -1,5 +1,20 @@
+<script setup lang="ts">
+defineProps<{
+  collapsed?: boolean;
+}>();
+</script>
+
 <template>
-  <!-- we need to explicitly set the text to black, otherwsie the fill color
-   of some of the pixels changes when switching to tark mode-->
-  <SvgoLogo class="w-16 h-16 text-black" :font-controlled="false" />
+  <SvgoSwissgeoRgbIcon
+    v-if="collapsed"
+    data-testid="header-logo-collapsed"
+    class="h-5 text-black"
+    :font-controlled="false"
+  />
+  <SvgoSwissgeoRgbSek
+    v-if="!collapsed"
+    data-testid="header-logo"
+    class="h-5 text-black"
+    :font-controlled="false"
+  />
 </template>

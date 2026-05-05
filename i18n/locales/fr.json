@@ -1,3 +1,136 @@
 {
-  "welcome": "Bienvenue"
+  "accessRequest": {
+    "pageTitle": "Demandes d'accès",
+    "description": "Gérez les demandes d'accès à votre organisation.",
+    "requestAccessTitle": "Demande d'accès",
+    "requestAccessSubtitle": "Demandez l'accès au SWISSGEO Control Center. Votre demande sera examinée par les administrateurs de l'organisation.",
+    "requestAccessDescription": "Sélectionnez l'organisation que vous souhaitez rejoindre:",
+    "pendingTitle": "Demande d'accès en attente",
+    "pendingSubtitle": "Vous avez une demande d'accès en attente pour l'organisation suivante:",
+    "pendingDescription": "Demande d'accès en attente pour { organization_name }. En attente d'approbation par les administrateurs de l'organisation.",
+    "requestSubmitted": "Demande d'accès soumise",
+    "requestFailed": "Échec de la soumission de la demande d'accès",
+    "cancelRequest": "Annuler la demande d'accès",
+    "requestCancelled": "Demande d'accès annulée",
+    "created": "Créé le",
+    "state": "Statut",
+    "statePending": "En attente",
+    "stateApproved": "Approuvé",
+    "stateDeclined": "Refusé",
+    "stateCancelled": "Annulé",
+    "approve": "Approuver",
+    "decline": "Refuser",
+    "approveModalTitle": "Approuver la demande d'accès",
+    "approveModalDescription": "Ajouter l'utilisateur à votre organisation"
+  },
+  "common": {
+    "actions": "Actions",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "error": "Erreur",
+    "id": "ID",
+    "info": "Info",
+    "name": "Nom",
+    "notImplementedYet": "Pas encore implémenté.",
+    "submit": "Soumettre",
+    "save": "Enregistrer",
+    "success": "Succès",
+    "loadError": "Impossible de charger les données",
+    "translations": "Traductions",
+    "name_de": "Nom Allemand",
+    "name_fr": "Nom Français",
+    "name_en": "Nom Anglais",
+    "name_it": "Nom Italien",
+    "name_rm": "Nom Rétoroman",
+    "none": "Aucun"
+  },
+  "dataset": {
+    "description": "Gérez vos ensembles de données géospatiales, y compris les métadonnées.",
+    "title": "Ensembles de données"
+  },
+  "dummyDataBanner": {
+    "description": "Il s'agit d'une page d'attente contenant des données factices.",
+    "title": "Attention ! "
+  },
+  "global": {
+    "buildTime": "Heure de build : {timestamp}",
+    "controlCenter": "SWISSGEO Control Center",
+    "home": "Accueil",
+    "swissgeo": "SWISSGEO",
+    "version": "Version : {version}"
+  },
+  "index": {
+    "description": "Il s'agit du centre de contrôle de SWISSGEO. Utilisez la navigation à gauche pour accéder aux différentes sections de l'application.",
+    "title": "Bienvenue"
+  },
+  "login": {
+    "description": "Bienvenue sur le business portal. Veuillez vous connecter.",
+    "login": "Connexion",
+    "loginWithCognito": "Connexion Cognito",
+    "title": "Connexion"
+  },
+  "logout": {
+    "description": "Déconnexion...",
+    "title": "Déconnexion"
+  },
+  "machineUser": {
+    "clientId": "Client-ID",
+    "clientSecret": "Client-Secret",
+    "copyToken": "Copiez le secret du client dans un emplacement sécurisé (par exemple, un gestionnaire de mots de passe). Une fois cette boîte de dialogue fermée, vous ne pourrez plus voir le secret.",
+    "create": "Ajouter un utilisateur machine",
+    "createDescription": "Créer un nouvel utilisateur machine avec un nom unique",
+    "description": "Gérez vos utilisateurs de machines et leurs autorisations.",
+    "errorClipboard": "Échec de la copie dans le presse-papiers",
+    "errorCreate": "Impossible de créer un utilisateur machine",
+    "errorDelete": "Impossible de supprimer l'utilisateur machine",
+    "errorUserAlreadyExists": "Un utilisateur machine portant ce nom existe déjà",
+    "generateToken": "Utilisez la commande suivante pour générer un jeton d'accès : ",
+    "successClipboard": "Copié dans le presse-papiers",
+    "successCreated": "Utilisateur machine créé",
+    "successDelete": "Utilisateur machine supprimé",
+    "title": "Utilisateurs de machines",
+    "tokenDuration": "Durée du jeton en minutes"
+  },
+  "organization": {
+    "description": "Gérez la structure et les autorisations de votre organisation.",
+    "title": "Organisation"
+  },
+  "profile": {
+    "eIamProfile": "Profil eIAM",
+    "title": "Profil",
+    "superUserTitle": "Superuser",
+    "superUserDescription": "Définissez l'organisation, l'unité et les rôles pour le superutilisateur à utiliser dans le frontend. Cela n'affecte pas les autorisations réelles du superutilisateur, qui sont déterminées par le backend.",
+    "updateSuccess": "Profil mis à jour"
+  },
+  "unit": {
+    "description": "Gérez vos unités organisationnelles.",
+    "title": "Unités",
+    "unit": "Unité | Unités",
+    "create": "Ajouter une unité",
+    "createSuccess": "Unité créée",
+    "errorCreate": "Impossible de créer l'unité",
+    "updateSuccess": "Unité mise à jour",
+    "errorUpdate": "Impossible de mettre à jour l'unité",
+    "editTitle": "Modifier l'unité {name}",
+    "createTitle": "Créer une nouvelle unité"
+  },
+  "user": {
+    "description": "Gérez les utilisateurs de votre organisation.",
+    "roles": "Rôles",
+    "title": "Utilisateurs",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "E-mail",
+    "updateSuccess": "Utilisateur mis à jour",
+    "errorUpdate": "Impossible de mettre à jour l'utilisateur"
+  },
+  "validation": {
+    "required": "Ce champ est requis",
+    "minLength": "Doit comporter au moins {length} caractères",
+    "maxLength": "Ne doit pas dépasser {length} caractères",
+    "minValue": "Doit être au moins {value}",
+    "maxValue": "Ne doit pas être supérieur à {value}"
+  }
 }

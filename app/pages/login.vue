@@ -1,32 +1,50 @@
 <script setup lang="ts">
-import useCognitoApi from "~/api/cognito";
-
-const authStore = useAuthStore();
-const router = useRouter();
-
 const { setPageTitle } = useMeta();
 
-const cognitoApi = useCognitoApi();
+const authStore = useAuthStore();
 
-setPageTitle("Login");
-
-onMounted(() => {
-  if (authStore.isLoggedIn) {
-    // we're logged in, no need to stay here!
-    router.push("/");
-  }
-});
+setPageTitle($t("login.title"));
 
 function goToLogin() {
-  cognitoApi.goToLogin();
+  authStore.login({ useCognitoOnly: false });
+}
+function goToLoginWithCognito() {
+  authStore.login({ useCognitoOnly: true });
 }
 </script>
 
 <template>
-  <div>
-    <UPageSection>
-      <div>Welcome to the business portal. Please login</div>
-      <UButton icon="i-lucide-external-link" @click="goToLogin">Login</UButton>
-    </UPageSection>
-  </div>
+  <UPage>
+    <UPageHeader
+      :title="$t('global.home')"
+      :ui="{
+        root: 'p-2',
+      }"
+    />
+    <UPageBody class="flex flex-col items-center">
+      <UPageSection
+        :ui="{ container: 'py-4!' }"
+        :title="$t('login.title')"
+        :description="$t('login.description')"
+        class="flex w-max flex-col items-center text-center"
+      >
+        <div>
+          <UButton
+            icon="i-lucide-external-link"
+            class="max-w-max p-3 ps-5 pe-5"
+            @click="goToLogin"
+            >{{ $t("login.login") }}</UButton
+          >
+          <div v-if="isNotProd()" class="m-4">
+            <UButton
+              icon="i-lucide-external-link"
+              class="max-w-max p-3 ps-5 pe-5"
+              @click="goToLoginWithCognito"
+              >{{ $t("login.loginWithCognito") }}</UButton
+            >
+          </div>
+        </div>
+      </UPageSection>
+    </UPageBody>
+  </UPage>
 </template>

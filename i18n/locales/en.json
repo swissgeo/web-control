@@ -1,5 +1,136 @@
 {
-  "welcome": "Welcome",
-  "logout": "Logout",
-  "profile": "Profile"
+  "accessRequest": {
+    "pageTitle": "Access requests",
+    "description": "Manage access requests to your organization.",
+    "requestAccessTitle": "Request access",
+    "requestAccessSubtitle": "Request access to the SWISSGEO Control Center. Your request will be reviewed by the organization's administrators.",
+    "requestAccessDescription": "Select the organization you wish to join:",
+    "pendingTitle": "Pending access request",
+    "pendingSubtitle": "You have a pending access request to the following organization:",
+    "pendingDescription": "Pending access request for { organization_name }. Waiting for approval by the organization administrators.",
+    "requestSubmitted": "Access request submitted",
+    "requestFailed": "Failed to submit access request",
+    "cancelRequest": "Cancel access request",
+    "requestCancelled": "Access request cancelled",
+    "created": "Created at",
+    "state": "State",
+    "statePending": "Pending",
+    "stateApproved": "Approved",
+    "stateDeclined": "Declined",
+    "stateCancelled": "Cancelled",
+    "approve": "Approve",
+    "decline": "Decline",
+    "approveModalTitle": "Approve access request",
+    "approveModalDescription": "Add the user to your organization"
+  },
+  "common": {
+    "actions": "Actions",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete Machine User",
+    "edit": "Edit",
+    "error": "Error",
+    "id": "ID",
+    "info": "Info",
+    "name": "Name",
+    "notImplementedYet": "Not yet implemented.",
+    "submit": "Submit",
+    "save": "Save",
+    "success": "Success",
+    "loadError": "Could not load data",
+    "translations": "Translations",
+    "name_de": "Name German",
+    "name_fr": "Name French",
+    "name_en": "Name English",
+    "name_it": "Name Italian",
+    "name_rm": "Name Romansh",
+    "none": "None"
+  },
+  "dataset": {
+    "description": "Manage your geospatial datasets, including metadata.",
+    "title": "Datasets"
+  },
+  "dummyDataBanner": {
+    "description": "This is a placeholder page with dummy data.",
+    "title": "Heads up!"
+  },
+  "global": {
+    "buildTime": "Built time: {timestamp}",
+    "controlCenter": "SWISSGEO Control Center",
+    "home": "Home",
+    "swissgeo": "SWISSGEO",
+    "version": "Version: {version}"
+  },
+  "index": {
+    "description": "This is the control center of the SWISSGEO. Use the navigation on the left to access different sections of the app.",
+    "title": "Welcome"
+  },
+  "login": {
+    "description": "Welcome to the business portal. Please login.",
+    "login": "Login",
+    "loginWithCognito": "Cognito Login",
+    "title": "Login"
+  },
+  "logout": {
+    "description": "Logging out ...",
+    "title": "Logout"
+  },
+  "machineUser": {
+    "clientId": "Client-ID",
+    "clientSecret": "Client-Secret",
+    "copyToken": "Copy the client secret to a secure location (e.g. password manager). After closing this dialog you will not be able to see the client secret again.",
+    "create": "Add Machine User",
+    "createDescription": "Create a new machine user with a unique name",
+    "description": "Manage your machine users and their permissions.",
+    "errorClipboard": "Failed to copy to clipboard",
+    "errorCreate": "Could not create machine user",
+    "errorDelete": "Could not delete machine user",
+    "errorUserAlreadyExists": "Machine user with this name already exists",
+    "generateToken": "Use the following command to generate an access token:",
+    "successClipboard": "Copied to clipboard",
+    "successCreated": "Machine user created",
+    "successDelete": "Machine user deleted",
+    "title": "Machine Users",
+    "tokenDuration": "Token Duration in Minutes"
+  },
+  "organization": {
+    "description": "Manage your organization's structure and permissions.",
+    "title": "Organization"
+  },
+  "profile": {
+    "eIamProfile": "eIAM Profile",
+    "title": "Profile",
+    "superUserTitle": "Superuser",
+    "superUserDescription": "Set organization, unit and roles for superuser for the frontend to use. This does not affect the actual permissions of the superuser, which are determined by the backend.",
+    "updateSuccess": "Profile updated"
+  },
+  "unit": {
+    "description": "Manage your organizational units.",
+    "title": "Units",
+    "unit": "Unit | Units",
+    "create": "Add Unit",
+    "createSuccess": "Unit created",
+    "errorCreate": "Could not create unit",
+    "updateSuccess": "Unit updated",
+    "errorUpdate": "Could not update unit",
+    "editTitle": "Edit {name} Unit",
+    "createTitle": "Create New Unit"
+  },
+  "user": {
+    "description": "Manage the users of your organization.",
+    "roles": "Roles",
+    "title": "Users",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "updateSuccess": "User updated",
+    "errorUpdate": "Could not update user"
+  },
+  "validation": {
+    "required": "This field is required",
+    "minLength": "Must be at least {length} characters",
+    "maxLength": "Must not be more than {length} characters",
+    "minValue": "Must be at least {value}",
+    "maxValue": "Must not be more than {value}"
+  }
 }

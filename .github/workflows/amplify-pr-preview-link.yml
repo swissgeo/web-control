@@ -1,0 +1,14 @@
+name: on-pr-issue-comment
+
+on:
+  issue_comment:
+    # issue comment event is triggered on both PR and issue comment, but not on pr code review comment
+    types:
+      - created
+      - edited
+
+jobs:
+  pr-preview-link-edit:
+    uses: swissgeo/.github/.github/workflows/amplify-pr-preview-link.yml@main
+    with:
+      preview-sub-domain: control

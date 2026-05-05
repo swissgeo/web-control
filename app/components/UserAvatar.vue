@@ -17,7 +17,7 @@ const logoutRoute = computed(() => {
 });
 
 const name = computed(() => {
-  return authStore.profile.given_name + " " + authStore.profile.family_name;
+  return authStore.profile.firstName + " " + authStore.profile.lastName;
 });
 
 const items: DropdownMenuItem[] = [
@@ -29,12 +29,12 @@ const items: DropdownMenuItem[] = [
   ],
   [
     {
-      label: $t("profile"),
+      label: $t("profile.title"),
       icon: "i-lucide-user-round",
       to: { name: "profile" },
     },
     {
-      label: $t("logout"),
+      label: $t("logout.title"),
       icon: "i-lucide-log-out",
       to: logoutRoute,
     },
@@ -43,7 +43,7 @@ const items: DropdownMenuItem[] = [
 </script>
 
 <template>
-  <UDropdownMenu v-if="authStore.isLoggedIn" :items="items">
+  <UDropdownMenu :items="items">
     <UUser
       class="cursor-pointer"
       :avatar="{

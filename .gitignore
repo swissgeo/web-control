@@ -20,8 +20,6 @@ logs
 
 # Local env files
 .env
-.env.*
-!.env.example
 
 # Playwright
 /test-results/
@@ -29,3 +27,7 @@ logs
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+
+# git rebase
+*.orig
