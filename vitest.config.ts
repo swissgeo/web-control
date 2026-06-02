@@ -19,5 +19,19 @@ export default defineConfig({
         },
       }),
     ],
+
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html", "lcov", "cobertura"],
+      reportsDirectory: "./coverage",
+      include: ["app/**/*.{ts,js}"],
+      exclude: [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/tests/**",
+        "**/.nuxt/**",
+        "**/node_modules/**",
+      ],
+    },
   },
 });
