@@ -30,8 +30,7 @@ test-unit:  ## Run unit tests in watch mode
 
 .PHONY: test
 test:  ## Run all tests without watch mode
-# No unit tests yet
-# 	$(NODE_MANAGER) run test:run:unit
+	$(NODE_MANAGER) run test:run:unit
 	$(NODE_MANAGER) run test:run:nuxt
 	$(NODE_MANAGER) test:e2e
 
