@@ -254,12 +254,20 @@ export default function useCognitoApi() {
   function logout(): Promise<void> {
     // stop access token renewal
     _getUserManager().stopSilentRenew();
+    _getUserManager().removeUser();
+
     // Trigger the eIAM logout endpoint with post_logout_redirect_uri query parameter set to
-    // the Cognito logout endpoint. This will trigger the whole logout workflow described in _getLogoutUri()
-    // eIAM logout endpoint is configured in _initUserManager()
-    return _getUserManager().signoutRedirect({
-      post_logout_redirect_uri: _getLogoutUri(),
-    });
+    // the Cognito logout endpoint.
+    // This will trigger the whole logout workflow described in _getLogoutUri()
+    //
+    // We cannot use the userManager.signoutRedirect() method here, because it will add the
+    // id_token_hint and client_id query parameter to the logout URL. These will contain the
+    // cognito id token and client id, which will lead to issues on the eIAM logout endpoint.
+    const url = new URL(runtimeConfig.public.eiamLogoutUrl);
+    url.searchParams.set("post_logout_redirect_uri", _getLogoutUri());
+    window.location.href = url.toString();
+
+    return Promise.resolve();
   }
 
   /**
