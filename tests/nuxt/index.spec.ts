@@ -16,8 +16,9 @@ vi.mock("vue-i18n", () => ({
   }),
 }));
 
+vi.mock("@/api/organization");
+
 describe("Admin index Page", () => {
-  vi.mock("@/api/organization");
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -34,6 +35,7 @@ describe("Admin index Page", () => {
 
   it("shows toast if not loaded", async () => {
     const { useOrganizationApi } = await import("@/api/organization");
+    // @ts-expect-error The mocking replaces the implementation and TS can't see that
     useOrganizationApi().getOrganization.mockRejectedValueOnce(
       new Error("Failed to load"),
     );

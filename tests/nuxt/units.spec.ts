@@ -16,8 +16,9 @@ vi.mock("vue-i18n", () => ({
   }),
 }));
 
+vi.mock("@/api/units");
+
 describe("Units Page", () => {
-  vi.mock("@/api/units");
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -35,12 +36,13 @@ describe("Units Page", () => {
   it("displays data table", async () => {
     const component = await mountSuspended(Units);
     expect(component.find("table").exists()).toBe(true);
-    expect(component.findAll("td")[0].text()).toContain("mock-unit-id");
-    expect(component.findAll("td")[1].text()).toContain("Mock Unit");
+    expect(component.findAll("td")[0]!.text()).toContain("mock-unit-id");
+    expect(component.findAll("td")[1]!.text()).toContain("Mock Unit");
   });
 
   it("shows toast if not loaded", async () => {
     const { useUnitsApi } = await import("@/api/units");
+    // @ts-expect-error The mocking replaces the implementation and TS can't see that
     useUnitsApi().getUnits.mockRejectedValueOnce(new Error("Failed to load"));
     await mountSuspended(Units);
     expect(toastErrorMock).toHaveBeenCalledWith("common.loadError");

@@ -16,9 +16,10 @@ vi.mock("vue-i18n", () => ({
   }),
 }));
 
+vi.mock("@/api/units");
+vi.mock("@/api/users");
+
 describe("Users Page", () => {
-  vi.mock("@/api/units");
-  vi.mock("@/api/users");
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -36,17 +37,18 @@ describe("Users Page", () => {
   it("displays data table", async () => {
     const component = await mountSuspended(Users);
     expect(component.find("table").exists()).toBe(true);
-    expect(component.findAll("td")[0].text()).toContain("Mock");
-    expect(component.findAll("td")[1].text()).toContain("User");
-    expect(component.findAll("td")[2].text()).toContain(
+    expect(component.findAll("td")[0]!.text()).toContain("Mock");
+    expect(component.findAll("td")[1]!.text()).toContain("User");
+    expect(component.findAll("td")[2]!.text()).toContain(
       "mock-user@example.com",
     );
-    expect(component.findAll("td")[3].text()).toContain("mock-unit");
-    expect(component.findAll("td")[4].text()).toContain("Organization Admin");
+    expect(component.findAll("td")[3]!.text()).toContain("mock-unit");
+    expect(component.findAll("td")[4]!.text()).toContain("Organization Admin");
   });
 
   it("shows toast if not loaded", async () => {
     const { useUsersApi } = await import("@/api/users");
+    // @ts-expect-error The mocking replaces the implementation and TS can't see that
     useUsersApi().getUsers.mockRejectedValueOnce(new Error("Failed to load"));
     await mountSuspended(Users);
     expect(toastErrorMock).toHaveBeenCalledWith("common.loadError");

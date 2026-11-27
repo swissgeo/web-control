@@ -16,8 +16,9 @@ vi.mock("vue-i18n", () => ({
   }),
 }));
 
+vi.mock("@/api/machineUsers");
+
 describe("M2M Page", () => {
-  vi.mock("@/api/machineUsers");
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -35,11 +36,12 @@ describe("M2M Page", () => {
   it("displays data table", async () => {
     const component = await mountSuspended(M2M);
     expect(component.find("table").exists()).toBe(true);
-    expect(component.findAll("td")[0].text()).toContain("mock_client_id");
+    expect(component.findAll("td")[0]!.text()).toContain("mock_client_id");
   });
 
   it("shows toast if not loaded", async () => {
     const { useMachineUsersApi } = await import("@/api/machineUsers");
+    // @ts-expect-error The mocking replaces the implementation and TS can't see that
     useMachineUsersApi().getMachineUsers.mockRejectedValueOnce(
       new Error("Failed to load"),
     );
