@@ -20,10 +20,10 @@ const name = computed(() => {
   return authStore.profile.firstName + " " + authStore.profile.lastName;
 });
 
-const items: DropdownMenuItem[] = [
+const items = computed<DropdownMenuItem[][]>(() => [
   [
     {
-      label: name,
+      label: name.value,
       type: "label",
     },
   ],
@@ -36,10 +36,10 @@ const items: DropdownMenuItem[] = [
     {
       label: $t("logout.title"),
       icon: "i-lucide-log-out",
-      to: logoutRoute,
+      to: logoutRoute.value.path,
     },
   ],
-];
+]);
 </script>
 
 <template>
